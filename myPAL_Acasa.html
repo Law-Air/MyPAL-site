@@ -121,7 +121,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     <button class="nav-btn" onclick="window.location.href='myPAL_BaniiTai.html'">💰 Banii tăi</button>
     <button class="nav-btn" onclick="window.location.href='myPAL_Verifica.html'">🔍 Verifică</button>
     <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
-    <button class="nav-btn" onclick="window.location.href='myPAL_MemorieAI.html'">📚 Memorie</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Memorie.html'">📚 Memorie</button>
     <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
 </nav>
 
@@ -147,7 +147,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
         <div style="font-size:12px;color:rgba(255,255,255,0.65);font-weight:400">și primești Spotify-Playlist gratuit 2 luni</div>
       </div>
     </div>
-    <button onclick="window.location.href='myPAL_Cont.html#preturi'" style="padding:9px 18px;background:var(--gold);color:#1C1C1A;border:none;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap">Vezi oferta →</button>
+    <button onclick="deschideUpgrade('standard')" style="padding:9px 18px;background:var(--gold);color:#1C1C1A;border:none;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap">Vezi oferta →</button>
   </div>
 </div>
 
@@ -321,7 +321,7 @@ document.getElementById('modal-abonament').addEventListener('click', function(e)
   <div class="footer-inner">
             <div class="footer-btns">
       <a href="myPAL_Legal.html" class="footer-link-nav">⚖️ Legal</a>
-      <a href="myPAL_Profil.html" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
+      <a href="myPAL_Acasa.html#consiliu" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
       <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
       <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
       <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
@@ -808,6 +808,14 @@ function confirmaUpgrade() {
 document.getElementById('modal-upgrade').addEventListener('click', function(e){
   if(e.target===this) this.style.display='none';
 });
+
+// Navigare directa din alte pagini (footer/Rezervari) spre Consiliul Familiei sau Upgrade Premium
+if(window.location.hash === '#consiliu'){
+  openOverlay('o-consiliu');
+}
+else if(window.location.hash === '#upgrade-premium'){
+  deschideUpgrade('premium');
+}
 </script>
 
 </body>
