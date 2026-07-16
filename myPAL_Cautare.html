@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bun venit — my-PAL.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;--gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;--white:#FFFFFF;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'DM Sans',sans-serif;font-weight:500;background:var(--dark);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+
+/* REFLECTOR */
+.reflector{position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 35%, rgba(59,109,17,0.35) 0%, rgba(28,28,26,0.85) 55%, rgba(10,10,9,1) 100%);z-index:1}
+.reflector::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:140%;height:80%;background:radial-gradient(ellipse 50% 50% at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 70%);}
+
+/* IMAGINE PLACEHOLDER - se inlocuieste cu imaginea reala Imagix */
+.imagine-wrap{position:relative;z-index:2;width:min(380px,80vw);aspect-ratio:1/1;border-radius:24px;overflow:hidden;margin-bottom:2rem;box-shadow:0 30px 80px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1)}
+.imagine-placeholder{width:100%;height:100%;background:linear-gradient(135deg, #3B6D11 0%, #1C1C1A 100%);display:flex;align-items:center;justify-content:center;font-size:13px;color:rgba(255,255,255,0.5);text-align:center;padding:2rem;font-style:italic}
+
+.content{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;padding:2rem;max-width:480px}
+.logo-text{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:rgba(255,255,255,0.6);letter-spacing:1px;margin-bottom:2.5rem;text-transform:uppercase}
+.logo-text span{color:var(--green-light)}
+
+.welcome-label{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--green-light);font-weight:500;margin-bottom:1rem;opacity:0;animation:fadeUp 0.8s ease-out 0.3s forwards}
+.welcome-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,40px);font-weight:500;color:#fff;margin-bottom:0.75rem;line-height:1.25;opacity:0;animation:fadeUp 0.8s ease-out 0.5s forwards}
+.welcome-sub{font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;font-weight:400;margin-bottom:2.5rem;opacity:0;animation:fadeUp 0.8s ease-out 0.7s forwards}
+
+.btn-intra{padding:16px 36px;background:var(--green);color:#fff;border:none;border-radius:50px;font-size:16px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 8px 30px rgba(59,109,17,0.4);transition:all 0.25s;opacity:0;animation:fadeUp 0.8s ease-out 0.9s forwards;display:flex;align-items:center;gap:10px}
+.btn-intra:hover{background:#4a8615;transform:translateY(-2px);box-shadow:0 12px 36px rgba(59,109,17,0.5)}
+.btn-intra-arrow{transition:transform 0.25s}
+.btn-intra:hover .btn-intra-arrow{transform:translateX(4px)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.skip-note{position:fixed;bottom:1.5rem;font-size:12px;color:rgba(255,255,255,0.35);z-index:2;opacity:0;animation:fadeUp 0.8s ease-out 1.2s forwards}
+</style>
+</head>
+<body>
+
+<div class="reflector"></div>
+
+<div class="content">
+  <div class="logo-text">my<span>-PAL</span>.ai</div>
+
+  <div class="imagine-wrap">
+    <div class="imagine-placeholder">[ Imagine Imagix — „Cu myPAL" ]<br><br>se va înlocui aici cu vizualul final</div>
+  </div>
+
+  <div class="welcome-label">Bine ai venit acasă</div>
+  <h1 class="welcome-title" id="titlu-familie">Bine ai venit!</h1>
+  <p class="welcome-sub">Echipa ta de consilieri te așteaptă — gata să vă ajute cu tot ce aveți nevoie, doar pentru voi.</p>
+
+  <button class="btn-intra" onclick="intraAcasa()">
+    <span id="btn-text">Intră în site</span>
+    <span class="btn-intra-arrow">→</span>
+  </button>
+</div>
+
+<div class="skip-note">Acest ecran apare o singură dată, la fiecare intrare în cont</div>
+
+<script>
+var nume = localStorage.getItem('mypal_nume_familie') || '';
+
+function formateazaFamilie(nume){
+  if(!nume) return 'Bine ai venit!';
+  // Daca numele contine deja "Familia", il folosim direct
+  if(nume.toLowerCase().indexOf('familia') === 0) return nume;
+  // Altfel extragem ultimul cuvant ca nume de familie probabil
+  var parti = nume.trim().split(' ');
+  var numeFamilie = parti[parti.length - 1];
+  return 'Familia ' + numeFamilie;
+}
+
+var familieText = formateazaFamilie(nume);
+document.getElementById('titlu-familie').textContent = familieText;
+document.getElementById('btn-text').textContent = 'Intră, ' + familieText;
+
+function intraAcasa(){
+  sessionStorage.setItem('mypal_capac_vazut', '1');
+  window.location.href = 'myPAL_Acasa.html';
+}
+
+// Daca cineva ajunge aici fara sa fi trecut prin Login (acces direct la link), redirectionam la Login
+if(!nume){
+  // las pagina sa functioneze cu text generic, dar fara sa blocheze testarea manuala
+}
+</script>
+</body>
+</html>

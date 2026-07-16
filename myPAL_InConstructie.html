@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>my-PAL.ai · În construcție</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#4A9022;--green-light:#EAF3DE;--gold:#C9A84C;
+  --dark:#1a1a1a;--muted:#888;--cream:#F9F8F4;
+  --white:#fff;--border:#E5E2D9;
+}
+body{
+  font-family:system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--cream);
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem 1.25rem;
+  text-align:center;
+}
+.logo{
+  font-size:32px;font-weight:700;
+  color:var(--dark);margin-bottom:0.25rem;
+  letter-spacing:-0.5px;
+}
+.logo span{color:var(--green)}
+.logo-sub{font-size:13px;color:var(--muted);font-weight:400;margin-bottom:2.5rem;letter-spacing:2px;text-transform:uppercase}
+.card{
+  background:var(--white);border-radius:20px;
+  border:0.5px solid var(--border);
+  padding:2.5rem 2rem;max-width:420px;width:100%;
+  box-shadow:0 4px 24px rgba(0,0,0,0.06);
+}
+.icon{font-size:52px;margin-bottom:1rem;display:block}
+.titlu{
+  font-size:24px;font-weight:700;
+  color:var(--dark);margin-bottom:0.75rem;line-height:1.3;
+}
+.subtitlu{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:2rem;}
+.progress-wrap{background:var(--cream);border-radius:50px;height:8px;margin-bottom:0.5rem;overflow:hidden;}
+.progress-bar{
+  height:100%;border-radius:50px;
+  background:linear-gradient(90deg,var(--green),var(--gold));
+  width:73%;animation:pulse 2s ease-in-out infinite alternate;
+}
+@keyframes pulse{from{opacity:0.8}to{opacity:1}}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:1.75rem;}
+.etape{display:flex;flex-direction:column;gap:10px;margin-bottom:2rem;text-align:left;}
+.etapa{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--dark);}
+.etapa-icon{font-size:16px;flex-shrink:0;width:20px;text-align:center}
+.etapa.done{color:var(--green)}
+.etapa.wip .etapa-label{font-weight:600}
+.etapa.pending{color:var(--muted)}
+.divider{height:0.5px;background:var(--border);margin:1.5rem 0}
+.notif-wrap{
+  background:var(--cream);border-radius:12px;border:0.5px solid var(--border);
+  padding:1rem;margin-bottom:1.5rem;text-align:left;
+}
+.notif-title{font-size:12px;font-weight:700;color:var(--dark);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+.notif-input{display:flex;gap:8px;}
+.notif-input input{
+  flex:1;padding:8px 12px;border:0.5px solid var(--border);
+  border-radius:8px;font-size:13px;font-family:inherit;
+  background:var(--white);color:var(--dark);outline:none;
+}
+.notif-input input:focus{border-color:var(--green)}
+.notif-btn{
+  padding:8px 14px;background:var(--green);border:none;
+  border-radius:8px;font-size:13px;font-weight:600;
+  color:white;cursor:pointer;font-family:inherit;white-space:nowrap;
+}
+.notif-btn:active{opacity:0.85}
+.admin-link{
+  font-size:12px;color:var(--muted);text-decoration:none;
+  padding:8px 20px;border-radius:8px;border:0.5px solid var(--border);
+  display:inline-block;
+}
+.admin-link:hover{border-color:var(--gold);color:var(--gold)}
+.footer-text{margin-top:2rem;font-size:11px;color:var(--muted);line-height:1.6;}
+#toast{
+  position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);
+  background:var(--dark);color:white;padding:10px 20px;
+  border-radius:50px;font-size:13px;font-weight:500;
+  opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;
+}
+#toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="logo">my<span>-PAL</span>.ai</div>
+<div class="logo-sub">Consilierul familiei tale</div>
+
+<div class="card">
+
+  <span class="icon">🏗️</span>
+  <div class="titlu">Suntem în construcție</div>
+  <div class="subtitlu">
+    Lucrăm la ultimele detalii pentru a-ți oferi cea mai bună experiență.<br>
+    Revenim în curând cu <strong>my-PAL.ai</strong> complet funcțional.
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"></div>
+  </div>
+  <div class="progress-label">
+    <span>Progres lansare</span>
+    <span>73% complet</span>
+  </div>
+
+  <div class="etape">
+    <div class="etapa done">
+      <span class="etapa-icon">✅</span>
+      <span class="etapa-label">Design &amp; interfață</span>
+    </div>
+    <div class="etapa done">
+      <span class="etapa-icon">✅</span>
+      <span class="etapa-label">Consilieri AI — Advix · Adviz · Verix</span>
+    </div>
+    <div class="etapa done">
+      <span class="etapa-icon">✅</span>
+      <span class="etapa-label">Sistem abonamente &amp; plăți</span>
+    </div>
+    <div class="etapa wip">
+      <span class="etapa-icon">⚙️</span>
+      <span class="etapa-label">Hosting &amp; baze de date</span>
+    </div>
+    <div class="etapa pending">
+      <span class="etapa-icon">⏳</span>
+      <span class="etapa-label">Testare finală &amp; lansare</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="notif-wrap">
+    <div class="notif-title">🔔 Anunță-mă la lansare</div>
+    <div class="notif-input">
+      <input type="email" id="email-notif" placeholder="adresa@email.ro">
+      <button class="notif-btn" onclick="inregistreaza()">Notifică-mă</button>
+    </div>
+  </div>
+
+  <a href="myPAL_Acasa.html" class="admin-link">🔐 Acces Admin / Echipă →</a>
+
+</div>
+
+<div class="footer-text">
+  my-PAL.ai · © 2026 · Consilierul dedicat al familiei tale<br>
+  Powered by Claude · Anthropic
+</div>
+
+<div id="toast"></div>
+
+<script>
+function inregistreaza(){
+  var email=document.getElementById('email-notif').value.trim();
+  if(!email||!email.includes('@')){showToast('Introdu o adresă de email validă');return;}
+  showToast('✓ Te vom anunța la lansare! Mulțumim.');
+  document.getElementById('email-notif').value='';
+}
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+document.getElementById('email-notif').addEventListener('keypress',function(e){
+  if(e.key==='Enter')inregistreaza();
+});
+</script>
+</body>
+</html>

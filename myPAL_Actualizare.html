@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actualizare — my-PAL.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;--gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;--white:#FFFFFF;--red:#A32D2D;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;font-weight:500;font-size:16px;background:var(--cream);color:var(--text);min-height:100vh}
+nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:0.5px solid var(--border);flex-wrap:wrap;gap:8px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--dark)}
+.nav-logo span{color:var(--green)}
+.nav-btn{padding:6px 12px;font-size:14px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif}
+.nav-btn:hover{color:var(--dark);background:var(--cream)}
+.nav-btn.special{color:var(--gold);border:0.5px solid var(--gold)}
+.main{max-width:760px;margin:0 auto;padding:2rem}
+.hero{text-align:center;padding:2rem 0 2.5rem}
+.hero-label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:0.75rem}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,36px);font-weight:500;color:var(--dark);margin-bottom:1rem;line-height:1.3}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.8;font-weight:400;max-width:560px;margin:0 auto}
+.card{background:var(--white);border:0.5px solid var(--border);border-radius:14px;padding:1.75rem;margin-bottom:1.5rem}
+.card-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);margin-bottom:0.75rem;display:flex;align-items:center;gap:10px}
+.card-text{font-size:15px;color:var(--text);line-height:1.8;font-weight:400;margin-bottom:1rem}
+.card-text:last-child{margin-bottom:0}
+.step{display:flex;gap:16px;margin-bottom:1.25rem;align-items:flex-start}
+.step-nr{width:36px;height:36px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;flex-shrink:0;margin-top:2px}
+.step-body{}
+.step-title{font-size:16px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.step-text{font-size:15px;color:var(--muted);line-height:1.7;font-weight:400}
+.nota{background:var(--green-light);border:0.5px solid var(--green);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem}
+.nota-text{font-size:15px;color:var(--green);line-height:1.7;font-weight:400}
+.nota-text strong{font-weight:600}
+.avertisment{background:#FCEBEB;border:0.5px solid var(--red);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem}
+.avertisment-text{font-size:15px;color:var(--red);line-height:1.7;font-weight:400}
+.avertisment-text strong{font-weight:600}
+.gold-box{background:#FEF9EC;border:0.5px solid var(--gold);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem}
+.gold-text{font-size:15px;color:var(--text);line-height:1.7;font-weight:400}
+.gold-text strong{font-weight:600;color:var(--dark)}
+.divider{height:0.5px;background:var(--border);margin:2rem 0}
+.contact-card{background:var(--gold);border-radius:14px;padding:1.75rem;color:#fff;text-align:center;margin-bottom:1.5rem}
+.contact-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;margin-bottom:0.5rem}
+.contact-sub{font-size:15px;opacity:0.9;line-height:1.7;font-weight:400}
+.footer{background:var(--white);border-top:0.5px solid var(--border);padding:2.5rem 2rem}
+.footer-inner{max-width:720px;margin:0 auto}
+.footer-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.footer-link-nav:hover{color:var(--dark);background:var(--cream)}
+.footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
+</style>
+</head>
+<body>
+
+<nav>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Acasa.html'">🏠 Acasă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Echipa.html'">👥 Echipă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_BaniiTai.html'">💰 Banii tăi</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Verifica.html'">🔍 Verifică</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_MemorieAI.html'">📚 Memorie</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
+</nav>
+
+<div class="main">
+
+  <div class="hero">
+    <div class="hero-label">Ghid Actualizare</div>
+    <h1 class="hero-title">Cum funcționează Actualizarea în my-PAL</h1>
+    <p class="hero-sub">Consilierii tăi evoluează odată cu familia ta. Când un consilier și-a atins capacitatea maximă, îl înlocuim cu o versiune nouă — mai specializată, mai puternică.</p>
+  </div>
+
+  <!-- CE ESTE UP-GRADE -->
+  <div class="card">
+    <div class="card-title">💡 Ce înseamnă Actualizare?</div>
+    <p class="card-text">Fiecare consilier my-PAL lucrează cu familia ta într-un fir de conversație dedicat. Pe măsură ce familia folosește consilierul, firul acumulează date, memorii și context — până când atinge capacitatea maximă.</p>
+    <p class="card-text">Când acest moment vine, sistemul realizează automat o comasare a datelor esențiale — un rezumat inteligent al istoricului important — iar tu primești un consilier nou, cu același ADN, același caracter și aceeași dedicare, dar cu spațiu proaspăt pentru a continua.</p>
+    <p class="card-text">Nu pierzi nimic important. Primești un produs mai nou și mai specializat.</p>
+  </div>
+
+  <!-- CUM STII -->
+  <div class="card">
+    <div class="card-title">🔔 Cum știi că e momentul?</div>
+    <p class="card-text">Consilierii tăi îți vor semnala când firul de conversație se apropie de capacitatea maximă. Vei primi un mesaj clar în chat, înainte ca funcționarea să fie afectată.</p>
+    <p class="card-text">Nu trebuie să monitorizezi nimic — consilierul te anunță el însuși când e momentul Actualizării.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PAȘII UP-GRADE -->
+  <div class="card">
+    <div class="card-title">📋 Pașii Actualizării</div>
+
+    <div class="step">
+      <div class="step-nr">1</div>
+      <div class="step-body">
+        <div class="step-title">Firul atinge capacitatea maximă</div>
+        <div class="step-text">Consilierul tău semnalează în chat că firul de conversație este plin și că e momentul pentru Actualizare.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-nr">2</div>
+      <div class="step-body">
+        <div class="step-title">Auto-comasarea datelor</div>
+        <div class="step-text">Sistemul realizează automat un rezumat inteligent al datelor esențiale din istoricul conversației — profilul familiei, deciziile importante, contextul relevant.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-nr">3</div>
+      <div class="step-body">
+        <div class="step-title">Solicitare Actualizare</div>
+        <div class="step-text">Serviciul my-PAL livrează automat noii consilieri — primirea este automată, fără nicio acțiune din partea ta.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-nr">4</div>
+      <div class="step-body">
+        <div class="step-title">Primirea noului consilier</div>
+        <div class="step-text">Primești automat noii consilieri în contul tău my-PAL. Arhivarea și ștergerea firului epuizat rămân la alegerea ta.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SFAT FRAZA CHEIE -->
+  <div class="card" style="background:#FEF9EC;border-color:var(--gold)">
+    <div class="card-title">💡 Sfat practic — continuitate fără bătaie de cap</div>
+    <p class="card-text">Când primești un consilier nou, nu trebuie să-i explici tot istoricul de la zero. Trimite-i pur și simplu o frază-cheie clară, de tipul:</p>
+    <p class="card-text" style="font-style:italic;color:var(--dark);background:var(--white);padding:0.75rem 1rem;border-radius:8px;border-left:3px solid var(--gold)">„Continuă de unde a rămas consilierul anterior — citește istoricul conversațiilor noastre salvate și ține cont de tot ce am stabilit deja."</p>
+    <p class="card-text">Consilierul nou va citi automat istoricul relevant și va relua firul, fără să te pună să repeți ce ai discutat deja.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PASII TAI - SECVENTA OPERATIONALA -->
+  <div class="card">
+    <div class="card-title">💚 Pașii tăi, în ordinea corectă</div>
+    <p class="card-text">Când un consilier te anunță că e momentul Actualizării, tu ai 4 pași simpli de făcut — în această ordine, fără să o schimbi:</p>
+
+    <div class="step">
+      <div class="step-nr">1</div>
+      <div class="step-body">
+        <div class="step-title">Salvează firul vechi</div>
+        <div class="step-text">Înainte de orice, salvează conversația cu consilierul vechi în Fișierele myPAL, numerotat (ex: „Advix #1"). Acesta rămâne istoricul tău permanent — nu se șterge niciodată.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-nr">2</div>
+      <div class="step-body">
+        <div class="step-title">Trimite-l către noul consilier</div>
+        <div class="step-text">Când noul consilier sosește în contul tău, trimite-i firul salvat la pasul 1. El îl citește și își recuperează contextul real al discuțiilor voastre anterioare — nu doar date despre familie, ci felul în care ați lucrat împreună.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-nr">3</div>
+      <div class="step-body">
+        <div class="step-title">Așteaptă confirmarea</div>
+        <div class="step-text">Noul consilier îți va confirma că a primit și înțeles contextul. Aceasta este condiția care deblochează pasul următor.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-nr">4</div>
+      <div class="step-body">
+        <div class="step-title">Arhivează firul vechi — abia acum</div>
+        <div class="step-text">Doar după ce ai primit confirmarea de la pasul 3, poți arhiva firul vechi. Înainte de confirmare, păstrează-l activ — e plasa ta de siguranță.</div>
+      </div>
+    </div>
+
+    <div class="avertisment">
+      <p class="avertisment-text"><strong>⚠️ De reținut:</strong> Nu arhiva firul vechi înainte de confirmarea noului consilier. Dacă arhivezi prea devreme și ceva nu a fost transmis corect, riști să pierzi context care nu mai poate fi recuperat.</p>
+    </div>
+  </div>
+
+  <!-- EXIT/RETRY -->
+  <div class="card">
+    <div class="card-title">🔧 Dacă firul nu mai răspunde — ce înseamnă mesajele pe care le vezi</div>
+    <p class="card-text">Pe lângă anunțul clar al consilierului că e momentul Actualizării, pot apărea și mesaje de eroare — firul se blochează, nu mai răspunde, sau platforma arată un avertisment tehnic. Nu este un semn că ai pierdut conversația. Iată ce înseamnă pașii pe care îi vezi:</p>
+
+    <div class="step">
+      <div class="step-nr" style="background:var(--gold)">↺</div>
+      <div class="step-body">
+        <div class="step-title">„Retry" (Reîncearcă)</div>
+        <div class="step-text">Înseamnă să trimiți din nou ultimul mesaj sau să reîncerci încărcarea conversației, fără să pornești de la zero. Folosește „Retry" întâi — de multe ori e o blocare temporară, nu un semn că firul trebuie schimbat.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-nr" style="background:var(--gold)">⏏</div>
+      <div class="step-body">
+        <div class="step-title">„Exit" (Ieșire din fir)</div>
+        <div class="step-text">Înseamnă să închizi conversația curentă, fără să o ștergi. Firul rămâne salvat exact așa cum a fost — îl poți relua sau, dacă e cazul, îl folosești ca firul vechi de la pasul 1 de mai sus.</div>
+      </div>
+    </div>
+
+    <div class="gold-box">
+      <p class="gold-text"><strong>💡 Ordinea corectă:</strong> Încearcă „Retry" mai întâi. Dacă firul tot nu răspunde după 2-3 încercări, abia atunci „Exit" — și, dacă blocarea persistă, tratează firul ca fiind la capacitate maximă: parcurge cei 4 pași de mai sus, ca la o Actualizare normală.</p>
+    </div>
+  </div>
+
+  <!-- INSTRUCTIUNI CONSILIER (existent, pastrat) -->
+  <div class="card">
+    <div class="card-title">💬 Ce faci când consilierii tăi se apropie de limită</div>
+    <p class="card-text">Dacă observi că firul de conversație merge mai lent sau primești notificări de la consilier, poți solicita comasarea înainte de actualizarea automată:</p>
+
+    <div class="step">
+      <div class="step-nr" style="background:var(--gold)">!</div>
+      <div class="step-body">
+        <div class="step-title">Solicită comasarea consilierului</div>
+        <div class="step-text">Trimite consilierului mesajul: <em>„Te rog să faci o comasare a conversației noastre — rezumă datele esențiale despre familia noastră pentru a continua eficient."</em> Consilierul va genera un rezumat structurat pe care îl poți salva în Memoria Familiei.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-nr" style="background:var(--gold)">!</div>
+      <div class="step-body">
+        <div class="step-title">După ce primești noii consilieri</div>
+        <div class="step-text">Când noii consilieri sosesc în contul tău, îi găsești disponibili imediat. Prezintă-te și oferă-le contextul familiei — poți folosi rezumatul comasat salvat anterior.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-nr" style="background:var(--gold)">!</div>
+      <div class="step-body">
+        <div class="step-title">Arhivarea consilierilor vechi</div>
+        <div class="step-text">Odată ce noii consilieri sunt activi și familiarizați cu situația ta, poți arhiva consilierii vechi împreună cu conversația aferentă. Arhivarea rămâne la alegerea ta — poți păstra accesul la istoricul vechi oricât dorești înainte de a arhiva.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTA -->
+  <div class="nota">
+    <p class="nota-text"><strong>💡 Important:</strong> Actualizarea nu înseamnă pierderea relației cu consilierul tău. ADN-ul, caracterul și modul de lucru rămân identice. Primești doar o versiune nouă și mai puternică a aceluiași consilier dedicat familiei tale.</p>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-card">
+    <div class="contact-title">📞 Serviciul Clienți my-PAL</div>
+    <p class="contact-sub">Serviciul my-PAL este disponibil oricând pentru asistență tehnică legată de Actualizarea produsului tău.</p>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-inner">
+            <div class="footer-btns">
+      <a href="myPAL_Legal.html" class="footer-link-nav">⚖️ Legal</a>
+      <a href="myPAL_Profil.html" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
+      <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
+      <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
+      <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
+    </div>
+    <div style="border-top:0.5px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="font-size:13px;font-weight:600;color:var(--dark)">my-PAL.ai · © 2026</div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
+    </div>
+    <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:400">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

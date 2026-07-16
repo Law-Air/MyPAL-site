@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banii tăi — my-PAL.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;--gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;--white:#FFFFFF;--red:#A32D2D;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;font-weight:500;background:var(--cream);color:var(--text);min-height:100vh}
+nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:0.5px solid var(--border);flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--dark)}
+.nav-logo span{color:var(--green)}
+.nav-btn{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif}
+.nav-btn:hover{color:var(--dark);background:var(--cream)}
+
+/* HEADER */
+.header{background:var(--green);color:#fff;padding:1rem 2rem}
+.header-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.h-ceas{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;letter-spacing:-1px}
+.h-data{font-size:11px;opacity:0.8;margin-top:2px;font-weight:400}
+.h-disponibil-wrap{text-align:right}
+.h-disponibil-label{font-size:11px;opacity:0.8;text-transform:uppercase;letter-spacing:1px}
+.h-disponibil-suma{font-family:'Playfair Display',serif;font-size:22px;font-weight:400}
+.h-disponibil-edit{display:flex;align-items:center;gap:6px;margin-top:4px}
+.h-input{padding:5px 10px;border:0.5px solid rgba(255,255,255,0.4);border-radius:6px;font-size:13px;font-family:'DM Sans',sans-serif;background:rgba(255,255,255,0.15);color:#fff;width:110px}
+.h-input::placeholder{color:rgba(255,255,255,0.6)}
+.h-input:focus{outline:none;background:rgba(255,255,255,0.25)}
+.h-btn{padding:5px 10px;background:rgba(255,255,255,0.2);border:0.5px solid rgba(255,255,255,0.4);border-radius:6px;font-size:12px;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* MAIN */
+.main{max-width:760px;margin:0 auto;padding:2rem}
+.sect-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:0.5rem}
+.sect-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;color:var(--dark);margin-bottom:1.5rem}
+
+/* TABS CATEGORII */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+.tab{padding:8px 16px;font-size:13px;border:0.5px solid var(--border);border-radius:8px;cursor:pointer;background:var(--white);color:var(--muted);font-family:'DM Sans',sans-serif;transition:all 0.2s;font-weight:500}
+.tab:hover{border-color:var(--green);color:var(--green)}
+.tab.activ{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* FISA */
+.fisa{display:none}
+.fisa.activa{display:block}
+.fisa-card{background:var(--white);border:0.5px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.fisa-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px}
+.fisa-title{font-size:16px;font-weight:500;color:var(--dark);display:flex;align-items:center;gap:8px}
+.fisa-btns{display:flex;gap:6px;flex-wrap:wrap}
+.f-btn{padding:7px 14px;font-size:12px;border:0.5px solid var(--border);border-radius:7px;cursor:pointer;background:var(--white);color:var(--muted);font-family:'DM Sans',sans-serif;transition:all 0.2s;white-space:nowrap}
+.f-btn:hover{border-color:var(--green);color:var(--green)}
+.f-btn.gold{border-color:var(--gold);color:var(--gold)}
+.f-btn.gold:hover{background:var(--gold);color:#fff}
+.f-btn.green{background:var(--green);color:#fff;border-color:var(--green)}
+.f-btn.green:hover{background:var(--dark)}
+
+/* INTRARI */
+.intrare{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;align-items:center}
+.intrare-desc{flex:2;min-width:140px;padding:8px 12px;border:0.5px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text)}
+.intrare-suma{width:100px;padding:8px 12px;border:0.5px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text)}
+.intrare-desc:focus,.intrare-suma:focus{outline:none;border-color:var(--green)}
+.intrare-del{padding:7px 10px;background:none;border:0.5px solid var(--border);border-radius:7px;cursor:pointer;color:var(--muted);font-size:13px;font-family:'DM Sans',sans-serif}
+.intrare-del:hover{border-color:var(--red);color:var(--red)}
+
+/* ATAS */
+.atas-zona{border:1px dashed var(--border);border-radius:8px;padding:12px;text-align:center;cursor:pointer;transition:all 0.2s;font-size:13px;color:var(--muted);font-weight:400;margin-top:8px}
+.atas-zona:hover{border-color:var(--green);background:var(--green-light)}
+.atas-lista{margin-top:6px;display:flex;flex-direction:column;gap:4px}
+.atas-item{display:flex;align-items:center;justify-content:space-between;padding:5px 10px;background:var(--cream);border-radius:6px;font-size:12px;font-weight:400}
+.atas-del{background:none;border:none;cursor:pointer;color:var(--muted)}
+.atas-del:hover{color:var(--red)}
+
+/* REZULTAT ADVIX */
+.rezultat-card{background:#FEF9EC;border:0.5px solid var(--gold);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem}
+.rezultat-title{font-size:14px;font-weight:500;color:var(--gold);margin-bottom:0.75rem;display:flex;align-items:center;gap:6px}
+.rezultat-textarea{width:100%;min-height:80px;padding:9px 12px;border:0.5px solid var(--gold);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--white);resize:none;line-height:1.6;font-weight:400}
+.rezultat-textarea:focus{outline:none;border-color:var(--dark)}
+
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark);color:var(--cream);padding:9px 18px;border-radius:8px;font-size:13px;opacity:0;transition:all 0.25s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{padding:1.5rem;text-align:center;border-top:0.5px solid var(--border);font-size:11px;color:var(--muted);margin-top:1rem;font-weight:400}
+.footer{background:var(--white);border-top:0.5px solid var(--border);padding:2.5rem 2rem}
+.footer-inner{max-width:720px;margin:0 auto}
+.footer-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:0.5rem}
+.footer-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;font-weight:400}
+.footer-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.footer-btn{padding:9px 16px;background:var(--cream);border:0.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);cursor:pointer;text-decoration:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.footer-btn:hover{border-color:var(--green);color:var(--green)}
+.footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.footer-link-nav:hover{color:var(--dark);background:var(--cream)}
+.footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
+.footer-link{font-size:12px;color:var(--muted);text-decoration:none;font-weight:400}
+.footer-link:hover{color:var(--green)}
+.footer-copy{font-size:11px;color:var(--muted);margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-weight:400}
+</style>
+</head>
+<body>
+<nav>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Acasa.html'">🏠 Acasă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Echipa.html'">👥 Echipă</button>
+    <button class="nav-btn active" onclick="window.location.href='myPAL_BaniiTai.html'">💰 Banii tăi</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Verifica.html'">🔍 Verifică</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_MemorieAI.html'">📚 Memorie</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
+</nav>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="h-ceas" id="h-ceas">--:--</div>
+      <div class="h-data" id="h-data"></div>
+    </div>
+    <div class="h-disponibil-wrap">
+      <div class="h-disponibil-label">Disponibil luna aceasta</div>
+      <div class="h-disponibil-suma" id="h-suma">— lei</div>
+      <div class="h-disponibil-edit">
+        <input type="number" class="h-input" id="h-input" placeholder="Suma (lei)">
+        <button class="h-btn" onclick="setDisponibil()">✅ Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sect-label">Documente & Înregistrări</div>
+  <h1 class="sect-title">Venituri & Cheltuieli</h1>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab activ" onclick="schimbaTab('venituri',this)">💰 Venituri</button>
+    <button class="tab" onclick="schimbaTab('cheltuieli',this)">💸 Cheltuieli</button>
+    <button class="tab" onclick="schimbaTab('bonuri',this)">🧾 Bonuri</button>
+    <button class="tab" onclick="schimbaTab('transferuri',this)">🏦 Transferuri</button>
+    <button class="tab" onclick="schimbaTab('altele',this)">📄 Altele</button>
+  </div>
+
+  <!-- FISA VENITURI -->
+  <div class="fisa activa" id="fisa-venituri">
+    <div class="fisa-card">
+      <div class="fisa-head">
+        <div class="fisa-title">💰 Documente venituri</div>
+        <div class="fisa-btns">
+          <button class="f-btn" onclick="adaugaIntrare('v')">＋ Adaugă</button>
+          <button class="f-btn green" onclick="deschideAdvix()">💰 Deschide Advix</button>
+          <button class="f-btn gold" onclick="trimiteAdvix('venituri')">📨 Trimite la Advix</button>
+          <button class="f-btn" onclick="document.getElementById('f-v').click()">📎 Atașează</button>
+          <input type="file" id="f-v" style="display:none" multiple accept="image/*,.pdf" onchange="adaugaFisiere(this,'v-atas')">
+        </div>
+      </div>
+      <div id="v-intrari">
+        <div class="intrare">
+          <input type="text" class="intrare-desc" placeholder="ex: Salariu net iunie">
+          <input type="number" class="intrare-suma" placeholder="Sumă (lei)">
+          <button class="intrare-del" onclick="stergeIntrare(this)">✕</button>
+        </div>
+      </div>
+      <textarea style="width:100%;min-height:60px;padding:8px 12px;border:0.5px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream);resize:none;line-height:1.6;margin-top:8px;font-weight:400" placeholder="Detalii suplimentare — ex: piață, numerar, diverse..."></textarea>
+    <div class="atas-zona" onclick="document.getElementById('f-v').click()">📎 Adaugă documente / foto</div>
+      <div class="atas-lista" id="v-atas"></div>
+    </div>
+    <div class="rezultat-card">
+      <div class="rezultat-title">📊 Răspuns Advix</div>
+      <textarea class="rezultat-textarea" placeholder="Lipește aici răspunsul primit de la Advix după ce trimiți documentele..."></textarea>
+    </div>
+  </div>
+
+  <!-- FISA CHELTUIELI -->
+  <div class="fisa" id="fisa-cheltuieli">
+    <div class="fisa-card">
+      <div class="fisa-head">
+        <div class="fisa-title">💸 Documente cheltuieli</div>
+        <div class="fisa-btns">
+          <button class="f-btn" onclick="adaugaIntrare('c')">＋ Adaugă</button>
+          <button class="f-btn green" onclick="deschideAdvix()">💰 Deschide Advix</button>
+          <button class="f-btn gold" onclick="trimiteAdvix('cheltuieli')">📨 Trimite la Advix</button>
+          <button class="f-btn" onclick="document.getElementById('f-c').click()">📎 Atașează</button>
+          <input type="file" id="f-c" style="display:none" multiple accept="image/*,.pdf" onchange="adaugaFisiere(this,'c-atas')">
+        </div>
+      </div>
+      <div id="c-intrari">
+        <div class="intrare">
+          <input type="text" class="intrare-desc" placeholder="ex: Factură electricitate">
+          <input type="number" class="intrare-suma" placeholder="Sumă (lei)">
+          <button class="intrare-del" onclick="stergeIntrare(this)">✕</button>
+        </div>
+      </div>
+      <textarea style="width:100%;min-height:60px;padding:8px 12px;border:0.5px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream);resize:none;line-height:1.6;margin-top:8px;font-weight:400" placeholder="Detalii suplimentare — ex: piață, numerar, diverse..."></textarea>
+    <div class="atas-zona" onclick="document.getElementById('f-c').click()">📎 Adaugă documente / foto</div>
+      <div class="atas-lista" id="c-atas"></div>
+    </div>
+    <div class="rezultat-card">
+      <div class="rezultat-title">📊 Răspuns Advix</div>
+      <textarea class="rezultat-textarea" placeholder="Lipește aici răspunsul primit de la Advix..."></textarea>
+    </div>
+  </div>
+
+  <!-- FISA BONURI -->
+  <div class="fisa" id="fisa-bonuri">
+    <div class="fisa-card">
+      <div class="fisa-head">
+        <div class="fisa-title">🧾 Bonuri & Chitanțe</div>
+        <div class="fisa-btns">
+          <button class="f-btn" onclick="adaugaIntrare('b')">＋ Adaugă</button>
+          <button class="f-btn green" onclick="deschideAdvix()">💰 Deschide Advix</button>
+          <button class="f-btn gold" onclick="trimiteAdvix('bonuri')">📨 Trimite la Advix</button>
+          <button class="f-btn" onclick="document.getElementById('f-b').click()">📎 Foto bon</button>
+          <input type="file" id="f-b" style="display:none" multiple accept="image/*,.pdf" onchange="adaugaFisiere(this,'b-atas')">
+        </div>
+      </div>
+      <div id="b-intrari">
+        <div class="intrare">
+          <input type="text" class="intrare-desc" placeholder="ex: Supermarket Lidl">
+          <input type="number" class="intrare-suma" placeholder="Sumă (lei)">
+          <button class="intrare-del" onclick="stergeIntrare(this)">✕</button>
+        </div>
+      </div>
+      <textarea style="width:100%;min-height:60px;padding:8px 12px;border:0.5px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream);resize:none;line-height:1.6;margin-top:8px;font-weight:400" placeholder="Detalii suplimentare — ex: piață, numerar, diverse..."></textarea>
+    <div class="atas-zona" onclick="document.getElementById('f-b').click()">📸 Fotografiază bonul</div>
+      <div class="atas-lista" id="b-atas"></div>
+    </div>
+    <div class="rezultat-card">
+      <div class="rezultat-title">📊 Răspuns Advix</div>
+      <textarea class="rezultat-textarea" placeholder="Lipește aici răspunsul primit de la Advix..."></textarea>
+    </div>
+  </div>
+
+  <!-- FISA TRANSFERURI -->
+  <div class="fisa" id="fisa-transferuri">
+    <div class="fisa-card">
+      <div class="fisa-head">
+        <div class="fisa-title">🏦 OP-uri & Transferuri</div>
+        <div class="fisa-btns">
+          <button class="f-btn" onclick="adaugaIntrare('t')">＋ Adaugă</button>
+          <button class="f-btn green" onclick="deschideAdvix()">💰 Deschide Advix</button>
+          <button class="f-btn gold" onclick="trimiteAdvix('transferuri')">📨 Trimite la Advix</button>
+          <button class="f-btn" onclick="document.getElementById('f-t').click()">📎 Atașează</button>
+          <input type="file" id="f-t" style="display:none" multiple accept="image/*,.pdf" onchange="adaugaFisiere(this,'t-atas')">
+        </div>
+      </div>
+      <div id="t-intrari">
+        <div class="intrare">
+          <input type="text" class="intrare-desc" placeholder="ex: Rată bancară BRD">
+          <input type="number" class="intrare-suma" placeholder="Sumă (lei)">
+          <button class="intrare-del" onclick="stergeIntrare(this)">✕</button>
+        </div>
+      </div>
+      <textarea style="width:100%;min-height:60px;padding:8px 12px;border:0.5px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream);resize:none;line-height:1.6;margin-top:8px;font-weight:400" placeholder="Detalii suplimentare — ex: piață, numerar, diverse..."></textarea>
+    <div class="atas-zona" onclick="document.getElementById('f-t').click()">📎 Adaugă OP / extras cont</div>
+      <div class="atas-lista" id="t-atas"></div>
+    </div>
+    <div class="rezultat-card">
+      <div class="rezultat-title">📊 Răspuns Advix</div>
+      <textarea class="rezultat-textarea" placeholder="Lipește aici răspunsul primit de la Advix..."></textarea>
+    </div>
+  </div>
+
+  <!-- FISA ALTELE -->
+  <div class="fisa" id="fisa-altele">
+    <div class="fisa-card">
+      <div class="fisa-head">
+        <div class="fisa-title">📄 Alte documente</div>
+        <div class="fisa-btns">
+          <button class="f-btn" onclick="adaugaIntrare('a')">＋ Adaugă</button>
+          <button class="f-btn green" onclick="deschideAdvix()">💰 Deschide Advix</button>
+          <button class="f-btn gold" onclick="trimiteAdvix('altele')">📨 Trimite la Advix</button>
+          <button class="f-btn" onclick="document.getElementById('f-a').click()">📎 Atașează</button>
+          <input type="file" id="f-a" style="display:none" multiple accept="image/*,.pdf" onchange="adaugaFisiere(this,'a-atas')">
+        </div>
+      </div>
+      <div id="a-intrari">
+        <div class="intrare">
+          <input type="text" class="intrare-desc" placeholder="Descriere document...">
+          <input type="number" class="intrare-suma" placeholder="Sumă (lei)">
+          <button class="intrare-del" onclick="stergeIntrare(this)">✕</button>
+        </div>
+      </div>
+      <textarea style="width:100%;min-height:60px;padding:8px 12px;border:0.5px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream);resize:none;line-height:1.6;margin-top:8px;font-weight:400" placeholder="Detalii suplimentare — ex: piață, numerar, diverse..."></textarea>
+    <div class="atas-zona" onclick="document.getElementById('f-a').click()">📎 Adaugă document</div>
+      <div class="atas-lista" id="a-atas"></div>
+    </div>
+    <div class="rezultat-card">
+      <div class="rezultat-title">📊 Răspuns Advix</div>
+      <textarea class="rezultat-textarea" placeholder="Lipește aici răspunsul primit de la Advix..."></textarea>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="footer">
+  <div class="footer-inner">
+            <div class="footer-btns">
+      <a href="myPAL_Legal.html" class="footer-link-nav">⚖️ Legal</a>
+      <a href="myPAL_Profil.html" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
+      <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
+      <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
+      <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
+    </div>
+    <div style="border-top:0.5px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="font-size:13px;font-weight:600;color:var(--dark)">my-PAL.ai · © 2026</div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
+    </div>
+    <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:400">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
+
+// CEAS
+function updateCeas(){
+  var d=new Date();
+  var el=document.getElementById('h-ceas');
+  var el2=document.getElementById('h-data');
+  if(el) el.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+  var zile=['Duminică','Luni','Marți','Miercuri','Joi','Vineri','Sâmbătă'];
+  var luni=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+  if(el2) el2.textContent=zile[d.getDay()]+', '+d.getDate()+' '+luni[d.getMonth()]+' '+d.getFullYear();
+}
+updateCeas();
+setInterval(updateCeas,1000);
+
+// DISPONIBIL
+var disp=localStorage.getItem('vc_disp');
+if(disp)document.getElementById('h-suma').textContent=parseInt(disp).toLocaleString('ro-RO')+' lei';
+function setDisponibil(){
+  var v=document.getElementById('h-input').value;
+  if(!v){toast('⚠️ Introdu suma!');return;}
+  localStorage.setItem('vc_disp',v);
+  document.getElementById('h-suma').textContent=parseInt(v).toLocaleString('ro-RO')+' lei';
+  document.getElementById('h-input').value='';
+  toast('✅ Disponibil actualizat!');
+}
+
+// TABS
+function schimbaTab(id,btn){
+  document.querySelectorAll('.fisa').forEach(function(f){f.classList.remove('activa');});
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('activ');});
+  document.getElementById('fisa-'+id).classList.add('activa');
+  btn.classList.add('activ');
+}
+
+// INTRARI
+function adaugaIntrare(prefix){
+  var container=document.getElementById(prefix+'-intrari');
+  var div=document.createElement('div');
+  div.className='intrare';
+  div.innerHTML='<input type="text" class="intrare-desc" placeholder="Descriere..."><input type="number" class="intrare-suma" placeholder="Sumă (lei)"><button class="intrare-del" onclick="stergeIntrare(this)">✕</button>';
+  container.appendChild(div);
+}
+function stergeIntrare(btn){btn.closest('.intrare').remove();toast('🗑️ Șters!');}
+
+// ATASAMENTE
+function adaugaFisiere(input,atasId){
+  var lista=document.getElementById(atasId);
+  Array.from(input.files).forEach(function(f){
+    var div=document.createElement('div');
+    div.className='atas-item';
+    // Cream URL pentru download
+    var url=URL.createObjectURL(f);
+    div.innerHTML='📄 '+f.name+' <div style="display:flex;gap:4px"><a href="'+url+'" download="'+f.name+'" style="font-size:11px;color:var(--green);text-decoration:none">📥 Descarcă</a> <button class="atas-del" onclick="this.parentElement.parentElement.remove()">✕</button></div>';
+    lista.appendChild(div);
+  });
+  toast('📎 '+input.files.length+' fișier(e) adăugat(e) — descarcă pentru a trimite la Advix');
+}
+
+// TRIMITE LA ADVIX
+function trimiteAdvix(categorie){
+  var prefixMap={venituri:'v',cheltuieli:'c',bonuri:'b',transferuri:'t',altele:'a'};
+  var prefix=prefixMap[categorie];
+  var intrari=document.querySelectorAll('#'+prefix+'-intrari .intrare');
+  var linii=['['+categorie.toUpperCase()+'] — '+new Date().toLocaleDateString('ro-RO')];
+  intrari.forEach(function(i){
+    var desc=i.querySelectorAll('input')[0].value.trim();
+    var suma=i.querySelectorAll('input')[1].value.trim();
+    if(desc||suma)linii.push((desc||'—')+': '+(suma?suma+' lei':'—'));
+  });
+  if(linii.length<=1){toast('⚠️ Adaugă cel puțin o intrare!');return;}
+  var text=linii.join('\n');
+  var tmp=document.createElement('textarea');
+  tmp.value=text;tmp.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(tmp);tmp.focus();tmp.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(tmp);
+  toast('📨 Copiat! Deschide Advix și lipește cu Ctrl+V');
+  setTimeout(function(){deschideAdvix();},800);
+}
+
+function deschideAdvix(){
+  var w=window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_advix','width=480,height=860,left=0,top=0,resizable=yes');
+  if(!w||w.closed||typeof w.closed=='undefined'){
+    window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','_blank');
+  }
+}
+</script>
+</body>
+</html>

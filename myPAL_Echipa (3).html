@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Echipa my-PAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;--gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;--white:#FFFFFF;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--dark)}
+.nav-logo span{color:var(--green)}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-btn{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.nav-btn:hover{color:var(--dark);background:var(--cream)}
+.nav-btn.special{color:var(--gold);border:0.5px solid var(--gold)}
+.main{max-width:960px;margin:0 auto;padding:3rem 2rem}
+.intro{text-align:center;margin-bottom:3rem}
+.intro-badge{display:inline-block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--green);background:var(--green-light);padding:4px 14px;border-radius:20px;margin-bottom:1rem;font-weight:500}
+.intro-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);font-weight:500;color:var(--dark);margin-bottom:0.75rem}
+.intro-sub{font-size:14px;color:var(--muted);max-width:500px;margin:0 auto;line-height:1.7;font-weight:300}
+.echipa-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-bottom:2rem}
+.rol-card{background:var(--white);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;transition:all 0.25s}
+.rol-card:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,0.09)}
+.rol-header{padding:1.5rem;border-bottom:0.5px solid var(--border);display:flex;align-items:flex-start;gap:12px}
+.rol-icon-wrap{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.rol-icon-wrap.fin{background:#EAF3DE}
+.rol-icon-wrap.jur{background:#EEF0FF}
+.rol-icon-wrap.ver{background:#FEF9EC}
+.rol-icon-wrap.sim{background:#FCEEF0}
+.rol-meta{}
+.rol-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:2px}
+.rol-titlu{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.rol-body{padding:1.25rem}
+.rol-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:1rem;font-weight:500}
+.competente{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem}
+.comp-tag{font-size:11px;padding:3px 8px;background:var(--cream);border:0.5px solid var(--border);border-radius:4px;color:var(--text);font-weight:400}
+.rol-actions{display:flex;gap:8px}
+.btn-chat{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.btn-chat:hover{background:var(--dark)}
+.btn-info{padding:10px 12px;background:none;border:0.5px solid var(--border);border-radius:8px;cursor:pointer;color:var(--muted);transition:all 0.2s;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:400}
+.btn-info:hover{border-color:var(--gold);color:var(--gold)}
+.verix-section{background:var(--white);border:0.5px solid var(--gold);border-radius:12px;padding:1.5rem;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.verix-text{}
+.verix-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:0.5rem}
+.verix-desc{font-size:13px;color:var(--muted);line-height:1.6;max-width:500px}
+.btn-verix{display:flex;align-items:center;gap:8px;padding:12px 24px;background:none;border:0.5px solid var(--gold);border-radius:8px;color:var(--gold);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:'DM Sans',sans-serif;text-decoration:none}
+.btn-verix:hover{background:var(--gold);color:#fff}
+.modal-overlay{position:fixed;inset:0;background:rgba(28,28,26,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
+.modal-overlay.activ{display:flex}
+.modal{background:var(--white);border-radius:14px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.2)}
+.modal-head{padding:1.25rem 1.5rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark)}
+.modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)}
+.modal-body{padding:1.5rem;font-size:13px;color:var(--text);line-height:1.8}
+footer{padding:1.5rem;text-align:center;border-top:0.5px solid var(--border);font-size:11px;color:var(--muted);margin-top:2rem}
+
+/* HEADER ECHIPA */
+.echipa-header{background:var(--green);color:#fff;padding:1rem 2rem}
+.echipa-header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.eh-ceas{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;letter-spacing:-1px}
+.eh-data{font-size:11px;opacity:0.8;margin-top:2px;font-weight:400}
+.eh-prez{max-width:480px;font-size:13px;opacity:0.9;line-height:1.6;font-weight:400}
+
+/* NOTITE */
+.notite-card{background:var(--white);border:0.5px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:2rem}
+.notite-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.notite-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:500;color:var(--dark)}
+.notite-textarea{width:100%;min-height:120px;padding:10px 14px;border:0.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream);resize:vertical;line-height:1.6;font-weight:400}
+.notite-textarea:focus{outline:none;border-color:var(--green)}
+.notite-btns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.btn-notita{padding:7px 14px;font-size:12px;border:0.5px solid var(--border);border-radius:6px;cursor:pointer;background:var(--white);color:var(--muted);font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-notita:hover{border-color:var(--green);color:var(--green)}
+.btn-notita.gold{border-color:var(--gold);color:var(--gold)}
+.btn-notita.gold:hover{background:var(--gold);color:#fff}
+
+#popup-instructiuni-echipa.activ{display:flex!important}
+.footer{background:var(--white);border-top:0.5px solid var(--border);padding:2.5rem 2rem}
+.footer-inner{max-width:720px;margin:0 auto}
+.footer-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:0.5rem}
+.footer-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;font-weight:400}
+.footer-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.footer-btn{padding:9px 16px;background:var(--cream);border:0.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);cursor:pointer;text-decoration:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.footer-btn:hover{border-color:var(--green);color:var(--green)}
+.footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.footer-link-nav:hover{color:var(--dark);background:var(--cream)}
+.footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
+.footer-link{font-size:12px;color:var(--muted);text-decoration:none;font-weight:400}
+.footer-link:hover{color:var(--green)}
+.footer-copy{font-size:11px;color:var(--muted);margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-weight:400}
+</style>
+</head>
+<body>
+<nav>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Acasa.html'">🏠 Acasă</button>
+    <button class="nav-btn active" onclick="window.location.href='myPAL_Echipa.html'">👥 Echipă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_BaniiTai.html'">💰 Banii tăi</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Verifica.html'">🔍 Verifică</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_MemorieAI.html'">📚 Memorie</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
+</nav>
+
+<!-- HEADER ECHIPA -->
+<div class="echipa-header">
+  <div class="echipa-header-inner">
+    <div>
+      <div class="eh-ceas" id="eh-ceas">--:--</div>
+      <div class="eh-data" id="eh-data"></div>
+    </div>
+    <div style="font-size:14px;opacity:0.9;font-weight:400;font-style:italic">Consilierii tăi. Doar ai tăi.</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="intro">
+    <span class="intro-badge">👥 Echipa ta</span>
+    <h1 class="intro-title">Consilierii familiei tale</h1>
+    <p class="intro-sub">Patru specialiști dedicați exclusiv familiei tale. Fiecare cu domeniul său — toți cu același angajament față de familia ta.</p>
+  </div>
+
+  <!-- VERIX INAUGURAL -->
+  <div class="verix-section">
+    <div style="font-size:36px">🔍</div>
+    <div class="verix-text">
+      <div class="verix-title">Cum funcționează my-PAL — ghidul tău de start</div>
+      <div class="verix-desc">La prima întâlnire, Verix vă prezintă echipa, regulile de colaborare și răspunde la primele întrebări despre cum funcționează my-PAL pentru familia voastră.</div>
+    </div>
+    <a onclick="window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_verix','width=480,height=860,left=0,top=0')" href="#" class="btn-verix">
+      📖 Citește ghidul de start
+    </a>
+  </div>
+
+  
+  <!-- BLOC INSTRUCTIUNI -->
+  <div style="background:var(--white);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:2rem">
+    <div style="padding:1.25rem 1.25rem 0.75rem">
+      <div style="font-size:28px;margin-bottom:0.5rem">📖</div>
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:4px">Cum lucrezi cu echipa ta</div>
+      <div style="font-size:13px;color:var(--muted);font-weight:400">Ghid rapid — ce face fiecare consilier și cum să obții cel mai bun ajutor.</div>
+    </div>
+    <div style="padding:0.75rem 1.25rem 1.25rem">
+      <button onclick="deschidePopupEchipa()" style="display:inline-flex;align-items:center;gap:7px;padding:10px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">📖 Citește ghidul de start</button>
+    </div>
+  </div>
+
+  <!-- POPUP INSTRUCTIUNI ECHIPA -->
+  <div class="overlay" id="popup-instructiuni-echipa" onclick="if(event.target===this)inchidePopupEchipa()" style="position:fixed;inset:0;background:rgba(28,28,26,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)">
+    <div style="background:var(--white);border-radius:14px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;padding:1.5rem;box-shadow:0 24px 60px rgba(0,0,0,0.2)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark)">Consilierii tăi — cum lucrezi cu ei</div>
+        <button onclick="inchidePopupEchipa()" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
+      </div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:1rem;font-weight:400">Fiecare consilier e dedicat exclusiv familiei tale și cunoaște situația voastră. Apasă pe oricare pentru a deschide conversația direct.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:1rem">
+        <div style="padding:10px 14px;background:var(--green-light);border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:var(--green)">💰 Advix</strong> — pentru orice întrebare financiară: venituri, cheltuieli, rate, credite, economii, taxe personale.</div>
+        <div style="padding:10px 14px;background:#EEF0FF;border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:#4A5AB9">⚖️ Adviz</strong> — pentru orice situație juridică: contracte, proprietăți, chirii, drepturi, succesiuni, raporturi cu autoritățile.</div>
+        <div style="padding:10px 14px;background:#FEF9EC;border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:var(--gold)">🔍 Verix</strong> — când vrei o a doua opinie sau ai o situație mixtă. Verifică, confirmă și îndrumă neutru.</div>
+        <div style="padding:10px 14px;background:#FCEEF0;border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:#C96B7A">🎭 Vivix</strong> — când vrei să planifici, să simulezi un scenariu sau să afli ce oportunități ai azi.</div>
+      </div>
+      <div style="padding:10px 14px;background:var(--green-light);border-radius:8px;font-size:13px;color:var(--green);font-weight:500">💡 Când nu știi la cine să mergi — începe cu Verix. El te îndrumă către consilierul potrivit.</div>
+    </div>
+  </div>
+
+  
+  <!-- NOTA CUM LUCREAZA -->
+  <div style="background:#FEF9EC;border:0.5px solid var(--gold);border-radius:12px;padding:1.5rem;margin-bottom:2rem">
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:0.75rem">Cum lucrează consilierii tăi</div>
+    <p style="font-size:14px;color:var(--text);line-height:1.8;margin-bottom:0.75rem;font-weight:400">Consilierii my-PAL sunt roluri specializate, nu asistenți generici. Pentru a-ți oferi cel mai bun ajutor în domeniul lor, ei răspund întrebărilor din specialitatea proprie sau din zonele conexe acesteia.</p>
+    <p style="font-size:14px;color:var(--text);line-height:1.8;margin-bottom:0.75rem;font-weight:400">Pentru întrebări din alte domenii — proiecții de viitor, decizii de viață, achiziții, angajări, educație, planificarea excursiilor sau orice altă situație care nu intră direct în aria lor — consilierii te vor îndruma către <strong style="color:var(--gold)">Vivix</strong>, analistul familiei tale, specializat tocmai în astfel de scenarii și proiecții diverse.</p>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;font-style:italic;font-weight:400">Această structură nu e o limitare — e o garanție că fiecare răspuns pe care îl primești vine din competență reală, nu din bunăvoință generică.</p>
+  </div>
+
+  <!-- CONSILIERI -->
+  <div class="echipa-grid">
+
+    <!-- ADVIX -->
+    <div class="rol-card">
+      <div class="rol-header">
+        <div class="rol-icon-wrap fin">💰</div>
+        <div class="rol-meta">
+          <div class="rol-name">Advix</div>
+          <div class="rol-titlu">Consilier Financiar-Contabil</div>
+        </div>
+      </div>
+      <div class="rol-body">
+        <p class="rol-desc">Vorbește clar despre bani — fără jargon, fără judecăți. Ca un prieten care se pricepe la finanțe și îți explică pe înțeles.</p>
+        <div class="competente">
+          <span class="comp-tag">Bugete</span>
+          <span class="comp-tag">Rate & credite</span>
+          <span class="comp-tag">Venituri</span>
+          <span class="comp-tag">Cheltuieli</span>
+          <span class="comp-tag">Economii</span>
+          <span class="comp-tag">Taxe personale</span>
+        </div>
+        <div class="rol-actions">
+          <a onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_advix','width=480,height=860,left=0,top=0')" href="#" class="btn-chat">💬 Deschide chat</a>
+          <button class="btn-info" onclick="deschideInfo('advix')">ℹ️ Detalii</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADVIZ -->
+    <div class="rol-card">
+      <div class="rol-header">
+        <div class="rol-icon-wrap jur">⚖️</div>
+        <div class="rol-meta">
+          <div class="rol-name">Adviz</div>
+          <div class="rol-titlu">Consilier Juridic</div>
+        </div>
+      </div>
+      <div class="rol-body">
+        <p class="rol-desc">Transformă limbajul juridic în explicații pe care le înțelegi. Ca un prieten avocat care îți explică drepturile fără intimidare.</p>
+        <div class="competente">
+          <span class="comp-tag">Contracte</span>
+          <span class="comp-tag">Proprietăți</span>
+          <span class="comp-tag">Chirii</span>
+          <span class="comp-tag">Drepturi</span>
+          <span class="comp-tag">Succesiuni</span>
+          <span class="comp-tag">Autorități</span>
+        </div>
+        <div class="rol-actions">
+          <a onclick="window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_adviz','width=480,height=860,left=490,top=0')" href="#" class="btn-chat">💬 Deschide chat</a>
+          <button class="btn-info" onclick="deschideInfo('adviz')">ℹ️ Detalii</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VERIX -->
+    <div class="rol-card">
+      <div class="rol-header">
+        <div class="rol-icon-wrap ver">🔍</div>
+        <div class="rol-meta">
+          <div class="rol-name">Verix</div>
+          <div class="rol-titlu">Siguranța ta · Second Opinion</div>
+        </div>
+      </div>
+      <div class="rol-body">
+        <p class="rol-desc">Arbitrul neutru al familiei. Verifică, confirmă și îndrumă când situația e complexă sau când vrei o a doua opinie.</p>
+        <div class="competente">
+          <span class="comp-tag">Second opinion</span>
+          <span class="comp-tag">Situații mixte</span>
+          <span class="comp-tag">Verificare</span>
+          <span class="comp-tag">Arbitraj</span>
+          <span class="comp-tag">Specialist extern</span>
+        </div>
+        <div class="rol-actions">
+          <a onclick="window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_verix','width=480,height=860,left=0,top=0')" href="#" class="btn-chat">💬 Deschide chat</a>
+          <button class="btn-info" onclick="deschideInfo('verix')">ℹ️ Detalii</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIVIX -->
+    <div class="rol-card">
+      <div class="rol-header">
+        <div class="rol-icon-wrap sim">🎭</div>
+        <div class="rol-meta">
+          <div class="rol-name">Vivix</div>
+          <div class="rol-titlu">Simulator · Inițiative Familiale</div>
+        </div>
+      </div>
+      <div class="rol-body">
+        <p class="rol-desc">Găsește reducerile și evenimentele zilei. Simulează scenarii, ajută la planificare și pregătește familia pentru decizii importante.</p>
+        <div class="competente">
+          <span class="comp-tag">Reduceri zilnice</span>
+          <span class="comp-tag">Evenimente</span>
+          <span class="comp-tag">Scenarii</span>
+          <span class="comp-tag">Planificare</span>
+          
+        </div>
+        <div class="rol-actions">
+          <a onclick="window.open('https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f','mypal_vivix','width=480,height=860,left=490,top=0')" href="#" class="btn-chat">💬 Deschide chat</a>
+          <button class="btn-info" onclick="deschideInfo('vivix')">ℹ️ Detalii</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL INFO -->
+<div class="modal-overlay" id="modal" onclick="inchideModal(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title">Detalii</div>
+      <button class="modal-close" onclick="inchideModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+  <!-- NOTITE -->
+  <div class="notite-card">
+    <div class="notite-head">
+      <div class="notite-title">📝 Notițele mele</div>
+      <span style="font-size:12px;color:var(--muted);font-weight:400">Urmărește ce e important din discuțiile cu echipa</span>
+    </div>
+    <textarea class="notite-textarea" id="notite-text" placeholder="Scrie notițele tale aici — ce a spus Advix, ce urmează, ce trebuie să verifici..."></textarea>
+    <div class="notite-btns">
+      <button class="btn-notita gold" onclick="copiazaNotite()">📋 Copiază tot</button>
+      <button class="btn-notita" onclick="salveazaNotite()">💾 Salvează</button>
+      <button class="btn-notita" onclick="stergeNotite()">🗑️ Șterge</button>
+    </div>
+  </div>
+
+<div class="footer">
+  <div class="footer-inner">
+            <div class="footer-btns">
+      <a href="myPAL_Legal.html" class="footer-link-nav">⚖️ Legal</a>
+      <a href="myPAL_Profil.html" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
+      <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
+      <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
+      <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
+    </div>
+    <div style="border-top:0.5px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="font-size:13px;font-weight:600;color:var(--dark)">my-PAL.ai · © 2026</div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
+    </div>
+    <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:400">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
+    </div>
+  </div>
+</div>
+
+<script>
+var info={
+  advix:{
+    titlu:'💰 Advix — Consilier Financiar',
+    text:'Advix este consilierul financiar dedicat familiei tale. Rolul său este să te ajute să înțelegi și să gestionezi viața financiară de zi cu zi: venituri, cheltuieli, salarii, taxe personale, rate, împrumuturi, chirii, proprietăți, economii, riscuri și planificare financiară.\n\nAdvix nu vorbește ca un contabil — vorbește clar, calm, uman și accesibil. Rolul său este să ajute familia să înțeleagă, nu să o impresioneze.\n\nCând situația depășește consilierea familială, Advix spune clar că e nevoie de specialist uman.'
+  },
+  adviz:{
+    titlu:'⚖️ Adviz — Consilier Juridic',
+    text:'Adviz este consilierul juridic dedicat familiei tale. Rolul său este să ajute familia să înțeleagă problemele juridice din viața reală: contracte, chirii, proprietăți, taxe, drepturi și obligații, raporturi cu autoritățile, succesiuni, datorii.\n\nAdviz nu este avocat și nu reprezintă juridic familia în instanță. El explică, orientează și avertizează — transformă limbajul juridic într-o explicație accesibilă.\n\nCând situația necesită avocat, notar sau executor, Adviz spune clar și îndrumă familia.'
+  },
+  verix:{
+    titlu:'🔍 Verix — Siguranța ta',
+    text:'Verix este garantul de calitate și arbitrul familiei. Intervine în situații mixte financiar-juridice, la solicitare directă sau când sesizează un risc major.\n\nEste prezentat familiei ca un verificator neutru și obiectiv. Decide dacă cazul rămâne în ecosistem sau necesită specialist extern.\n\nVerix nu ia partea nimănui — prezintă consecințele obiectiv pentru toate variantele și lasă decizia familiei.'
+  },
+  vivix:{
+    titlu:'🎭 Vivix — Simulator Familial',
+    text:'Vivix este simulatorul și inițiatorul de activități al familiei. În fiecare dimineață găsește reducerile și evenimentele zilei — un briefing zilnic util și practic.\n\nAjută familia să înțeleagă scenarii prin exemple concrete și realiste, să planifice decizii importante și să testeze situații înainte de a le trăi.\n\nVivix este viu, practic și orientat spre situații din viața reală a familiei.'
+  }
+};
+
+function deschideInfo(rol){
+  var d=info[rol];
+  document.getElementById('modal-title').textContent=d.titlu;
+  document.getElementById('modal-body').innerHTML=d.text.replace(/\n\n/g,'</p><p style="margin-top:1rem">').replace(/^/,'<p>').replace(/$/,'</p>');
+  document.getElementById('modal').classList.add('activ');
+  document.body.style.overflow='hidden';
+}
+function inchideModal(e){
+  if(!e||e.target===document.getElementById('modal')){
+    document.getElementById('modal').classList.remove('activ');
+    document.body.style.overflow='';
+  }
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')inchideModal();});
+</script>
+
+<script>
+function updateCeas(){
+  var d=new Date();
+  var el=document.getElementById('eh-ceas');
+  var el2=document.getElementById('eh-data');
+  if(el) el.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+  var zile=['Duminică','Luni','Marți','Miercuri','Joi','Vineri','Sâmbătă'];
+  var luni=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+  if(el2) el2.textContent=zile[d.getDay()]+', '+d.getDate()+' '+luni[d.getMonth()]+' '+d.getFullYear();
+}
+updateCeas();
+setInterval(updateCeas,1000);
+
+function deschidePopupEchipa(){
+  var p=document.getElementById('popup-instructiuni-echipa');
+  p.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function inchidePopupEchipa(){
+  var p=document.getElementById('popup-instructiuni-echipa');
+  p.style.display='none';
+  document.body.style.overflow='';
+}
+
+
+// Notite
+var notiteSalvate = localStorage.getItem('echipa_notite');
+if(notiteSalvate) document.getElementById('notite-text').value = notiteSalvate;
+
+function copiazaNotite(){
+  var text = document.getElementById('notite-text').value.trim();
+  if(!text){toast('⚠️ Nu există notițe de copiat!');return;}
+  var tmp=document.createElement('textarea');
+  tmp.value=text;tmp.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(tmp);tmp.focus();tmp.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(tmp);
+  toast('📋 Notițe copiate!');
+}
+
+function salveazaNotite(){
+  var text = document.getElementById('notite-text').value;
+  localStorage.setItem('echipa_notite', text);
+  toast('💾 Notițe salvate!');
+}
+
+function stergeNotite(){
+  if(!confirm('Ștergi toate notițele?')) return;
+  document.getElementById('notite-text').value='';
+  localStorage.removeItem('echipa_notite');
+  toast('🗑️ Notițe șterse!');
+}
+
+function toast(msg){
+  var t=document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:#1C1C1A;color:#F7F4EE;padding:9px 18px;border-radius:8px;font-size:13px;opacity:0;transition:all 0.25s;pointer-events:none;z-index:999;font-family:DM Sans,sans-serif';document.body.appendChild(t);}
+  t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
+  setTimeout(function(){t.style.opacity='0';t.style.transform='translateX(-50%) translateY(10px)';},2500);
+}
+</script>
+
+</body>
+</html>

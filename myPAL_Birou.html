@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birou — my-PAL.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+:root{--cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;--gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;--white:#FFFFFF;--red:#A32D2D;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;font-weight:500;background:var(--cream);color:var(--text);min-height:100vh;font-size:15px}
+nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--dark)}
+.nav-logo span{color:var(--green)}
+.nav-btn{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.nav-btn:hover{color:var(--dark);background:var(--cream)}
+
+/* HEADER */
+.header{background:var(--green);color:#fff;padding:1rem 2rem}
+.header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.h-ceas{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;letter-spacing:-1px}
+.h-data{font-size:11px;opacity:0.8;margin-top:2px;font-weight:400}
+.h-tag{font-size:13px;opacity:0.9;font-style:italic;font-weight:400}
+
+/* MAIN */
+.main{max-width:900px;margin:0 auto;padding:2rem}
+.sect-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:0.5rem}
+.sect-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;color:var(--dark);margin-bottom:1.5rem}
+
+/* MEMORIA ECHIPEI */
+.echipa-card{background:var(--white);border:0.5px solid var(--gold);border-radius:14px;overflow:hidden;margin-bottom:2rem}
+.echipa-head{padding:1.25rem;background:#FEF9EC;border-bottom:0.5px solid var(--gold);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.echipa-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark)}
+.echipa-sub{font-size:14px;color:var(--muted);line-height:1.6;padding:1rem 1.25rem;border-bottom:0.5px solid var(--border);font-weight:400}
+.echipa-footer{padding:1rem 1.25rem;display:flex;gap:8px;flex-wrap:wrap}
+
+/* SECTIUNI MEMORIE */
+.mem-sect{background:var(--white);border:0.5px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.mem-sect-head{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.mem-sect-info{display:flex;align-items:center;gap:10px}
+.mem-sect-icon{font-size:20px}
+.mem-sect-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark)}
+.mem-sect-badge{font-size:11px;padding:3px 10px;border-radius:4px;font-weight:500}
+.badge-f{background:var(--green-light);color:var(--green)}
+.badge-e{background:#FEF9EC;color:var(--gold)}
+.badge-m{background:#EEF0FF;color:#4A5AB9}
+.mem-sect-btns{display:flex;gap:6px;flex-wrap:wrap}
+.btn-tog{padding:6px 16px;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.btn-tog.open{background:var(--dark)}
+.mem-body{display:none}
+.mem-body.open{display:block}
+
+/* TABEL */
+.tabel-wrap{border-top:0.5px solid var(--border)}
+.tabel-wrap table{width:100%;border-collapse:collapse;font-size:14px}
+.tabel-wrap th{padding:8px 12px;text-align:left;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;background:var(--cream);border-bottom:0.5px solid var(--border)}
+.tabel-wrap td{padding:8px 12px;border-bottom:0.5px solid var(--border);color:var(--text);vertical-align:top}
+.tabel-wrap tr:last-child td{border-bottom:none}
+.tabel-wrap tr:hover td{background:#FAFAF7}
+.tabel-wrap td input,.tabel-wrap td textarea{width:100%;border:none;background:transparent;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);resize:none;font-weight:500}
+.tabel-wrap td input:focus,.tabel-wrap td textarea:focus{outline:none;background:var(--green-light);border-radius:3px;padding:2px 4px}
+.tabel-wrap td textarea{min-height:36px;line-height:1.5}
+.tabel-actions{padding:8px 12px;background:var(--cream);border-top:0.5px solid var(--border);display:flex;gap:6px;flex-wrap:wrap}
+.t-btn{padding:6px 12px;font-size:12px;border:0.5px solid var(--border);border-radius:5px;cursor:pointer;background:var(--white);color:var(--muted);font-family:'DM Sans',sans-serif}
+.t-btn:hover{border-color:var(--green);color:var(--green)}
+.t-btn.gold{border-color:var(--gold);color:var(--gold)}
+.t-btn.gold:hover{background:var(--gold);color:#fff}
+.t-btn.red:hover{border-color:var(--red);color:var(--red)}
+
+/* MODAL GENEREAZA */
+.modal-overlay{position:fixed;inset:0;background:rgba(28,28,26,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
+.modal-overlay.activ{display:flex}
+.modal-box{background:var(--white);border-radius:14px;width:100%;max-width:480px;padding:1.5rem;box-shadow:0 24px 60px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto}
+.modal-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:1rem}
+.modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)}
+.consilier-btn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--cream);border:0.5px solid var(--border);border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;margin-bottom:8px;transition:all 0.2s;text-align:left}
+.consilier-btn:hover{border-color:var(--green);background:var(--green-light)}
+.modal-note{font-size:13px;color:var(--muted);margin-top:1rem;padding:8px 12px;background:var(--cream);border-radius:6px;line-height:1.6;font-weight:400}
+.instructiuni{background:var(--cream);border:0.5px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:1rem;font-size:13px;line-height:1.7;font-weight:400}
+
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark);color:var(--cream);padding:9px 18px;border-radius:8px;font-size:13px;opacity:0;transition:all 0.25s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{padding:1.5rem 2rem;text-align:center;border-top:0.5px solid var(--border);font-size:11px;color:var(--muted);margin-top:1rem;font-weight:400}
+
+.footer{background:var(--white);border-top:0.5px solid var(--border);padding:2.5rem 2rem}
+.footer-inner{max-width:720px;margin:0 auto}
+.footer-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:0.5rem}
+.footer-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;font-weight:400}
+.footer-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.footer-btn{padding:9px 16px;background:var(--cream);border:0.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);cursor:pointer;text-decoration:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.footer-btn:hover{border-color:var(--green);color:var(--green)}
+.footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.footer-link-nav:hover{color:var(--dark);background:var(--cream)}
+.footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
+.footer-link{font-size:12px;color:var(--muted);text-decoration:none;font-weight:400}
+.footer-link:hover{color:var(--green)}
+.footer-copy{font-size:11px;color:var(--muted);margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-weight:400}
+</style>
+</head>
+<body>
+
+<nav>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Acasa.html'">🏠 Acasă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Echipa.html'">👥 Echipă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_BaniiTai.html'">💰 Banii tăi</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Verifica.html'">🔍 Verifică</button>
+    <button class="nav-btn active" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_MemorieAI.html'">📚 Memorie</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
+</nav>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="h-ceas" id="h-ceas">--:--</div>
+      <div class="h-data" id="h-data"></div>
+    </div>
+    <div class="h-tag" style="font-style:italic">Consilierii tăi. Doar ai tăi.</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sect-label">Spațiul de lucru</div>
+  <h1 class="sect-title">Datele familiei tale</h1>
+
+
+  <p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:1.25rem;font-weight:400">Completează tabelele cu datele familiei tale sau generează analize direct cu consilierii tăi.</p>
+  <div style="display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap">
+    <button onclick="deschideAdauga()" style="display:inline-flex;align-items:center;gap:7px;padding:10px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">＋ Intrare nouă</button>
+    <button onclick="deschideGenModal()" style="display:inline-flex;align-items:center;gap:7px;padding:10px 18px;background:none;border:0.5px solid var(--green);border-radius:8px;font-size:13px;color:var(--green);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">✨ Generează cu Echipa</button>
+    <button onclick="exportAllJSON()" style="display:inline-flex;align-items:center;gap:7px;padding:10px 18px;background:none;border:0.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">📥 Export JSON</button>
+    <button onclick="document.getElementById('import-json-all').click()" style="display:inline-flex;align-items:center;gap:7px;padding:10px 18px;background:none;border:0.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif">📤 Import JSON</button>
+    <input type="file" id="import-json-all" style="display:none" accept=".json" onchange="importJSON(this)">
+  </div>
+
+  <div class="sect-label">Auto-generate — Echipa</div>
+  <h2 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:500;color:var(--dark);margin-bottom:1.5rem">Situații Lunare</h2>
+
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">💰</span>
+        <span class="mem-sect-title">Analiză Financiară Lunară</span>
+        <span class="mem-sect-badge badge-e">Advix</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_ai','width=480,height=860,left=0,top=0')">💰 Generează Advix</button>
+        <button class="btn-tog" id="tog-fin-l" onclick="togMem('fin-l')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-fin-l">
+      <div class="tabel-wrap">
+        <table id="pz-fin-l">
+          <thead><tr><th>Capitol analizat</th><th>Observație Advix</th><th>Risc</th><th>Recomandare</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: Venituri/Cheltuieli..."></td><td><textarea placeholder="Observație detaliată..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="Mare/Mediu/Mic"></td><td><input placeholder="Acțiune recomandată..."></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-fin-l',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-fin-l')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-fin-l')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-fin-l')">📤 Import</button>
+        <input type="file" id="imp-pz-fin-l" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-fin-l')">
+        <button class="t-btn red" onclick="stergeTabel('pz-fin-l')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">⚖️</span>
+        <span class="mem-sect-title">Situație Juridică Lunară</span>
+        <span class="mem-sect-badge badge-e">Adviz</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_ai','width=480,height=860,left=0,top=0')">⚖️ Generează Adviz</button>
+        <button class="btn-tog" id="tog-jur-l" onclick="togMem('jur-l')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-jur-l">
+      <div class="tabel-wrap">
+        <table id="pz-jur-l">
+          <thead><tr><th>Subiect juridic</th><th>Observație Adviz</th><th>Risc</th><th>Recomandare</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: Contract chirie..."></td><td><textarea placeholder="Observație detaliată..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="Mare/Mediu/Mic"></td><td><input placeholder="Acțiune recomandată..."></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-jur-l',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-jur-l')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-jur-l')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-jur-l')">📤 Import</button>
+        <input type="file" id="imp-pz-jur-l" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-jur-l')">
+        <button class="t-btn red" onclick="stergeTabel('pz-jur-l')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">🔍</span>
+        <span class="mem-sect-title">Raport Verificare Verix</span>
+        <span class="mem-sect-badge badge-e">Verix</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_ai','width=480,height=860,left=0,top=0')">🔍 Generează Verix</button>
+        <button class="btn-tog" id="tog-ver-l" onclick="togMem('ver-l')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-ver-l">
+      <div class="tabel-wrap">
+        <table id="pz-ver-l">
+          <thead><tr><th>Capitol verificat</th><th>Rezultat Verix</th><th>Status</th><th>Acțiune</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: Date financiare..."></td><td><textarea placeholder="Rezultat verificare..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="OK / Atenție / Risc"></td><td><input placeholder="Acțiune necesară..."></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-ver-l',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-ver-l')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-ver-l')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-ver-l')">📤 Import</button>
+        <input type="file" id="imp-pz-ver-l" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-ver-l')">
+        <button class="t-btn red" onclick="stergeTabel('pz-ver-l')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">🎭</span>
+        <span class="mem-sect-title">Simulare Scenariu Vivix</span>
+        <span class="mem-sect-badge badge-e">Vivix</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f','mypal_ai','width=480,height=860,left=0,top=0')">🎭 Generează Vivix</button>
+        <button class="btn-tog" id="tog-viv-l" onclick="togMem('viv-l')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-viv-l">
+      <div class="tabel-wrap">
+        <table id="pz-viv-l">
+          <thead><tr><th>Scenariu</th><th>Proiecție Vivix</th><th>Risc</th><th>Recomandare</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: Credit nou..."></td><td><textarea placeholder="Proiecție detaliată..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="Mare/Mediu/Mic"></td><td><input placeholder="Acțiune recomandată..."></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-viv-l',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-viv-l')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-viv-l')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-viv-l')">📤 Import</button>
+        <input type="file" id="imp-pz-viv-l" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-viv-l')">
+        <button class="t-btn red" onclick="stergeTabel('pz-viv-l')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div style="height:0.5px;background:var(--border);margin:2rem 0"></div>
+  <div class="sect-label">Pre-create — Familie</div>
+  <h2 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:500;color:var(--dark);margin-bottom:1.5rem">Situații Generale</h2>
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">💰</span>
+        <span class="mem-sect-title">Venituri Lunare</span>
+        <span class="mem-sect-badge badge-f">Familie</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_ai','width=480,height=860,left=0,top=0')">💰 Generează Advix</button>
+        <button class="btn-tog" id="tog-ven" onclick="togMem('ven')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-ven">
+      <div class="tabel-wrap">
+        <table id="pz-ven">
+          <thead><tr><th>Sursă venit</th><th>Titular</th><th>Sumă (lei)</th><th>Frecvență</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: Salariu net..."></td><td><textarea placeholder="Tată/Mamă..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="0"></td><td><input placeholder="Lunar"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-ven',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-ven')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-ven')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-ven')">📤 Import</button>
+        <input type="file" id="imp-pz-ven" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-ven')">
+        <button class="t-btn red" onclick="stergeTabel('pz-ven')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">💸</span>
+        <span class="mem-sect-title">Cheltuieli Lunare</span>
+        <span class="mem-sect-badge badge-f">Familie</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_ai','width=480,height=860,left=0,top=0')">💰 Generează Advix</button>
+        <button class="btn-tog" id="tog-chelt" onclick="togMem('chelt')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-chelt">
+      <div class="tabel-wrap">
+        <table id="pz-chelt">
+          <thead><tr><th>Categorie</th><th>Descriere</th><th>Sumă (lei)</th><th>Frecvență</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: Rată bancară..."></td><td><textarea placeholder="Detalii..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="0"></td><td><input placeholder="Lunar"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-chelt',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-chelt')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-chelt')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-chelt')">📤 Import</button>
+        <input type="file" id="imp-pz-chelt" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-chelt')">
+        <button class="t-btn red" onclick="stergeTabel('pz-chelt')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">🏠</span>
+        <span class="mem-sect-title">Proprietăți</span>
+        <span class="mem-sect-badge badge-f">Familie</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_ai','width=480,height=860,left=0,top=0')">⚖️ Generează Adviz</button>
+        <button class="btn-tog" id="tog-prop" onclick="togMem('prop')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-prop">
+      <div class="tabel-wrap">
+        <table id="pz-prop">
+          <thead><tr><th>Proprietate</th><th>Detalii</th><th>Valoare estimată</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: Apartament..."></td><td><textarea placeholder="Detalii..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="0 EUR"></td><td><input placeholder="OK"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-prop',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-prop')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-prop')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-prop')">📤 Import</button>
+        <input type="file" id="imp-pz-prop" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-prop')">
+        <button class="t-btn red" onclick="stergeTabel('pz-prop')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">🏦</span>
+        <span class="mem-sect-title">Credite Active</span>
+        <span class="mem-sect-badge badge-m">Familie + Advix</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_ai','width=480,height=860,left=0,top=0')">⚖️ Generează Adviz</button>
+        <button class="btn-tog" id="tog-cred" onclick="togMem('cred')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-cred">
+      <div class="tabel-wrap">
+        <table id="pz-cred">
+          <thead><tr><th>Bancă</th><th>Tip credit</th><th>Rată lunară</th><th>Scadență</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: BRD..."></td><td><textarea placeholder="Ipotecar..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="0 lei"></td><td><input placeholder="Data..."></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-cred',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-cred')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-cred')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-cred')">📤 Import</button>
+        <input type="file" id="imp-pz-cred" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-cred')">
+        <button class="t-btn red" onclick="stergeTabel('pz-cred')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">📄</span>
+        <span class="mem-sect-title">Contracte Active</span>
+        <span class="mem-sect-badge badge-m">Familie + Adviz</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_ai','width=480,height=860,left=0,top=0')">⚖️ Generează Adviz</button>
+        <button class="btn-tog" id="tog-cont" onclick="togMem('cont')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-cont">
+      <div class="tabel-wrap">
+        <table id="pz-cont">
+          <thead><tr><th>Contract</th><th>Parte</th><th>Valoare</th><th>Scadență</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: Chirie ap...."></td><td><textarea placeholder="Detalii..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="0 lei"></td><td><input placeholder="Data..."></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-cont',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-cont')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-cont')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-cont')">📤 Import</button>
+        <input type="file" id="imp-pz-cont" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-cont')">
+        <button class="t-btn red" onclick="stergeTabel('pz-cont')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">⚖️</span>
+        <span class="mem-sect-title">Litigii Active</span>
+        <span class="mem-sect-badge badge-m">Familie + Adviz</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_ai','width=480,height=860,left=0,top=0')">⚖️ Generează Adviz</button>
+        <button class="btn-tog" id="tog-lit" onclick="togMem('lit')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-lit">
+      <div class="tabel-wrap">
+        <table id="pz-lit">
+          <thead><tr><th>Litigiu</th><th>Detalii</th><th>Status</th><th>Termen</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: Dosar 123..."></td><td><textarea placeholder="Detalii..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="În curs..."></td><td><input placeholder="Data..."></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-lit',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-lit')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-lit')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-lit')">📤 Import</button>
+        <input type="file" id="imp-pz-lit" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-lit')">
+        <button class="t-btn red" onclick="stergeTabel('pz-lit')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mem-sect">
+    <div class="mem-sect-head">
+      <div class="mem-sect-info">
+        <span class="mem-sect-icon">💎</span>
+        <span class="mem-sect-title">Economii & Rezerve</span>
+        <span class="mem-sect-badge badge-f">Familie</span>
+      </div>
+      <div class="mem-sect-btns">
+        <button class="t-btn gold" onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_ai','width=480,height=860,left=0,top=0')">💰 Generează Advix</button>
+        <button class="btn-tog" id="tog-eco" onclick="togMem('eco')">📂 Deschide</button>
+      </div>
+    </div>
+    <div class="mem-body" id="body-eco">
+      <div class="tabel-wrap">
+        <table id="pz-eco">
+          <thead><tr><th>Tip economie</th><th>Detalii</th><th>Sumă (lei)</th><th>Scop</th></tr></thead>
+          <tbody>
+            <tr><td><input placeholder="ex: Fond urgențe..."></td><td><textarea placeholder="Detalii..." style="min-height:36px;line-height:1.5"></textarea></td><td><input placeholder="0"></td><td><input placeholder="Urgențe..."></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tabel-actions">
+        <button class="t-btn" onclick="adaugaRand('pz-eco',4)">＋ Rând</button>
+        <button class="t-btn" onclick="copiazaTabel('pz-eco')">📋 Copiază</button>
+        <button class="t-btn gold" onclick="exportTabelJSON('pz-eco')">📥 Export</button>
+        <button class="t-btn gold" onclick="importTabel('pz-eco')">📤 Import</button>
+        <input type="file" id="imp-pz-eco" style="display:none" accept=".json" onchange="incarcaJSON(this,'pz-eco')">
+        <button class="t-btn red" onclick="stergeTabel('pz-eco')">🗑️ Șterge tot</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL INTRARE NOUA -->
+<div class="modal-overlay" id="modal-adauga">
+  <div class="modal-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+      <div class="modal-title">＋ Intrare nouă în memorie</div>
+      <button class="modal-close" onclick="inchideAdauga()">✕</button>
+    </div>
+    <div style="background:var(--cream);border:0.5px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:1rem;font-size:13px;line-height:1.7;font-weight:400">
+      <div style="font-weight:600;color:var(--green);margin-bottom:6px">📋 Cum completezi Memoria Familiei:</div>
+      <div><strong>Intrare nouă</strong> — completează formularul de mai jos și apasă Salvează. Intrarea apare în tabelul categoriei selectate.</div>
+      <div><strong>＋ Rând</strong> — adaugă un rând gol direct în tabel și completează manual.</div>
+      <div><strong>📥 Export JSON</strong> — descarcă un fișier de backup pe calculatorul tău. Salvează-l pe Desktop sau într-un folder sigur.</div>
+      <div><strong>📤 Import JSON</strong> — încarcă un fișier exportat anterior și repopulează tabelele automat.</div>
+      <div style="margin-top:6px;padding:8px 10px;background:var(--green-light);border-radius:6px;color:var(--green);font-weight:500">⚠️ Datele nu se salvează automat — fă Export JSON înainte să închizi pagina!</div>
+    </div>
+    <div style="margin-bottom:10px">
+      <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Categorie</label>
+      <select id="sel-categorie" style="width:100%;padding:9px 12px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream)">
+        <option value="pz-fin-l">💰 Analiză Financiară Lunară</option>
+        <option value="pz-jur-l">⚖️ Situație Juridică Lunară</option>
+        <option value="pz-ver-l">🔍 Raport Verificare Verix</option>
+        <option value="pz-viv-l">🎭 Simulare Scenariu Vivix</option>
+        <option value="pz-ven">💰 Venituri Lunare</option>
+        <option value="pz-chelt">💸 Cheltuieli Lunare</option>
+        <option value="pz-prop">🏠 Proprietăți</option>
+        <option value="pz-cred">🏦 Credite Active</option>
+        <option value="pz-cont">📄 Contracte Active</option>
+        <option value="pz-lit">⚖️ Litigii Active</option>
+        <option value="pz-eco">💎 Economii & Rezerve</option>
+      </select>
+    </div>
+    <div style="margin-bottom:10px">
+      <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Capitol / Subiect</label>
+      <input type="text" id="inp-capitol" placeholder="ex: Venituri lunare, Contract chirie..." style="width:100%;padding:9px 12px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream)">
+    </div>
+    <div style="margin-bottom:10px">
+      <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Detalii</label>
+      <textarea id="inp-detalii" placeholder="Detalii complete..." style="width:100%;padding:9px 12px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);resize:none;min-height:80px;line-height:1.6"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:10px">
+      <div style="flex:1">
+        <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Observații</label>
+        <input type="text" id="inp-obs" placeholder="Observații..." style="width:100%;padding:9px 12px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream)">
+      </div>
+      <div style="flex:1">
+        <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Prioritate</label>
+        <select id="inp-prio" style="width:100%;padding:9px 12px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream)">
+          <option>Mare</option><option>Medie</option><option>Mică</option>
+        </select>
+      </div>
+    </div>
+    <button onclick="salveazaIntrare()" style="width:100%;padding:11px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">💾 Salvează intrarea</button>
+  </div>
+</div>
+
+<!-- MODAL GENEREAZA -->
+<div class="modal-overlay" id="modal-gen">
+  <div class="modal-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+      <div class="modal-title">✨ Generează capitol de memorie</div>
+      <button class="modal-close" onclick="inchideModal()">✕</button>
+    </div>
+    <div class="instructiuni">
+      <div style="font-weight:600;color:var(--green);margin-bottom:6px">📋 Cum soliciți consilierului:</div>
+      <div><strong>Pasul 1</strong> — Deschide consilierul dorit cu butonul de mai jos</div>
+      <div><strong>Pasul 2</strong> — Trimite mesajul:<br><em style="color:var(--muted)">"Generează un capitol de memorie despre [subiect] în format tabel: Capitol | Detalii | Observații | Prioritate"</em></div>
+      <div><strong>Pasul 3</strong> — Copiază răspunsul și lipește în tabelul corespunzător</div>
+    </div>
+    <button class="consilier-btn" onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_ai','width=480,height=860,left=0,top=0')">💰 Advix — Contabilul tău</button>
+    <button class="consilier-btn" onclick="window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_ai','width=480,height=860,left=0,top=0')">⚖️ Adviz — Juristul tău</button>
+    <button class="consilier-btn" onclick="window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_ai','width=480,height=860,left=0,top=0')">🔍 Verix — Siguranța ta</button>
+    <button class="consilier-btn" onclick="window.open('https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f','mypal_ai','width=480,height=860,left=0,top=0')">🎭 Vivix — Viitorul tău</button>
+    <div class="modal-note">💡 După ce primești răspunsul — copiază și lipește în tabelul corespunzător de mai sus.</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="footer">
+  <div class="footer-inner">
+            <div class="footer-btns">
+      <a href="myPAL_Legal.html" class="footer-link-nav">⚖️ Legal</a>
+      <a href="myPAL_Profil.html" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
+      <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
+      <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
+      <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
+    </div>
+    <div style="border-top:0.5px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="font-size:13px;font-weight:600;color:var(--dark)">my-PAL.ai · © 2026</div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
+    </div>
+    <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:400">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
+
+
+// MODAL INTRARE NOUA
+function deschideAdauga(){
+  document.getElementById('modal-adauga').classList.add('activ');
+  document.body.style.overflow='hidden';
+}
+function inchideAdauga(){
+  document.getElementById('modal-adauga').classList.remove('activ');
+  document.body.style.overflow='';
+}
+document.getElementById('modal-adauga').addEventListener('click',function(e){if(e.target===this)inchideAdauga();});
+
+function salveazaIntrare(){
+  var tid=document.getElementById('sel-categorie').value;
+  var capitol=document.getElementById('inp-capitol').value.trim();
+  var detalii=document.getElementById('inp-detalii').value.trim();
+  var obs=document.getElementById('inp-obs').value.trim();
+  var prio=document.getElementById('inp-prio').value;
+  if(!capitol){toast('⚠️ Completează capitolul!');return;}
+  
+  // Deschide sectiunea daca e inchisa
+  var body=document.getElementById('body-'+tid.replace('mem-',''));
+  var btn=document.getElementById('tog-'+tid.replace('mem-',''));
+  if(body&&!body.classList.contains('open')){
+    body.classList.add('open');
+    if(btn){btn.classList.add('open');btn.textContent='📁 Închide';}
+  }
+  
+  var tbody=document.querySelector('#'+tid+' tbody');
+  // Sterge randul gol initial
+  var golite=tbody.querySelectorAll('td[colspan]');
+  if(golite.length)golite[0].closest('tr').remove();
+  
+  var tr=document.createElement('tr');
+  var vals=[capitol,detalii,obs,prio];
+  vals.forEach(function(v,i){
+    var td=document.createElement('td');
+    var el=i===1?document.createElement('textarea'):document.createElement('input');
+    el.value=v;
+    if(i===1){el.style.minHeight='36px';el.style.lineHeight='1.5';}
+    td.appendChild(el);
+    tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+  
+  // Reset
+  ['inp-capitol','inp-detalii','inp-obs'].forEach(function(id){document.getElementById(id).value='';});
+  inchideAdauga();
+  toast('✅ Intrare salvată în '+tid+'!');
+}
+
+// EXPORT/IMPORT JSON PER TABEL
+function exportTabelJSON(tid){
+  var rows=[];
+  var headers=Array.from(document.querySelectorAll('#'+tid+' thead th')).map(function(th){return th.textContent;});
+  document.querySelectorAll('#'+tid+' tbody tr').forEach(function(tr){
+    var row={};
+    tr.querySelectorAll('td').forEach(function(td,i){
+      var inp=td.querySelector('input,textarea');
+      row[headers[i]||i]=inp?inp.value:'';
+    });
+    rows.push(row);
+  });
+  var data={tabel:tid,data:new Date().toISOString(),randuri:rows};
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='myPAL_'+tid+'_'+new Date().toISOString().split('T')[0]+'.json';
+  a.click();
+  toast('📥 Export JSON realizat!');
+}
+
+function importTabel(tid){document.getElementById('imp-'+tid).click();}
+
+function incarcaJSON(input,tid){
+  var file=input.files[0];
+  if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      var data=JSON.parse(e.target.result);
+      var tbody=document.querySelector('#'+tid+' tbody');
+      var headers=Array.from(document.querySelectorAll('#'+tid+' thead th')).map(function(th){return th.textContent;});
+      tbody.innerHTML='';
+      (data.randuri||[]).forEach(function(row){
+        var tr=document.createElement('tr');
+        headers.forEach(function(h,i){
+          var td=document.createElement('td');
+          var el=i===1?document.createElement('textarea'):document.createElement('input');
+          el.value=row[h]||'';
+          if(i===1){el.style.minHeight='36px';el.style.lineHeight='1.5';}
+          td.appendChild(el);
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      toast('📤 Import JSON realizat!');
+    }catch(err){toast('⚠️ Fișier JSON invalid!');}
+  };
+  reader.readAsText(file);
+}
+
+// EXPORT JSON COMPLET
+function exportAllJSON(){
+  var allData={};
+  ['pz-fin-l','pz-jur-l','pz-ver-l','pz-viv-l','pz-ven','pz-chelt','pz-prop','pz-cred','pz-cont','pz-lit','pz-eco'].forEach(function(tid){
+    var rows=[];
+    var headers=Array.from(document.querySelectorAll('#'+tid+' thead th')).map(function(th){return th.textContent;});
+    document.querySelectorAll('#'+tid+' tbody tr').forEach(function(tr){
+      var row={};
+      tr.querySelectorAll('td').forEach(function(td,i){
+        var inp=td.querySelector('input,textarea');
+        row[headers[i]||i]=inp?inp.value:'';
+      });
+      rows.push(row);
+    });
+    allData[tid]=rows;
+  });
+  var blob=new Blob([JSON.stringify(allData,null,2)],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='myPAL_SpatiuLucru_'+new Date().toISOString().split('T')[0]+'.json';
+  a.click();
+  toast('📥 Export complet JSON realizat!');
+}
+
+function importJSON(input){
+  var file=input.files[0];
+  if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      var allData=JSON.parse(e.target.result);
+      Object.keys(allData).forEach(function(tid){
+        var tbody=document.querySelector('#'+tid+' tbody');
+        if(!tbody)return;
+        var headers=Array.from(document.querySelectorAll('#'+tid+' thead th')).map(function(th){return th.textContent;});
+        tbody.innerHTML='';
+        allData[tid].forEach(function(row){
+          var tr=document.createElement('tr');
+          headers.forEach(function(h,i){
+            var td=document.createElement('td');
+            var el=i===1?document.createElement('textarea'):document.createElement('input');
+            el.value=row[h]||'';
+            if(i===1){el.style.minHeight='36px';el.style.lineHeight='1.5';}
+            td.appendChild(el);
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      });
+      toast('📤 Import complet realizat!');
+    }catch(err){toast('⚠️ Fișier JSON invalid!');}
+  };
+  reader.readAsText(file);
+}
+
+// CEAS
+function updateCeas(){
+  var d=new Date();
+  var el=document.getElementById('h-ceas');
+  var el2=document.getElementById('h-data');
+  if(el) el.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+  var zile=['Duminică','Luni','Marți','Miercuri','Joi','Vineri','Sâmbătă'];
+  var luni=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+  if(el2) el2.textContent=zile[d.getDay()]+', '+d.getDate()+' '+luni[d.getMonth()]+' '+d.getFullYear();
+}
+updateCeas();
+setInterval(updateCeas,1000);
+
+// TOGGLE SECTIUNI
+function togMem(sid){
+  var body=document.getElementById('body-'+sid);
+  var btn=document.getElementById('tog-'+sid);
+  if(!body||!btn)return;
+  if(body.classList.contains('open')){
+    body.classList.remove('open');
+    btn.classList.remove('open');
+    btn.textContent='📂 Deschide';
+  } else {
+    body.classList.add('open');
+    btn.classList.add('open');
+    btn.textContent='📁 Închide';
+  }
+}
+
+// MODAL GENEREAZA
+function deschideGenModal(){
+  document.getElementById('modal-gen').classList.add('activ');
+  document.body.style.overflow='hidden';
+}
+function inchideModal(){
+  document.getElementById('modal-gen').classList.remove('activ');
+  document.body.style.overflow='';
+}
+document.getElementById('modal-gen').addEventListener('click',function(e){
+  if(e.target===this)inchideModal();
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')inchideModal();});
+
+// DESCHIDE AI FORMAT SAFIX
+function deschideAI(chatId){
+  var url='https://claude.ai/chat/'+chatId;
+  var w=window.open(url,'mypal_ai','width=480,height=860,left=0,top=0');
+  if(!w||w.closed||typeof w.closed=='undefined') window.open(url,'_blank');
+  try{inchideAdauga();}catch(e){}
+  try{inchideGen();}catch(e){}
+}
+
+// TABEL FUNCTII
+function adaugaRand(tid,cols){
+  var tbody=document.querySelector('#'+tid+' tbody');
+  var tr=document.createElement('tr');
+  for(var i=0;i<cols;i++){
+    var td=document.createElement('td');
+    var el=i===1?document.createElement('textarea'):document.createElement('input');
+    el.placeholder='...';
+    if(i===1){el.style.minHeight='36px';el.style.lineHeight='1.5';}
+    td.appendChild(el);
+    tr.appendChild(td);
+  }
+  tbody.appendChild(tr);
+}
+
+function copiazaTabel(tid){
+  var rows=[];
+  document.querySelectorAll('#'+tid+' thead tr').forEach(function(tr){
+    rows.push(Array.from(tr.cells).map(function(c){return c.textContent.trim();}).join(' | '));
+  });
+  document.querySelectorAll('#'+tid+' tbody tr').forEach(function(tr){
+    var cols=Array.from(tr.cells).map(function(td){
+      var inp=td.querySelector('input,textarea');
+      return inp?inp.value.trim():td.textContent.trim();
+    });
+    if(cols.some(function(c){return c;}))rows.push(cols.join(' | '));
+  });
+  var tmp=document.createElement('textarea');
+  tmp.value=rows.join('\n');tmp.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(tmp);tmp.focus();tmp.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(tmp);
+  toast('📋 Tabel copiat!');
+}
+
+function stergeTabel(tid){
+  if(!confirm('Ștergi toate datele?'))return;
+  var tbody=document.querySelector('#'+tid+' tbody');
+  tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--muted);font-style:italic;padding:1rem;font-weight:400">Tabel gol — adaugă un rând</td></tr>';
+  toast('🗑️ Tabel șters!');
+}
+
+function exportAll(){
+  var text='MEMORIA FAMILIEI — my-PAL\n'+'='.repeat(50)+'\n';
+  var tabele=['pz-fin-l','pz-jur-l','pz-ver-l','pz-viv-l','pz-ven','pz-chelt','pz-prop','pz-cred','pz-cont','pz-lit','pz-eco'];
+  tabele.forEach(function(tid){
+    var tabel=document.getElementById(tid);
+    if(!tabel)return;
+    text+='\n'+tid.toUpperCase()+'\n'+'-'.repeat(30)+'\n';
+    tabel.querySelectorAll('tbody tr').forEach(function(tr){
+      var cols=Array.from(tr.cells).map(function(td){
+        var inp=td.querySelector('input,textarea');
+        return inp?inp.value.trim():td.textContent.trim();
+      });
+      if(cols.some(function(c){return c;}))text+=cols.join(' | ')+'\n';
+    });
+  });
+  text+='\n'+'='.repeat(50)+'\nExportat: '+new Date().toLocaleString('ro-RO');
+  var blob=new Blob([text],{type:'text/plain'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='myPAL_SpatiuLucru_'+new Date().toISOString().split('T')[0]+'.txt';
+  a.click();
+  toast('📤 Export realizat!');
+}
+
+</script>
+</body>
+</html>

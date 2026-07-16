@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prezentare — my-PAL.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;--gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;--white:#FFFFFF;--red:#A32D2D;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;font-weight:500;font-size:16px;background:var(--cream);color:var(--text);min-height:100vh}
+nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:0.5px solid var(--border);flex-wrap:wrap;gap:8px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--dark)}
+.nav-logo span{color:var(--green)}
+.nav-btn{padding:6px 12px;font-size:14px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif}
+.nav-btn:hover{color:var(--dark);background:var(--cream)}
+.main{max-width:760px;margin:0 auto;padding:2rem}
+.hero{text-align:center;padding:2rem 0 2.5rem}
+.hero-label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:0.75rem}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,36px);font-weight:500;color:var(--dark);margin-bottom:1rem;line-height:1.3}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.8;font-weight:400;font-style:italic}
+
+.capitol{background:var(--white);border:0.5px solid var(--border);border-radius:14px;padding:1.75rem;margin-bottom:1.25rem}
+.capitol-nr{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--green);color:#fff;border-radius:50%;font-size:14px;font-weight:600;margin-right:10px;flex-shrink:0}
+.capitol-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);display:flex;align-items:center;margin-bottom:1rem}
+.capitol-text{font-size:15px;color:var(--text);line-height:1.8;font-weight:400;margin-bottom:0.75rem}
+.capitol-text:last-child{margin-bottom:0}
+.pas{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+.pas-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:8px}
+.pas-text{font-size:15px;color:var(--text);line-height:1.7;font-weight:400}
+.pas-text strong{color:var(--green);font-weight:600}
+.hint{background:var(--green-light);border-radius:8px;padding:10px 14px;font-size:14px;color:var(--green);line-height:1.6;margin-top:0.75rem;font-weight:400}
+.hint strong{font-weight:600}
+.gold-box{background:#FEF9EC;border:0.5px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:14px;color:var(--text);line-height:1.6;margin-top:0.75rem;font-weight:400}
+.divider{height:0.5px;background:var(--border);margin:2rem 0}
+footer{padding:1.5rem 2rem;text-align:center;border-top:0.5px solid var(--border);margin-top:2rem}
+.footer{background:var(--white);border-top:0.5px solid var(--border);padding:2.5rem 2rem}
+.footer-inner{max-width:720px;margin:0 auto}
+.footer-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:0.5rem}
+.footer-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;font-weight:400}
+.footer-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.footer-btn{padding:9px 16px;background:var(--cream);border:0.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);cursor:pointer;text-decoration:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.footer-btn:hover{border-color:var(--green);color:var(--green)}
+.footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.footer-link-nav:hover{color:var(--dark);background:var(--cream)}
+.footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
+.footer-link{font-size:12px;color:var(--muted);text-decoration:none;font-weight:400}
+.footer-link:hover{color:var(--green)}
+.footer-copy{font-size:11px;color:var(--muted);margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-weight:400}
+</style>
+</head>
+<body>
+
+<nav>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Acasa.html'">🏠 Acasă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Echipa.html'">👥 Echipă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_BaniiTai.html'">💰 Banii tăi</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Verifica.html'">🔍 Verifică</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_MemorieAI.html'">📚 Memorie</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
+</nav>
+
+<div class="main">
+
+  <div class="hero">
+    <div class="hero-label">Ghid de utilizare</div>
+    <h1 class="hero-title">Cum funcționează my-PAL</h1>
+    <p class="hero-sub">Tot ce trebuie să știi pentru a folosi my-PAL la capacitate maximă — simplu și concret.</p>
+  </div>
+
+  <!-- 1. PRIMA DATA -->
+  <div class="capitol">
+    <div class="capitol-title"><span class="capitol-nr">1</span>Prima dată în my-PAL</div>
+    <p class="capitol-text">Când intri prima dată, parcurgi 3 pași simpli:</p>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Verificare identitate</strong> — introduci numele, emailul și codul de confirmare primit.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Setarea parolei familiei</strong> — înlocuiești cheia de fabrică cu o parolă proprie, cunoscută doar de familie.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Intri în casă</strong> — de acum, te loghezi direct cu emailul și parola familiei.</div></div>
+    <div class="hint">💡 <strong>Consiliul Familiei</strong> — setează membrii și codurile personale din butonul 👨‍👩‍👧‍👦 din nav. Fiecare adult are propriul cod de acces.</div>
+  </div>
+
+  <!-- 2. CUM VORBESTI CU CONSILIERII -->
+  <div class="capitol">
+    <div class="capitol-title"><span class="capitol-nr">2</span>Cum vorbești cu consilierii tăi</div>
+    <p class="capitol-text">Fiecare consilier se deschide într-o fereastră dedicată. Apasă butonul consilierului dorit din pagina <strong>Echipa mea</strong> sau din orice pagină cu buton de consilier.</p>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Spune direct ce ai nevoie</strong> — nu e nevoie de formule. „Am o rată de 1.500 lei pe lună, vreau să știu dacă mă încadrez" e suficient.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Oferă context</strong> — cu cât dai mai multe detalii, cu atât răspunsul e mai precis și mai util.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Nu știi la cine să mergi?</strong> — începe cu Verix. El te îndrumă către consilierul potrivit.</div></div>
+    <div class="gold-box">🎭 <strong>Vivix</strong> e consilierul tău pentru orice situație care nu intră direct în financiar sau juridic — proiecții, decizii de viață, oportunități, simulări de scenarii.</div>
+  </div>
+
+  <!-- 3. BANII FAMILIEI -->
+  <div class="capitol">
+    <div class="capitol-title"><span class="capitol-nr">3</span>Banii familiei — cum lucrezi cu Advix</div>
+    <p class="capitol-text">Pagina <strong>Banii familiei</strong> e interfața ta de lucru zilnic cu Advix pentru documente financiare.</p>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Alege categoria</strong> — Venituri, Cheltuieli, Bonuri, Transferuri sau Altele.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Descrie documentul</strong> — scrie ce trimiti: „Bon supermarket 87 lei, ieri" sau „Factură curent 230 lei".</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Atașează dacă ai</strong> — foto bon, PDF factură. Le descarci și le trimiți manual în chat-ul Advix.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Apasă Trimite la Advix</strong> — datele se copiază automat. Deschide Advix și lipește cu Ctrl+V.</div></div>
+    <div class="hint">💡 Disponibilul declarat de Advix îl introduci manual în header-ul paginii după ce primești răspunsul.</div>
+  </div>
+
+  <!-- 4. MEMORIA SI SPATIUL DE LUCRU -->
+  <div class="capitol">
+    <div class="capitol-title"><span class="capitol-nr">4</span>Memoria și Spațiul de Lucru</div>
+    <p class="capitol-text"><strong>Memoria Familiei</strong> e baza de date vie — completată de familie și de consilieri împreună.</p>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Deschide tabelul</strong> dorit cu butonul 📂 și completează direct în câmpuri.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Generează cu AI</strong> — cere consilierului un capitol de memorie, copiază răspunsul și lipește în tabel.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Export JSON</strong> înainte să închizi pagina — datele nu se salvează automat în browser.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Spațiul de Lucru</strong> funcționează identic — în plus are Situații Lunare și Generale la vedere, completate de consilieri.</div></div>
+  </div>
+
+  <!-- 5. SESIUNI CU ECHIPA -->
+  <div class="capitol">
+    <div class="capitol-title"><span class="capitol-nr">5</span>Sesiuni cu echipa — când și cum</div>
+    <p class="capitol-text">Pagina <strong>Sesiuni</strong> deschide simultan 2, 3 sau 4 consilieri — fiecare în fereastra lui.</p>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Pregătește întrebarea</strong> înainte să apeși butonul.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Apasă GO</strong> — ferestrele se deschid automat, una după alta.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Lipește întrebarea</strong> în fiecare fereastră cu Ctrl+V.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Postează transversal</strong> — răspunsul unui consilier îl trimiți celorlalți pentru reacție și completare.</div></div>
+    <div class="gold-box">💡 <strong>Conferința Familie</strong> — toți 4 consilieri simultan — e pentru situații complexe care au atât componentă financiară cât și juridică.</div>
+  </div>
+
+  <!-- 6. AGENDA -->
+  <div class="capitol">
+    <div class="capitol-title"><span class="capitol-nr">6</span>Agenda — remindere și evenimente</div>
+    <p class="capitol-text">Din pagina principală, butonul <strong>🔔 Adaugă în Agendă</strong> îți permite să setezi remindere pentru evenimentele importante.</p>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Scrie natural</strong> ce trebuie amintit — „Plată chirie joi" sau „Duminică la 10 mergem la piață".</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Adaugă data și ora</strong> dacă vrei o notificare precisă.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Apasă Reamintește-mi</strong> — textul se copiază automat pentru SEARCHIX.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Deschide SEARCHIX</strong> cu butonul 📋 și lipește — el patrulează și te notifică la momentul potrivit.</div></div>
+    <div class="gold-box">⚠️ SEARCHIX este un serviciu extern, dedicat exclusiv remindere-lor și agendei. Nu trimite niciodată date confidențiale (financiare, juridice, documente de familie) prin acest canal — doar textul reminderului în sine.</div>
+  </div>
+
+  <!-- 7. ACTUALIZARE -->
+  <div class="capitol">
+    <div class="capitol-title"><span class="capitol-nr">7</span>Actualizarea — când și ce se întâmplă</div>
+    <p class="capitol-text">Când un consilier și-a atins capacitatea maximă de conversație, primești o notificare în chat. Tu ai 4 pași simpli de urmat, în ordine:</p>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Salvează firul vechi</strong> — numerotat, în Fișierele myPAL. Nu se șterge niciodată.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Trimite-l noului consilier</strong> — el citește istoricul și recuperează contextul real al discuțiilor voastre.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Așteaptă confirmarea</strong> — noul consilier îți confirmă că a înțeles contextul.</div></div>
+    <div class="pas"><div class="pas-dot"></div><div class="pas-text"><strong>Arhivează abia după confirmare</strong> — niciodată înainte.</div></div>
+    <div class="hint">💡 Noul consilier are o memorie <strong>contextuală</strong> — citită din istoric, nu trăită. Ca un om nou într-o echipă: are notițele bune, dar are nevoie de puțin timp să se acomodeze. Pentru detalii complete — citește <a href="myPAL_Actualizare.html" style="color:var(--green);font-weight:600">Ghidul Actualizare →</a></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-inner">
+        <div class="footer-btns">
+      <a href="myPAL_Legal.html" class="footer-link-nav">⚖️ Legal</a>
+      <a href="myPAL_Profil.html" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
+      <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
+      <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
+      <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
+    </div>
+    <div style="border-top:0.5px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="font-size:13px;font-weight:600;color:var(--dark)">my-PAL.ai · © 2026</div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
+    </div>
+    <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:400">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

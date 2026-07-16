@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal — my-PAL.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;--gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;--white:#FFFFFF;--red:#A32D2D;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;font-weight:500;font-size:16px;background:var(--cream);color:var(--text);min-height:100vh}
+
+nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--dark)}
+.nav-logo span{color:var(--green)}
+.nav-btn{padding:6px 12px;font-size:14px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.nav-btn:hover{color:var(--dark);background:var(--cream)}
+.nav-btn.special{color:var(--gold);border:0.5px solid var(--gold)}
+
+.main{max-width:760px;margin:0 auto;padding:2.5rem 2rem 3rem}
+.hero-label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:600;margin-bottom:0.75rem}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,34px);font-weight:600;color:var(--dark);margin-bottom:0.5rem}
+.hero-sub{font-size:14px;color:var(--muted);margin-bottom:2rem;font-weight:400}
+
+/* TABS / NAVIGARE INTERNA */
+.legal-tabs{display:flex;gap:8px;margin-bottom:2rem;background:var(--white);border:0.5px solid var(--border);border-radius:12px;padding:6px}
+.legal-tab{flex:1;text-align:center;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;cursor:pointer;transition:all 0.2s}
+.legal-tab:hover{background:var(--cream);color:var(--dark)}
+.legal-tab.activ-termeni{background:var(--green-light);color:var(--green)}
+.legal-tab.activ-confid{background:var(--green-light);color:var(--green)}
+
+.placeholder-note{background:#FEF9EC;border:0.5px solid var(--gold);border-radius:10px;padding:1rem 1.25rem;margin-bottom:2rem;font-size:13px;color:var(--text);line-height:1.7}
+
+.bizzix-flag{background:#FCEBEB;border:0.5px solid var(--red);border-radius:8px;padding:10px 14px;margin-top:0.6rem;font-size:13px;color:var(--red);line-height:1.6;font-weight:500}
+.bizzix-flag strong{font-weight:700}
+
+/* SECTIUNE MARE - TERMENI */
+.doc-block{margin-bottom:3rem}
+.doc-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:var(--dark);margin-bottom:1.5rem;padding-bottom:0.75rem;border-bottom:2px solid var(--gold);display:flex;align-items:center;gap:10px;scroll-margin-top:80px}
+
+.sect{margin-bottom:1.75rem}
+.sect-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--dark);margin-bottom:0.6rem}
+.sect-text{font-size:14px;color:var(--text);line-height:1.8;font-weight:400}
+.sect-text a{color:var(--green);text-decoration:none;font-weight:600}
+
+/* SECTIUNE MARE - CONFIDENTIALITATE (stil card, ca in original) */
+.hero-confid{text-align:center;padding:1rem 0 2rem}
+.hero-confid-title{font-family:'Playfair Display',serif;font-size:clamp(22px,3.5vw,28px);font-weight:500;color:var(--dark);margin-bottom:1rem;line-height:1.3}
+.hero-confid-sub{font-size:15px;color:var(--muted);line-height:1.8;font-weight:400;font-style:italic}
+.card{background:var(--white);border:0.5px solid var(--border);border-radius:14px;padding:1.75rem;margin-bottom:1.5rem}
+.card-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:500;color:var(--dark);margin-bottom:1rem}
+.card-text{font-size:15px;color:var(--text);line-height:1.8;font-weight:400;margin-bottom:1rem}
+.card-text:last-child{margin-bottom:0}
+.principii{display:flex;flex-direction:column;gap:12px;margin-top:0.5rem}
+.principiu{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--cream);border-radius:8px}
+.principiu-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.principiu-text{font-size:15px;color:var(--text);line-height:1.7;font-weight:400}
+.principiu-text strong{color:var(--green);font-weight:600}
+.concluzie{background:var(--green);color:#fff;border-radius:14px;padding:1.75rem;text-align:center;margin-bottom:1.5rem}
+.concluzie-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:500;margin-bottom:0.75rem}
+.concluzie-text{font-size:15px;opacity:0.9;line-height:1.7;font-weight:400}
+
+.footer{background:var(--white);border-top:0.5px solid var(--border);padding:2.5rem 2rem}
+.footer-inner{max-width:720px;margin:0 auto}
+.footer-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.footer-link-nav:hover{color:var(--dark);background:var(--cream)}
+.footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
+</style>
+</head>
+<body>
+
+<nav>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Acasa.html'">🏠 Acasă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Echipa.html'">👥 Echipă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_BaniiTai.html'">💰 Banii tăi</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Verifica.html'">🔍 Verifică</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_MemorieAI.html'">📚 Memorie</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
+</nav>
+
+<div class="main">
+
+  <div class="hero-label">my-PAL.ai · Documente legale</div>
+  <h1 class="hero-title">Legal</h1>
+  <p class="hero-sub">Termeni și Condiții, plus Politica de Confidențialitate — totul într-un singur loc.</p>
+
+  <!-- NAVIGARE RAPIDA INTRE CELE 2 DOCUMENTE -->
+  <div class="legal-tabs">
+    <a href="#termeni" class="legal-tab">📜 Termeni și Condiții</a>
+    <a href="#confidentialitate" class="legal-tab">🔒 Confidențialitate</a>
+  </div>
+
+  <div class="placeholder-note">
+    📝 <strong>Termenii sunt conținut provizoriu.</strong> Acest text este un cadru orientativ, de structură — va fi înlocuit cu varianta juridică finală înainte de lansarea publică. Modelul de plată, limitarea răspunderii și jurisdicția au fost confirmate de Bizzix. Secțiunea marcată cu <span style="color:var(--red);font-weight:600">⚠️</span> rămâne în așteptarea deciziei finale a Adminului privind forma juridică a societății furnizoare.
+  </div>
+
+  <!-- ===================== BLOC 1: TERMENI ===================== -->
+  <div class="doc-block">
+    <div class="doc-title" id="termeni">📜 Termeni și Condiții</div>
+    <p class="sect-text" style="margin-bottom:1.5rem;color:var(--muted);font-size:13px">Ultima actualizare: 22 iunie 2026</p>
+
+    <div class="sect">
+      <div class="sect-title">1. Identificarea Furnizorului</div>
+      <div class="sect-text">Platforma my-PAL.ai este operată de [<em>denumire entitate juridică</em>], cu sediul în [<em>adresă</em>], înregistrată la Registrul Comerțului sub nr. [<em>CUI/CIF</em>] (denumită în continuare „my-PAL" sau „Furnizorul").</div>
+      <div class="bizzix-flag">⚠️ <strong>Bizzix:</strong> entitate juridică furnizoare (PFA / SRL) — de completat înainte de lansare.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">2. Acceptarea Termenilor</div>
+      <div class="sect-text">Prin accesarea și utilizarea platformei my-PAL.ai, familia confirmă că a citit, înțeles și acceptat acești Termeni și Condiții, precum și <a href="#confidentialitate">Politica de Confidențialitate</a> aferentă. Dacă familia nu este de acord cu acești Termeni, nu trebuie să utilizeze serviciul.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">3. Natura Serviciului</div>
+      <div class="sect-text">my-PAL.ai oferă consiliere informativă prin intermediul unor asistenți digitali dedicați (Advix, Adviz, Verix, Vivix), construiți pe platforma Claude AI dezvoltată de Anthropic. Serviciul nu constituie consultanță financiară, juridică, fiscală, medicală sau de altă natură furnizată de un profesionist autorizat. Deciziile finale aparțin întotdeauna familiei.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">4. Eligibilitate și Contul Familiei</div>
+      <div class="sect-text">Serviciul este destinat persoanelor majore, capabile să încheie acte juridice. Fiecare familie primește un cod unic de identificare și o parolă de acces. Familia este responsabilă pentru păstrarea în siguranță a acestor date și pentru activitatea derulată sub contul propriu, inclusiv pentru acțiunile membrilor cărora le-a oferit acces.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">5. Abonamente și Plată</div>
+      <div class="sect-text">my-PAL.ai oferă un plan gratuit (Start, 30 de zile) și planuri cu plată recurentă lunară: Standard (59 lei/lună, sau 49 lei/lună la facturare anuală) și Premium (99 lei/lună, sau 89 lei/lună la facturare anuală). Plata se efectuează recurent, conform planului ales la activarea contului. Prețurile pot fi modificate, cu notificare prealabilă a familiilor abonate, cu minimum 30 de zile înainte de aplicare.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">6. Limitarea Răspunderii</div>
+      <div class="sect-text">my-PAL.ai nu își asumă răspunderea pentru deciziile luate de familie pe baza informațiilor oferite de consilieri. Informațiile au caracter orientativ și nu înlocuiesc avizul unui specialist autorizat, atunci când situația o impune. Serviciul este oferit „ca atare", fără garanții privind disponibilitatea neîntreruptă sau absența completă a erorilor — Claude este un sistem de inteligență artificială și poate genera răspunsuri inexacte.</div>
+      <div class="sect-text">my-PAL.ai recomandă explicit consultarea unui specialist autorizat (avocat, contabil, notar) pentru decizii cu impact patrimonial semnificativ. Informațiile oferite de consilieri au caracter orientativ și general, fără a ține cont de toate particularitățile juridice sau fiscale ale unei situații individuale.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">7. Proprietate Intelectuală</div>
+      <div class="sect-text">Conținutul, structura și arhitectura platformei my-PAL.ai sunt proprietatea my-PAL.ai. Familia păstrează dreptul asupra propriilor date introduse în platformă și nu cedează Furnizorului niciun drept asupra acestora, cu excepția celor necesare pentru funcționarea serviciului.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">8. Confidențialitate și Date Personale</div>
+      <div class="sect-text">Prelucrarea datelor familiei se realizează conform <a href="#confidentialitate">Politicii de Confidențialitate</a> de mai jos, parte integrantă din acești Termeni. my-PAL respectă principiile de confidențialitate absolută descrise în Codul de Conduită al platformei.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">9. Încetarea Contului</div>
+      <div class="sect-text">Familia poate solicita oricând încetarea utilizării serviciului, fără penalizări. my-PAL își rezervă dreptul de a suspenda sau închide un cont în caz de utilizare abuzivă, frauduloasă sau contrară acestor Termeni. Datele asociate contului vor fi gestionate conform <a href="#confidentialitate">Politicii de Confidențialitate</a>.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">10. Modificarea Termenilor</div>
+      <div class="sect-text">my-PAL.ai își rezervă dreptul de a actualiza acești Termeni. Familiile vor fi notificate în cazul unor modificări semnificative, cu un termen rezonabil înainte de intrarea în vigoare. Continuarea utilizării serviciului după notificare reprezintă acceptarea noilor Termeni.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">11. Legea Aplicabilă și Litigii</div>
+      <div class="sect-text">Acești Termeni sunt guvernați de legislația din România. Orice litigiu se va soluționa pe cale amiabilă; în caz de eșec, prin instanțele competente din România, la sediul Furnizorului.</div>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">12. Contact</div>
+      <div class="sect-text">Pentru întrebări legate de acești Termeni, ne puteți scrie la <a href="mailto:office@my-pal.ai">office@my-pal.ai</a>.</div>
+    </div>
+  </div>
+
+  <!-- ===================== BLOC 2: CONFIDENTIALITATE ===================== -->
+  <div class="doc-block">
+    <div class="doc-title" id="confidentialitate">🔒 Confidențialitate</div>
+
+    <div class="hero-confid">
+      <h2 class="hero-confid-title">Confidențialitatea datelor tale — garantată prin arhitectură</h2>
+      <p class="hero-confid-sub">my-PAL este construit pe un principiu simplu: datele familiei tale sunt ale familiei tale, și numai ale ei.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Aplicația ta my-PAL — unică și dedicată</div>
+      <p class="card-text">Aplicația ta my-PAL este unică — identificată printr-o serie proprie, alocată exclusiv familiei tale. Consilierii tăi sunt roluri specializate, create și antrenate exclusiv pentru produsul tău my-PAL, pe platforma Claude AI dezvoltată de Anthropic.</p>
+      <p class="card-text">Nu există doi utilizatori cu aceeași configurație. Familia ta are proprii consilieri, propria memorie și propriul spațiu de lucru — separate și protejate.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Ce garantează my-PAL</div>
+      <div class="principii">
+        <div class="principiu">
+          <div class="principiu-icon">🔐</div>
+          <div class="principiu-text"><strong>Memoria familiei</strong> este stocată în spațiul tău dedicat, protejat prin parola familiei — pe care o cunoașteți doar voi.</div>
+        </div>
+        <div class="principiu">
+          <div class="principiu-icon">👤</div>
+          <div class="principiu-text"><strong>Fiecare membru adult</strong> al familiei are propriul cod personal de acces, cu identitate protejată, pentru conversații private cu consilierii.</div>
+        </div>
+        <div class="principiu">
+          <div class="principiu-icon">🔒</div>
+          <div class="principiu-text"><strong>Accesul la conversațiile</strong> anterioare ale unui alt membru ține de înțelegerea internă a familiei — my-PAL nu intervine în deciziile interne.</div>
+        </div>
+        <div class="principiu">
+          <div class="principiu-icon">🛡️</div>
+          <div class="principiu-text"><strong>Niciun administrator</strong> nu are acces la aplicația ta după activare — contul tău este unic, parolat și autonom.</div>
+        </div>
+        <div class="principiu">
+          <div class="principiu-icon">🏗️</div>
+          <div class="principiu-text"><strong>Accesul dinspre și înspre platforma Claude</strong> este protejat prin arhitectura de izolare a produsului my-PAL.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concluzie">
+      <div class="concluzie-title">🏠 Nimeni din afara familiei tale nu intră în casa ta my-PAL.</div>
+      <p class="concluzie-text">Confidențialitatea nu este o opțiune — este arhitectura fundamentală pe care my-PAL este construit.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-inner">
+        <div class="footer-btns">
+      <a href="myPAL_Legal.html" class="footer-link-nav">⚖️ Legal</a>
+      <a href="myPAL_Profil.html" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
+      <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
+      <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
+      <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
+    </div>
+    <div style="border-top:0.5px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="font-size:13px;font-weight:600;color:var(--dark)">my-PAL.ai · © 2026</div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
+    </div>
+    <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:400">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

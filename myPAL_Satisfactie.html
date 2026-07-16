@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Satisfacție — my-PAL.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;--gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;--white:#FFFFFF;--red:#A32D2D;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;font-weight:500;font-size:16px;background:var(--cream);color:var(--text);min-height:100vh}
+nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--dark)}
+.nav-logo span{color:var(--green)}
+.nav-btn{padding:6px 12px;font-size:14px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif}
+.nav-btn:hover{color:var(--dark);background:var(--cream)}
+
+/* HEADER CEAS */
+.header{background:var(--green);color:#fff;padding:1rem 2rem}
+.header-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.h-ceas{font-family:'Playfair Display',serif;font-size:24px;font-weight:400;letter-spacing:-1px}
+.h-data{font-size:11px;opacity:0.8;margin-top:2px;font-weight:400}
+.h-zile{font-size:13px;opacity:0.95;font-weight:500;text-align:right}
+.h-zile span{font-family:'Playfair Display',serif;font-size:18px;color:#fff}
+
+.main{max-width:760px;margin:0 auto;padding:2rem}
+.hero{text-align:center;padding:1rem 0 1.5rem}
+.hero-label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:0.75rem}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,32px);font-weight:500;color:var(--dark);margin-bottom:0.75rem;line-height:1.3}
+.hero-sub{font-size:14px;color:var(--muted);line-height:1.7;font-weight:400}
+
+/* SELECTOR ETAPA */
+.etapa-tabs{display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap}
+.etapa-tab{flex:1;min-width:140px;padding:14px;background:var(--white);border:0.5px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative}
+.etapa-tab.activ{border-color:var(--green);border-width:2px;background:var(--green-light)}
+.etapa-tab.blocat{opacity:0.45;cursor:not-allowed}
+.etapa-tab-nr{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;color:var(--dark)}
+.etapa-tab.activ .etapa-tab-nr{color:var(--green)}
+.etapa-tab-label{font-size:12px;color:var(--muted);font-weight:500;margin-top:2px}
+.etapa-tab-lock{position:absolute;top:6px;right:8px;font-size:12px}
+
+.formular{display:none}
+.formular.activ{display:block}
+
+.intro-card{background:#FEF9EC;border:0.5px solid var(--gold);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem}
+.intro-text{font-size:14px;color:var(--text);line-height:1.7;font-weight:400;font-style:italic}
+
+.zona{background:var(--white);border:0.5px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.25rem}
+.zona-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+
+.intrebare{margin-bottom:1.25rem}
+.intrebare:last-child{margin-bottom:0}
+.intrebare-text{font-size:14px;color:var(--text);font-weight:500;margin-bottom:8px;line-height:1.6}
+
+/* DA/NU TOGGLE */
+.dn-toggle{display:flex;gap:8px}
+.dn-btn{flex:1;padding:9px;text-align:center;border:0.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);background:var(--cream);transition:all 0.15s}
+.dn-btn.sel-da{background:var(--green);color:#fff;border-color:var(--green)}
+.dn-btn.sel-nu{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* TEXT LIBER */
+.intrebare-input{width:100%;padding:10px 14px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);resize:none;min-height:60px;line-height:1.6}
+.intrebare-input:focus{outline:none;border-color:var(--green)}
+
+/* TABEL CONSILIERI */
+.tabel-consilieri{width:100%;border-collapse:collapse;margin-top:0.5rem}
+.tabel-consilieri th{padding:8px 6px;text-align:left;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border)}
+.tabel-consilieri th.center{text-align:center}
+.tabel-consilieri td{padding:10px 6px;border-bottom:0.5px solid var(--border);font-size:14px;vertical-align:middle}
+.tabel-consilieri td.center{text-align:center}
+.eval-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--white);cursor:pointer;font-size:13px;font-weight:700;color:var(--muted);transition:all 0.15s}
+.eval-btn.sel-FB{background:var(--green);color:#fff;border-color:var(--green)}
+.eval-btn.sel-B{background:var(--gold);color:#fff;border-color:var(--gold)}
+.eval-btn.sel-S{background:var(--red);color:#fff;border-color:var(--red)}
+.motiv-row{display:none}
+.motiv-row.activ{display:table-row}
+.motiv-input{width:100%;padding:8px 10px;border:0.5px solid var(--red);border-radius:6px;font-size:13px;font-family:'DM Sans',sans-serif;background:#FCEBEB}
+
+.btn-trimite{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:1rem}
+.btn-trimite:hover{background:var(--dark)}
+
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark);color:var(--cream);padding:9px 18px;border-radius:8px;font-size:13px;opacity:0;transition:all 0.25s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{padding:1.5rem 2rem;text-align:center;border-top:0.5px solid var(--border);margin-top:2rem}
+.footer{background:var(--white);border-top:0.5px solid var(--border);padding:2.5rem 2rem}
+.footer-inner{max-width:720px;margin:0 auto}
+.footer-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:0.5rem}
+.footer-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;font-weight:400}
+.footer-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.footer-btn{padding:9px 16px;background:var(--cream);border:0.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);cursor:pointer;text-decoration:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.footer-btn:hover{border-color:var(--green);color:var(--green)}
+.footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.footer-link-nav:hover{color:var(--dark);background:var(--cream)}
+.footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
+.footer-link{font-size:12px;color:var(--muted);text-decoration:none;font-weight:400}
+.footer-link:hover{color:var(--green)}
+.footer-copy{font-size:11px;color:var(--muted);margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-weight:400}
+
+/* MODAL SCRIE POVESTEA TA */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(28,28,26,0.6);z-index:1000;align-items:center;justify-content:center;padding:1.5rem}
+.modal-overlay.activ{display:flex}
+.modal-box{background:var(--white);border-radius:16px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;padding:1.75rem;position:relative}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:4px 8px;border-radius:6px}
+.modal-close:hover{background:var(--cream);color:var(--dark)}
+.modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--dark);margin-bottom:0.5rem;padding-right:2rem}
+.modal-sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1.25rem}
+.modal-textarea{width:100%;min-height:140px;padding:12px 14px;border:0.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);resize:vertical;line-height:1.6;margin-bottom:1rem}
+.modal-textarea:focus{outline:none;border-color:var(--gold)}
+.modal-confirm{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--muted);margin-bottom:1rem;line-height:1.6}
+.modal-confirm input{margin-top:3px}
+.modal-btn-send{width:100%;padding:13px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.modal-btn-send:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+.modal-btn-send:hover:not(:disabled){background:var(--dark)}
+</style>
+</head>
+<body>
+
+<nav>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Acasa.html'">🏠 Acasă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Echipa.html'">👥 Echipă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_BaniiTai.html'">💰 Banii tăi</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Verifica.html'">🔍 Verifică</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_MemorieAI.html'">📚 Memorie</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
+</nav>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="h-ceas" id="h-ceas">--:--</div>
+      <div class="h-data" id="h-data"></div>
+    </div>
+    <div class="h-zile">Zile de la activare:<br><span id="h-zile-nr">—</span></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="hero">
+    <div class="hero-label">Părerea ta contează</div>
+    <h1 class="hero-title">Chestionar de Satisfacție</h1>
+    <p class="hero-sub">Ne ajuți să calibrăm echipa ta de consilieri mai bine — câteva minute, sincer și direct.</p>
+    <p class="hero-sub" style="margin-top:6px;font-size:13px;color:var(--green);font-weight:500">📅 Chestionarul se va debloca automat la data prestabilită și îl poți trimite după completare.</p>
+    <p class="hero-sub" style="margin-top:1.25rem">Dacă vrei să transmiți un mesaj despre experiența ta cu myPAL, ne bucurăm să-l auzim.</p>
+    <div style="margin-top:1rem">
+      <button onclick="deschidePoveste()" style="padding:11px 24px;background:var(--gold);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">✍️ Scrie povestea ta</button>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:2rem 0 1.25rem;padding-top:1.5rem;border-top:0.5px solid var(--border)">
+    <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--dark)">📋 Completează Chestionarul</h2>
+  </div>
+
+  <!-- SELECTOR ETAPA -->
+  <div class="etapa-tabs">
+    <div class="etapa-tab activ" id="tab-30" onclick="schimbaEtapa(30)">
+      <div class="etapa-tab-nr">30</div>
+      <div class="etapa-tab-label">zile · Onboarding</div>
+    </div>
+    <div class="etapa-tab" id="tab-60" onclick="schimbaEtapa(60)">
+      <span class="etapa-tab-lock" id="lock-60">🔒</span>
+      <div class="etapa-tab-nr">60</div>
+      <div class="etapa-tab-label">zile · Utilizare</div>
+    </div>
+    <div class="etapa-tab" id="tab-90" onclick="schimbaEtapa(90)">
+      <span class="etapa-tab-lock" id="lock-90">🔒</span>
+      <div class="etapa-tab-nr">90</div>
+      <div class="etapa-tab-label">zile · Decizie</div>
+    </div>
+  </div>
+
+  <!-- FORMULAR 30 ZILE -->
+  <div class="formular activ" id="form-30">
+    <div class="intro-card"><div class="intro-text">„Bine ai venit acasă! Consilierii tăi te cunosc cu adevărat doar pe măsură ce le oferi context. Cu cât Arhiva e mai completă, cu atât sfaturile lor sunt mai precise și mai personale."</div></div>
+
+    <div class="zona">
+      <div class="zona-title">🔧 Zona Tehnică</div>
+      <div class="intrebare">
+        <div class="intrebare-text">1. Ai înțeles din prima cum să accesezi consilierii și paginile platformei?</div>
+        <div class="dn-toggle" data-type="dn" data-q="q1"><button class="dn-btn" onclick="setDN(this,'da')">DA</button><button class="dn-btn" onclick="setDN(this,'nu')">NU</button></div>
+      </div>
+      <div class="intrebare">
+        <div class="intrebare-text">2. Ai completat Profilul Familiei și ai început să populezi Arhiva?</div>
+        <div class="dn-toggle" data-type="dn" data-q="q2"><button class="dn-btn" onclick="setDN(this,'da')">DA</button><button class="dn-btn" onclick="setDN(this,'nu')">NU</button></div>
+      </div>
+      <div class="intrebare">
+        <div class="intrebare-text">3. Răspunsurile primite până acum au fost clare și utile?</div>
+        <div class="dn-toggle" data-type="dn" data-q="q3"><button class="dn-btn" onclick="setDN(this,'da')">DA</button><button class="dn-btn" onclick="setDN(this,'nu')">NU</button></div>
+      </div>
+    </div>
+
+    <div class="zona">
+      <div class="zona-title">📋 Zona Disciplină</div>
+      <div class="intrebare">
+        <div class="intrebare-text">4. Consilierii au rămas în domeniul lor sau au răspuns și la lucruri din afara specialității?</div>
+        <textarea class="intrebare-input" data-type="text" data-q="q4" placeholder="Descrie scurt..."></textarea>
+      </div>
+    </div>
+
+    <div class="zona">
+      <div class="zona-title">💬 Zona Atitudine</div>
+      <div class="intrebare">
+        <div class="intrebare-text">5. Limbajul folosit de consilieri a fost cald și pe înțeles, sau tehnic și rece?</div>
+        <textarea class="intrebare-input" data-type="text" data-q="q5" placeholder="Descrie scurt..."></textarea>
+      </div>
+      <div class="intrebare">
+        <div class="intrebare-text">6. Cât de completă consideri Arhiva Familiei tale acum?</div>
+        <textarea class="intrebare-input" data-type="text" data-q="q6" placeholder="Descrie scurt..."></textarea>
+      </div>
+    </div>
+
+    <div class="zona">
+      <div class="zona-title">⭐ Evaluare Consilieri</div>
+      <table class="tabel-consilieri" id="tabel-30">
+        <thead><tr><th>Consilier</th><th class="center">FB</th><th class="center">B</th><th class="center">S</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div style="margin-top:1rem">
+        <div style="font-size:13px;color:var(--muted);font-weight:500;margin-bottom:6px">📝 Observații generale (opțional)</div>
+        <textarea class="intrebare-input" id="obs-30" placeholder="Orice altceva vrei să ne spui despre experiența ta cu myPAL..." style="min-height:80px"></textarea>
+      </div>
+    </div>
+
+    <button class="btn-trimite" onclick="trimiteChestionar(30)">📨 Trimite chestionarul — 30 zile</button>
+  </div>
+
+  <!-- FORMULAR 60 ZILE -->
+  <div class="formular" id="form-60">
+    <div class="intro-card"><div class="intro-text">„Consilierii tăi învață din fiecare conversație. Cu cât îi folosești mai des, cu atât te cunosc mai bine și te ajută mai precis."</div></div>
+
+    <div class="zona">
+      <div class="zona-title">🔧 Zona Tehnică</div>
+      <div class="intrebare">
+        <div class="intrebare-text">1. Care consilier l-ai folosit cel mai des în ultima lună?</div>
+        <textarea class="intrebare-input" data-type="text" data-q="q1" placeholder="Numește consilierul și de ce..."></textarea>
+      </div>
+      <div class="intrebare">
+        <div class="intrebare-text">2. Ai folosit funcția de Sesiuni (conferință cu mai mulți consilieri simultan)?</div>
+        <div class="dn-toggle" data-type="dn" data-q="q2"><button class="dn-btn" onclick="setDN(this,'da')">DA</button><button class="dn-btn" onclick="setDN(this,'nu')">NU</button></div>
+      </div>
+      <div class="intrebare">
+        <div class="intrebare-text">3. A existat o situație în care un răspuns a fost incomplet sau generic?</div>
+        <textarea class="intrebare-input" data-type="text" data-q="q3" placeholder="Descrie situația, dacă a fost cazul..."></textarea>
+      </div>
+    </div>
+
+    <div class="zona">
+      <div class="zona-title">📋 Zona Disciplină</div>
+      <div class="intrebare">
+        <div class="intrebare-text">4. Te-au îndrumat clar consilierii către Vivix sau spre specialist uman, când era cazul?</div>
+        <div class="dn-toggle" data-type="dn" data-q="q4"><button class="dn-btn" onclick="setDN(this,'da')">DA</button><button class="dn-btn" onclick="setDN(this,'nu')">NU</button></div>
+      </div>
+      <div class="intrebare">
+        <div class="intrebare-text">5. Ai simțit vreodată că un consilier a depășit rolul lui?</div>
+        <div class="dn-toggle" data-type="dn" data-q="q5"><button class="dn-btn" onclick="setDN(this,'da')">DA</button><button class="dn-btn" onclick="setDN(this,'nu')">NU</button></div>
+      </div>
+    </div>
+
+    <div class="zona">
+      <div class="zona-title">💬 Zona Atitudine</div>
+      <div class="intrebare">
+        <div class="intrebare-text">6. Te-ai simțit judecat sau criticat vreodată de un consilier?</div>
+        <div class="dn-toggle" data-type="dn" data-q="q6"><button class="dn-btn" onclick="setDN(this,'da')">DA</button><button class="dn-btn" onclick="setDN(this,'nu')">NU</button></div>
+      </div>
+      <div class="intrebare">
+        <div class="intrebare-text">7. Cât de des ai deschis myPAL în ultimele 2 săptămâni?</div>
+        <textarea class="intrebare-input" data-type="text" data-q="q7" placeholder="ex: zilnic, de 2-3 ori pe săptămână..."></textarea>
+      </div>
+    </div>
+
+    <div class="zona">
+      <div class="zona-title">⭐ Evaluare Consilieri</div>
+      <table class="tabel-consilieri" id="tabel-60">
+        <thead><tr><th>Consilier</th><th class="center">FB</th><th class="center">B</th><th class="center">S</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div style="margin-top:1rem">
+        <div style="font-size:13px;color:var(--muted);font-weight:500;margin-bottom:6px">📝 Observații generale (opțional)</div>
+        <textarea class="intrebare-input" id="obs-60" placeholder="Orice altceva vrei să ne spui despre experiența ta cu myPAL..." style="min-height:80px"></textarea>
+      </div>
+    </div>
+
+    <button class="btn-trimite" onclick="trimiteChestionar(60)">📨 Trimite chestionarul — 60 zile</button>
+  </div>
+
+  <!-- FORMULAR 90 ZILE -->
+  <div class="formular" id="form-90">
+    <div class="intro-card"><div class="intro-text">„Trei luni de obișnuință — momentul în care vedem dacă myPAL a devenit cu adevărat parte din viața familiei tale."</div></div>
+
+    <div class="zona">
+      <div class="zona-title">🔧 Zona Tehnică</div>
+      <div class="intrebare">
+        <div class="intrebare-text">1. Ai luat vreo decizie reală (financiară, juridică, de planificare) cu ajutorul myPAL?</div>
+        <div class="dn-toggle" data-type="dn" data-q="q1"><button class="dn-btn" onclick="setDN(this,'da')">DA</button><button class="dn-btn" onclick="setDN(this,'nu')">NU</button></div>
+      </div>
+      <div class="intrebare">
+        <div class="intrebare-text">2. Arhiva Familiei reflectă situația voastră actuală sau a rămas neactualizată?</div>
+        <textarea class="intrebare-input" data-type="text" data-q="q2" placeholder="Descrie scurt..."></textarea>
+      </div>
+    </div>
+
+    <div class="zona">
+      <div class="zona-title">📋 Zona Disciplină</div>
+      <div class="intrebare">
+        <div class="intrebare-text">3. Ai verificat vreodată independent un sfat primit de la un consilier?</div>
+        <div class="dn-toggle" data-type="dn" data-q="q3"><button class="dn-btn" onclick="setDN(this,'da')">DA</button><button class="dn-btn" onclick="setDN(this,'nu')">NU</button></div>
+      </div>
+      <div class="intrebare">
+        <div class="intrebare-text">4. Consilierii și-au păstrat consecvența în ton și mandat pe parcursul celor 3 luni?</div>
+        <div class="dn-toggle" data-type="dn" data-q="q4"><button class="dn-btn" onclick="setDN(this,'da')">DA</button><button class="dn-btn" onclick="setDN(this,'nu')">NU</button></div>
+      </div>
+    </div>
+
+    <div class="zona">
+      <div class="zona-title">💬 Zona Atitudine</div>
+      <div class="intrebare">
+        <div class="intrebare-text">5. myPAL a devenit o obișnuință sau ceva ce trebuie să-ți reamintești să-l folosești?</div>
+        <textarea class="intrebare-input" data-type="text" data-q="q5" placeholder="Descrie scurt..."></textarea>
+      </div>
+      <div class="intrebare">
+        <div class="intrebare-text">6. Ai recomanda myPAL unei alte familii? De ce, sau de ce nu?</div>
+        <textarea class="intrebare-input" data-type="text" data-q="q6" placeholder="Descrie scurt..."></textarea>
+      </div>
+    </div>
+
+    <div class="zona">
+      <div class="zona-title">⭐ Evaluare Consilieri</div>
+      <table class="tabel-consilieri" id="tabel-90">
+        <thead><tr><th>Consilier</th><th class="center">FB</th><th class="center">B</th><th class="center">S</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div style="margin-top:1rem">
+        <div style="font-size:13px;color:var(--muted);font-weight:500;margin-bottom:6px">📝 Observații generale (opțional)</div>
+        <textarea class="intrebare-input" id="obs-90" placeholder="Orice altceva vrei să ne spui despre experiența ta cu myPAL..." style="min-height:80px"></textarea>
+      </div>
+    </div>
+
+    <button class="btn-trimite" onclick="trimiteChestionar(90)">📨 Trimite chestionarul — 90 zile</button>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-inner">
+        <div class="footer-btns">
+      <a href="myPAL_Legal.html" class="footer-link-nav">⚖️ Legal</a>
+      <a href="myPAL_Profil.html" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
+      <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
+      <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
+      <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
+    </div>
+    <div style="border-top:0.5px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="font-size:13px;font-weight:600;color:var(--dark)">my-PAL.ai · © 2026</div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
+    </div>
+    <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:400">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-poveste">
+  <div class="modal-box">
+    <button class="modal-close" onclick="inchidePoveste()">✕</button>
+    <div class="modal-title">Scrie povestea ta</div>
+    <p class="modal-sub">Bună sau grea, o poveste reală ne ajută mai mult decât o reclamă. Scrie pe scurt ce s-a întâmplat — apoi trimite-o direct.</p>
+    <textarea class="modal-textarea" id="modal-poveste-text" placeholder="Ex: Săptămâna asta am vorbit cu Advix despre o rată pe care voiam să o reeșalonez. M-a ajutat să văd clar..."></textarea>
+    <label class="modal-confirm">
+      <input type="checkbox" id="modal-acord-bif">
+      Sunt de acord ca my-PAL să poată folosi povestea mea (eventual anonimizată) pentru a ajuta alte familii să înțeleagă cum funcționează myPAL.
+    </label>
+    <button class="modal-btn-send" id="modal-btn-trimite" onclick="trimitePoveste()" disabled>✉️ Trimite povestea</button>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.6">Se deschide emailul tău — dacă nu pornește automat, scrie-ne la <a href="mailto:office@my-pal.ai" style="color:var(--gold);font-weight:600;text-decoration:none">office@my-pal.ai</a></p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
+
+// CEAS + ZILE DE LA ACTIVARE
+function updateCeas(){
+  var d=new Date();
+  document.getElementById('h-ceas').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+  var zile=['Duminică','Luni','Marți','Miercuri','Joi','Vineri','Sâmbătă'];
+  var luni=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+  document.getElementById('h-data').textContent=zile[d.getDay()]+', '+d.getDate()+' '+luni[d.getMonth()]+' '+d.getFullYear();
+}
+updateCeas();setInterval(updateCeas,1000);
+
+// Data activare familie - prima deschidere a acestei pagini
+var dataActivare = localStorage.getItem('mypal_data_activare');
+if(!dataActivare){
+  dataActivare = new Date().toISOString();
+  localStorage.setItem('mypal_data_activare', dataActivare);
+}
+var zileTrecute = Math.floor((new Date() - new Date(dataActivare)) / (1000*60*60*24));
+document.getElementById('h-zile-nr').textContent = zileTrecute + ' zile';
+
+// Deblocare etape 60/90 in functie de zile trecute
+if(zileTrecute >= 60){
+  document.getElementById('tab-60').classList.remove('blocat');
+  document.getElementById('lock-60').style.display='none';
+}
+if(zileTrecute >= 90){
+  document.getElementById('tab-90').classList.remove('blocat');
+  document.getElementById('lock-90').style.display='none';
+}
+if(zileTrecute < 60) document.getElementById('tab-60').classList.add('blocat');
+if(zileTrecute < 90) document.getElementById('tab-90').classList.add('blocat');
+
+var consilieri = [
+  {icon:'💰', nume:'Advix (financiar)', id:'advix'},
+  {icon:'⚖️', nume:'Adviz (juridic)', id:'adviz'},
+  {icon:'🔍', nume:'Verix (verificare)', id:'verix'},
+  {icon:'🎭', nume:'Vivix (viitorul tău)', id:'vivix'}
+];
+
+[30,60,90].forEach(function(etapa){
+  var tbody = document.querySelector('#tabel-'+etapa+' tbody');
+  consilieri.forEach(function(c){
+    var tr = document.createElement('tr');
+    var tdNume = document.createElement('td');
+    tdNume.textContent = c.icon + ' ' + c.nume;
+    tr.appendChild(tdNume);
+    ['FB','B','S'].forEach(function(val){
+      var td = document.createElement('td');
+      td.className = 'center';
+      var btn = document.createElement('button');
+      btn.className = 'eval-btn';
+      btn.textContent = val;
+      btn.onclick = function(){ setEval(btn, etapa, c.id, val); };
+      td.appendChild(btn);
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+
+    var trMotiv = document.createElement('tr');
+    trMotiv.className = 'motiv-row';
+    trMotiv.id = 'motiv-'+etapa+'-'+c.id;
+    var tdMotiv = document.createElement('td');
+    tdMotiv.colSpan = 4;
+    var inpMotiv = document.createElement('input');
+    inpMotiv.type = 'text';
+    inpMotiv.className = 'motiv-input';
+    inpMotiv.placeholder = 'De ce a fost slab ' + c.nume + '? (ajută la calibrare)';
+    inpMotiv.setAttribute('data-motiv', c.id);
+    tdMotiv.appendChild(inpMotiv);
+    trMotiv.appendChild(tdMotiv);
+    tbody.appendChild(trMotiv);
+  });
+});
+
+function setEval(btn, etapa, consilierId, valoare){
+  var row = btn.closest('tr');
+  row.querySelectorAll('.eval-btn').forEach(function(b){
+    b.classList.remove('sel-FB','sel-B','sel-S');
+  });
+  btn.classList.add('sel-'+valoare);
+  btn.dataset.valoare = valoare;
+  row.dataset.evaluare = valoare;
+  
+  var motivRow = document.getElementById('motiv-'+etapa+'-'+consilierId);
+  if(valoare === 'S') motivRow.classList.add('activ');
+  else motivRow.classList.remove('activ');
+}
+
+function setDN(btn, valoare){
+  var toggle = btn.parentElement;
+  toggle.querySelectorAll('.dn-btn').forEach(function(b){
+    b.classList.remove('sel-da','sel-nu');
+  });
+  btn.classList.add('sel-'+valoare);
+  toggle.dataset.valoare = valoare;
+}
+
+function schimbaEtapa(etapa){
+  var tab = document.getElementById('tab-'+etapa);
+  if(tab.classList.contains('blocat')){
+    toast('🔒 Disponibil după '+etapa+' zile de la activare');
+    return;
+  }
+  document.querySelectorAll('.etapa-tab').forEach(function(t){t.classList.remove('activ');});
+  document.querySelectorAll('.formular').forEach(function(f){f.classList.remove('activ');});
+  document.getElementById('tab-'+etapa).classList.add('activ');
+  document.getElementById('form-'+etapa).classList.add('activ');
+}
+
+function trimiteChestionar(etapa){
+  var form = document.getElementById('form-'+etapa);
+  var lines = ['CHESTIONAR SATISFACȚIE my-PAL — ETAPA ' + etapa + ' ZILE', ''];
+  
+  form.querySelectorAll('.intrebare').forEach(function(intr){
+    var q = intr.querySelector('.intrebare-text').textContent;
+    var type = intr.querySelector('[data-type]').dataset.type;
+    var a = '(fără răspuns)';
+    if(type === 'dn'){
+      var toggle = intr.querySelector('.dn-toggle');
+      a = toggle.dataset.valoare ? toggle.dataset.valoare.toUpperCase() : '(neales)';
+    } else {
+      var ta = intr.querySelector('textarea');
+      a = ta.value.trim() || '(fără răspuns)';
+    }
+    lines.push(q);
+    lines.push('→ ' + a);
+    lines.push('');
+  });
+  
+  lines.push('EVALUARE CONSILIERI:');
+  consilieri.forEach(function(c){
+    var rows = form.querySelectorAll('#tabel-'+etapa+' tbody tr');
+    var selectat = '(neevaluat)';
+    var motiv = '';
+    rows.forEach(function(r){
+      if(r.dataset.evaluare && r.querySelector('td').textContent.indexOf(c.nume) > -1){
+        selectat = r.dataset.evaluare;
+      }
+    });
+    var motivInput = form.querySelector('[data-motiv="'+c.id+'"]');
+    if(motivInput && motivInput.value.trim()) motiv = motivInput.value.trim();
+    
+    lines.push(c.icon + ' ' + c.nume + ': ' + selectat);
+    if(selectat === 'S' && motiv){
+      lines.push('   Motiv: ' + motiv);
+    }
+  });
+  
+  var obsField = document.getElementById('obs-'+etapa);
+  if(obsField && obsField.value.trim()){
+    lines.push('');
+    lines.push('OBSERVAȚII GENERALE:');
+    lines.push(obsField.value.trim());
+  }
+  
+  var body = lines.join('\\n');
+  var subject = 'Chestionar Satisfacție myPAL - ' + etapa + ' zile';
+  var mailtoLink = 'mailto:office@my-pal.ai?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  
+  window.location.href = mailtoLink;
+  toast('📨 Se deschide clientul de email...');
+}
+
+// MODAL SCRIE POVESTEA TA
+function deschidePoveste(){
+  document.getElementById('modal-poveste').classList.add('activ');
+}
+function inchidePoveste(){
+  document.getElementById('modal-poveste').classList.remove('activ');
+}
+document.getElementById('modal-poveste-text').addEventListener('input', verificaPoveste);
+document.getElementById('modal-acord-bif').addEventListener('change', verificaPoveste);
+function verificaPoveste(){
+  var text = document.getElementById('modal-poveste-text').value.trim();
+  var bifat = document.getElementById('modal-acord-bif').checked;
+  document.getElementById('modal-btn-trimite').disabled = !(text && bifat);
+}
+function trimitePoveste(){
+  var text = document.getElementById('modal-poveste-text').value.trim();
+  if(!text) return;
+  var subject = 'Povestea mea cu myPAL';
+  var body = text;
+  window.location.href = 'mailto:office@my-pal.ai?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  toast('✉️ Se deschide emailul cu povestea ta!');
+  inchidePoveste();
+}
+</script>
+</body>
+</html>

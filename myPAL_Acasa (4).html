@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>my-PAL.ai — Acasă</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;
+  --gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;
+  --white:#FFFFFF;--red:#A32D2D;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;font-weight:500;background:var(--cream);color:var(--text)}
+
+/* NAV */
+nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--dark)}
+.nav-logo span{color:var(--green)}
+.nav-btn{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.nav-btn:hover{color:var(--dark);background:var(--cream)}
+.nav-btn.special{color:var(--gold);border:0.5px solid var(--gold)}
+
+/* SECTIUNI */
+.sect{padding:2.5rem 2rem;max-width:720px;margin:0 auto}
+.divider{height:0.5px;background:var(--border)}
+.sect-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:0.75rem}
+.sect-title{font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,28px);font-weight:500;color:var(--dark);margin-bottom:0.75rem;line-height:1.3}
+
+/* CEAS */
+.ceas-wrap{text-align:center;padding:1rem 0}
+.ceas{font-family:'Playfair Display',serif;font-size:clamp(48px,10vw,88px);font-weight:400;color:var(--dark);letter-spacing:-2px;line-height:1}
+.ceas-data{font-size:13px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:8px;font-weight:400}
+.bun-venit{font-family:'Playfair Display',serif;font-size:18px;color:var(--dark);margin-top:1.25rem;font-style:italic;font-weight:400}
+
+/* CARD */
+.card{background:var(--white);border:0.5px solid var(--border);border-radius:12px;padding:1.5rem}
+.card-text{font-size:14px;color:var(--text);line-height:1.8;margin-bottom:1rem;font-weight:400}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:0.75rem}
+.tag{padding:5px 12px;background:var(--cream);border:0.5px solid var(--border);border-radius:20px;font-size:12px;color:var(--muted);font-weight:400}
+
+/* BUTOANE */
+.btn-green{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.btn-green:hover{background:var(--dark)}
+.btn-outline{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;background:none;border:0.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.btn-outline:hover{border-color:var(--green);color:var(--green)}
+.btn-gold{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;background:none;border:0.5px solid var(--gold);border-radius:8px;font-size:13px;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-gold:hover{background:var(--gold);color:#fff}
+.btn-blue{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;background:none;border:0.5px solid #4A5AB9;border-radius:8px;font-size:13px;color:#4A5AB9;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-blue:hover{background:#EEF0FF}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem}
+
+/* CINE ESTI */
+.cine-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.cine-input{flex:1;min-width:130px;padding:10px 14px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text)}
+.cine-input:focus{outline:none;border-color:var(--green)}
+.cine-nota{font-size:12px;color:var(--muted);font-weight:400}
+.cine-nota a{color:var(--green);text-decoration:none;cursor:pointer}
+
+/* VERIX */
+.verix-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;margin-right:6px;vertical-align:middle}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.verix-msg{font-size:14px;color:var(--text);line-height:1.8;margin:1rem 0;font-style:italic;padding-left:1rem;border-left:2px solid var(--green);font-weight:400}
+
+/* REMIND */
+.remind-title{font-size:22px;font-weight:700;letter-spacing:2px;color:var(--gold);margin-bottom:1rem}
+
+/* FOOTER */
+.footer{background:var(--white);border-top:0.5px solid var(--border);padding:2.5rem 2rem}
+.footer-inner{max-width:720px;margin:0 auto}
+.footer-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:0.5rem}
+.footer-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;font-weight:400}
+.footer-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.footer-btn{padding:9px 16px;background:var(--cream);border:0.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);cursor:pointer;text-decoration:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.footer-btn:hover{border-color:var(--green);color:var(--green)}
+.footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.footer-link-nav:hover{color:var(--dark);background:var(--cream)}
+.footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
+.footer-info{font-size:12px;font-weight:700;color:var(--dark);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.75rem}
+.footer-links{display:flex;gap:12px;flex-wrap:wrap}
+.footer-link{font-size:12px;color:var(--muted);text-decoration:none;font-weight:400}
+.footer-link:hover{color:var(--green)}
+.footer-copy{font-size:11px;color:var(--muted);margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-weight:400}
+
+/* MODALS */
+.overlay{position:fixed;inset:0;background:rgba(28,28,26,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
+.overlay.activ{display:flex}
+.overlay-bottom{position:fixed;inset:0;background:rgba(28,28,26,0.65);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.overlay-bottom.activ{display:flex}
+.modal-box{background:var(--white);border-radius:14px;padding:1.5rem;width:100%;max-width:340px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.2)}
+.modal-sheet{background:var(--white);border-radius:16px 16px 0 0;width:100%;max-width:520px;padding:1.5rem;box-shadow:0 -8px 40px rgba(0,0,0,0.15)}
+.modal-large{background:var(--white);border-radius:14px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,0.2)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.modal-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark)}
+.modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)}
+.field{width:100%;padding:10px 14px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);margin-bottom:10px}
+.field:focus{outline:none;border-color:var(--green)}
+.field-dt{width:100%;padding:9px 12px;border:0.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream);margin-bottom:10px}
+.confirmare{display:none;margin-top:8px;padding:8px 12px;background:var(--green-light);border-radius:6px;font-size:12px;color:var(--green);font-weight:400}
+.nota-modal{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5;font-weight:400}
+
+/* PAROLA COD */
+.cod-wrap{display:flex;gap:8px;justify-content:center;margin-bottom:1rem}
+.cod-c{width:48px;height:52px;text-align:center;font-size:20px;font-weight:500;border:0.5px solid var(--border);border-radius:8px;font-family:'Playfair Display',serif;background:var(--cream)}
+.cod-c:focus{outline:none;border-color:var(--green);background:var(--white)}
+.cod-err{font-size:12px;color:var(--red);margin-bottom:0.75rem;display:none}
+.cod-btns{display:flex;gap:8px}
+.btn-cancel{flex:1;padding:9px;background:none;border:0.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif}
+.btn-accept{flex:1;padding:9px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark);color:var(--cream);padding:9px 18px;border-radius:8px;font-size:13px;opacity:0;transition:all 0.25s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<nav>
+    <button class="nav-btn active" onclick="window.location.href='myPAL_Acasa.html'">🏠 Acasă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Echipa.html'">👥 Echipă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_BaniiTai.html'">💰 Banii tăi</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Verifica.html'">🔍 Verifică</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_MemorieAI.html'">📚 Memorie</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
+</nav>
+
+<!-- 1. CEAS -->
+<div class="sect">
+  <div class="ceas-wrap">
+    <div class="ceas" id="ceas">--:--</div>
+    <div class="ceas-data" id="ceas-data"></div>
+    <div class="bun-venit" id="bun-venit">Bună ziua!</div>
+    <div style="font-size:13px;font-weight:600;color:var(--gold);margin-top:4px;letter-spacing:0.3px">Familia Ionescu</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- BONUS SPOTIFY -->
+<div class="sect">
+  <div style="background:linear-gradient(135deg,#1C1C1A,#2A2A28);border-radius:14px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="font-size:32px">🎵</div>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:#fff">Abonează-te până la 31 august</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.65);font-weight:400">și primești Spotify-Playlist gratuit 2 luni</div>
+      </div>
+    </div>
+    <button onclick="window.location.href='myPAL_Cont.html#preturi'" style="padding:9px 18px;background:var(--gold);color:#1C1C1A;border:none;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap">Vezi oferta →</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 2. PREZENTARE -->
+<div class="sect">
+  <div class="sect-label">Despre my-PAL</div>
+  <h2 class="sect-title">my-PAL — aici ești acasă</h2>
+  <p style="font-family:'Playfair Display',serif;font-size:15px;color:var(--muted);font-style:italic;margin-bottom:1.25rem;font-weight:400">Consilierii tăi. Doar ai tăi.</p>
+  <div class="card">
+    <p class="card-text">my-PAL este echipa ta de consilieri dedicați — financiar, juridic și simulare — disponibili oricând ai nevoie. Nu suntem un chatbot generic. Suntem consilierii care știu cine ești, ce ai și ce vrei să construiești pentru familia ta.</p>
+    <p class="card-text">Confidențialitate absolută. Limbaj uman. Fără judecăți. Întotdeauna de partea familiei tale.</p>
+    <div class="tags" style="flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px">
+      <a onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_advix','width=480,height=860,left=0,top=0')" style="padding:6px 14px;background:var(--green-light);border:0.5px solid var(--green);border-radius:20px;font-size:13px;color:var(--green);cursor:pointer;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='var(--green)';this.style.color='#fff'" onmouseout="this.style.background='var(--green-light)';this.style.color='var(--green)'">💰 Advix — Contabilul tău</a>
+      <a onclick="window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_adviz','width=480,height=860,left=490,top=0')" style="padding:6px 14px;background:#EEF0FF;border:0.5px solid #4A5AB9;border-radius:20px;font-size:13px;color:#4A5AB9;cursor:pointer;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='#4A5AB9';this.style.color='#fff'" onmouseout="this.style.background='#EEF0FF';this.style.color='#4A5AB9'">⚖️ Adviz — Juristul tău</a>
+      <a onclick="openOverlay('o-verix')" style="padding:6px 14px;background:#FEF9EC;border:0.5px solid var(--gold);border-radius:20px;font-size:13px;color:var(--gold);cursor:pointer;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='var(--gold)';this.style.color='#fff'" onmouseout="this.style.background='#FEF9EC';this.style.color='var(--gold)'">🔍 Verix — Siguranța ta</a>
+      <a onclick="window.open('https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f','mypal_vivix','width=480,height=860,left=980,top=0')" style="padding:6px 14px;background:#FCEEF0;border:0.5px solid #C96B7A;border-radius:20px;font-size:13px;color:#C96B7A;cursor:pointer;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='#C96B7A';this.style.color='#fff'" onmouseout="this.style.background='#FCEEF0';this.style.color='#C96B7A'">🎭 Vivix — Viitorul tău</a>
+    </div>
+    <div class="btn-row">
+      <a href="myPAL_Echipa.html" style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;transition:all 0.2s">👥 Cine suntem noi →</a>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 3. INTRA IN CASA -->
+<div class="sect">
+  <div class="sect-label">Identificare</div>
+  <h2 class="sect-title">Intră în casă</h2>
+  <div class="card">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.6;font-weight:400">Spune-ne numele tău și introdu codul personal pentru a accesa spațiul tău din my-PAL.</p>
+    <div class="cine-row">
+      <input type="text" class="cine-input" id="cine-nume" placeholder="Numele tău...">
+      <input type="password" class="cine-input" id="cine-cod" placeholder="Cod personal (4 cifre)" maxlength="4">
+      <button class="btn-green" onclick="intraAcasa()">Intră →</button>
+    </div>
+    <div style="margin-top:10px"><button onclick="openOverlay('o-consiliu')" style="padding:8px 16px;background:var(--green-light);border:1.5px solid var(--green);border-radius:7px;font-size:13px;color:var(--green);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500">👨‍👩‍👧‍👦 Prima dată? Deschide Consiliul Familiei →</button></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 4. VERIX -->
+<div class="sect">
+  <div class="sect-label">Consilierul tău</div>
+  <h2 class="sect-title"><span class="verix-dot"></span>Verix — sunt aici pentru tine</h2>
+  <div class="card">
+    <p class="verix-msg">„Bună ziua! Sunt Verix, garantul de calitate al familiei tale. Sunt aici să verific, să confirm și să te îndrumez când situația e complexă sau când ai nevoie de o a doua opinie. Spune-mi cu ce te pot ajuta astăzi."</p>
+    <button onclick="openOverlay('o-verix')" style="display:inline-flex;align-items:center;gap:7px;padding:10px 20px;background:#FEF9EC;border:0.5px solid var(--gold);border-radius:8px;font-size:13px;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all 0.2s">🔍 Deschide conversația de prezentare cu Verix</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 5. VIVIX -->
+<div class="sect">
+  <div class="sect-label">Vivix — Astăzi pentru tine</div>
+  <h2 class="sect-title">🎭 Ce ți-a pregătit Vivix?</h2>
+  <div class="card">
+    <p id="vivix-msg" style="font-size:14px;color:var(--text);line-height:1.8;margin-bottom:1rem;font-weight:400"></p>
+    <button class="btn-green" onclick="window.open('https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f','mypal_vivix','width=480,height=860,left=490,top=0')">🎭 Deschide Vivix</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 6. REAMINTESTE-MI -->
+<div class="sect">
+  <div class="sect-label">Evenimente & Remindere</div>
+  <h2 class="sect-title">📅 Agenda mea</h2>
+  <div class="btn-row">
+    <button onclick="openOverlayBottom('o-remind-add')" style="display:inline-flex;align-items:center;gap:7px;padding:11px 22px;background:var(--gold);border:none;border-radius:8px;font-size:14px;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:all 0.2s">🔔 Adaugă în Agendă</button>
+    <button class="btn-outline" onclick="openOverlay('o-remind-reg')">📋 Registru</button>
+    <button class="btn-blue" onclick="window.open('https://chatgpt.com/g/g-p-6a291859d2388191826554297081d454-remind/project','mypal_searchix','width=400,height=700,left='+(screen.width-420)+',top=0')">📋 Deschide Agenda</button>
+  </div>
+</div>
+
+<!-- MODAL ABONAMENT -->
+<div id="modal-abonament" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:var(--white);border-radius:16px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;padding:1.5rem;position:relative;box-shadow:0 8px 40px rgba(0,0,0,0.18)">
+
+    <button onclick="document.getElementById('modal-abonament').style.display='none'" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);line-height:1">✕</button>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-right:24px;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--dark);letter-spacing:0.5px;text-transform:uppercase">📦 Abonamentul tău</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">Familia Ionescu · Status curent · Plăți · Upgrade</div>
+      </div>
+      <div style="padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;background:#FFF8E7;color:#8B6200;border:1px solid var(--gold)">● START ACTIV</div>
+    </div>
+
+    <div style="background:var(--cream);border-radius:10px;border:0.5px solid var(--border);padding:1rem;margin-bottom:1rem">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div>
+          <div style="font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Plan activ</div>
+          <div style="font-size:16px;font-weight:700;color:var(--dark);margin-top:2px">Start</div>
+          <div style="font-size:12px;color:var(--muted)">Gratuit · Trial 30 zile</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Următoarea plată</div>
+          <div style="font-size:16px;font-weight:700;color:var(--dark);margin-top:2px">1 aug 2026</div>
+          <div style="font-size:12px;color:var(--muted)">expiră trial</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Activ din</div>
+          <div style="font-size:14px;font-weight:600;color:var(--dark);margin-top:2px">2 iun 2026</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Consilieri activi</div>
+          <div style="font-size:14px;font-weight:600;color:var(--dark);margin-top:2px">Advix · Adviz · Verix</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--cream);border-radius:10px;border:0.5px solid var(--border);padding:1rem;margin-bottom:1rem">
+      <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.5px">🧾 Istoricul plăților</div>
+      <div style="font-size:13px;color:var(--muted);font-style:italic;text-align:center;padding:0.5rem 0">
+        Nicio plată înregistrată · Plan gratuit activ
+      </div>
+    </div>
+
+    <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.5px">🚀 Planuri disponibile</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.25rem">
+
+      <div style="background:var(--white);border-radius:10px;border:2px solid var(--gold);padding:0.85rem;text-align:center;position:relative">
+        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:white;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap">PLANUL TĂU</div>
+        <div style="font-size:11px;font-weight:700;color:#8B6200;text-transform:uppercase;letter-spacing:0.5px">Start</div>
+        <div style="font-size:17px;font-weight:800;color:var(--dark);margin:6px 0 2px">Gratuit</div>
+        <div style="font-size:11px;color:var(--muted)">30 zile trial</div>
+        <div style="margin-top:8px;font-size:11px;color:var(--dark);line-height:1.6">3 consilieri<br>Memorie de bază<br>Fără arhivă</div>
+        <div style="margin-top:8px;font-size:11px;font-weight:600;color:#8B6200">Activ ●</div>
+      </div>
+
+      <div style="background:var(--white);border-radius:10px;border:0.5px solid #639922;padding:0.85rem;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:#3B6D11;text-transform:uppercase;letter-spacing:0.5px">Standard</div>
+        <div style="font-size:17px;font-weight:800;color:var(--dark);margin:6px 0 2px">59 lei</div>
+        <div style="font-size:11px;color:var(--muted)">49 lei / an</div>
+        <div style="margin-top:8px;font-size:11px;color:var(--dark);line-height:1.6">3 consilieri<br>Memorie extinsă<br>Arhivă 6 luni</div>
+        <button onclick="deschideUpgrade('standard')" style="margin-top:8px;width:100%;padding:5px;background:#3B6D11;border:none;border-radius:6px;font-size:11px;font-weight:700;color:white;cursor:pointer">Upgrade →</button>
+      </div>
+
+      <div style="background:var(--white);border-radius:10px;border:0.5px solid var(--gold);padding:0.85rem;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px">Premium</div>
+        <div style="font-size:17px;font-weight:800;color:var(--dark);margin:6px 0 2px">99 lei</div>
+        <div style="font-size:11px;color:var(--muted)">89 lei / an</div>
+        <div style="margin-top:8px;font-size:11px;color:var(--dark);line-height:1.6">3 consilieri<br>Memorie completă<br>Arhivă nelimitată</div>
+        <button onclick="deschideUpgrade('premium')" style="margin-top:8px;width:100%;padding:5px;background:var(--gold);border:none;border-radius:6px;font-size:11px;font-weight:700;color:white;cursor:pointer">Upgrade →</button>
+      </div>
+
+    </div>
+
+    <div style="font-size:11px;color:var(--muted);text-align:center;font-style:italic">
+      Plăți securizate · Anulare cu 30 zile preaviz · Prețuri cu TVA inclus
+    </div>
+
+  </div>
+</div>
+
+<script>
+document.getElementById('modal-abonament').addEventListener('click', function(e){
+  if(e.target === this) this.style.display='none';
+});
+</script>
+
+<div class="divider"></div>
+
+<!-- 7. FOOTER -->
+<div class="footer">
+  <div class="footer-inner">
+            <div class="footer-btns">
+      <a href="myPAL_Legal.html" class="footer-link-nav">⚖️ Legal</a>
+      <a href="myPAL_Profil.html" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
+      <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
+      <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
+      <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
+    </div>
+    <div style="border-top:0.5px solid var(--border);margin-top:14px;padding-top:18px;border-bottom:0.5px solid var(--border);padding-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div style="font-size:13px;font-weight:600;color:var(--dark)">my-PAL.ai · © 2026</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div style="font-size:11px;color:var(--muted);font-style:italic;text-align:center">Vrei să prelungești sau să faci upgrade?</div>
+        <button onclick="var m=document.getElementById('modal-abonament');m.style.display='flex';" style="display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:var(--gold);border:none;border-radius:50px;font-size:12px;font-weight:700;color:white;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 2px 8px rgba(201,168,76,0.3);letter-spacing:0.3px">
+          📦 Actualizează Abonament
+        </button>
+      </div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
+    </div>
+    <div style="display:none">
+  <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
+  </div>
+    <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:400">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY VERIX -->
+<div class="overlay" id="o-verix" onclick="if(event.target===this)closeOverlay('o-verix')">
+  <div class="modal-box">
+    <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--dark);margin-bottom:0.5rem">🔍 Verix</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:1.25rem;font-weight:400">Introdu codul tău personal</div>
+    <div class="cod-wrap">
+      <input type="password" class="cod-c" id="v1" maxlength="1" inputmode="numeric" oninput="nxt(this,'v2')">
+      <input type="password" class="cod-c" id="v2" maxlength="1" inputmode="numeric" oninput="nxt(this,'v3')" onkeydown="prv(event,this,'v1')">
+      <input type="password" class="cod-c" id="v3" maxlength="1" inputmode="numeric" oninput="nxt(this,'v4')" onkeydown="prv(event,this,'v2')">
+      <input type="password" class="cod-c" id="v4" maxlength="1" inputmode="numeric" onkeydown="prv(event,this,'v3')">
+    </div>
+    <div class="cod-err" id="verix-err">Cod incorect</div>
+    <div class="cod-btns">
+      <button class="btn-cancel" onclick="closeOverlay('o-verix')">Anulează</button>
+      <button class="btn-accept" onclick="acceptVerix()">✅ Intră</button>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY REMIND ADD -->
+<div class="overlay-bottom" id="o-remind-add" onclick="if(event.target===this)closeOverlay('o-remind-add')">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <div class="modal-title" style="font-weight:700;letter-spacing:1px">🔔 REAMINTEȘTE-MI</div>
+      <button class="modal-close" onclick="closeOverlay('o-remind-add')">✕</button>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;font-weight:400">Spune natural ce trebuie amintit — SEARCHIX se ocupă de notificare.</p>
+    <textarea class="field" id="rp-text" rows="2" placeholder='ex: "Duminică la 10 — mergem la piață"' style="resize:none;line-height:1.6;font-size:14px"></textarea>
+    <input type="datetime-local" class="field-dt" id="rp-data">
+    <button onclick="seteazaRemind()" style="width:100%;padding:13px;background:var(--gold);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:10px">🔔 REAMINTEȘTE-MI</button>
+    <div class="confirmare" id="rp-conf"></div>
+    <div style="display:flex;gap:8px;margin-top:6px">
+      <button onclick="closeOverlay('o-remind-add');openOverlay('o-remind-reg')" style="flex:1;padding:12px;background:var(--cream);border:2px solid var(--gold);border-radius:8px;font-size:13px;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">📋 VEZI REGISTRU</button>
+      <button onclick="window.open('https://chatgpt.com/g/g-p-6a291859d2388191826554297081d454-remind/project','mypal_searchix','width=400,height=700,left='+(screen.width-420)+',top=0')" style="flex:1;padding:12px;background:#EEF0FF;border:2px solid #4A5AB9;border-radius:8px;font-size:13px;color:#4A5AB9;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">💬 SEARCHIX</button>
+    </div>
+    <div class="nota-modal">⚠️ Nu include date confidențiale — procesate prin SEARCHIX extern.</div>
+  </div>
+</div>
+
+<!-- OVERLAY REMIND REGISTRU -->
+<div class="overlay" id="o-remind-reg" onclick="if(event.target===this)closeOverlay('o-remind-reg')">
+  <div class="modal-large" style="padding:1.5rem">
+    <div class="modal-head">
+      <div class="modal-title">📋 Registru Reamintește-mi</div>
+      <button class="modal-close" onclick="closeOverlay('o-remind-reg')">✕</button>
+    </div>
+    <div id="reg-continut" style="font-size:13px"></div>
+    <div style="margin-top:1rem;display:flex;gap:8px;justify-content:flex-end">
+      <button onclick="copiazaRegistru()" style="padding:8px 14px;background:none;border:0.5px solid var(--gold);border-radius:6px;font-size:12px;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif">📋 Copiază tot</button>
+      <a href="myPAL_Remind.html" style="padding:8px 16px;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;text-decoration:none">Registru complet →</a>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY CONSILIU -->
+<div class="overlay" id="o-consiliu" onclick="if(event.target===this)closeOverlay('o-consiliu')">
+  <div class="modal-large" style="padding:0">
+    <div style="padding:1.25rem 1.5rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark)">👨‍👩‍👧‍👦 Consiliul Familiei</div>
+      <button onclick="closeOverlay('o-consiliu')" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
+    </div>
+    <div style="padding:1.25rem 1.5rem">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding:10px 14px;background:var(--cream);border-radius:8px;border:0.5px solid var(--border)">
+        <span style="font-size:12px;color:var(--muted);white-space:nowrap">Familia:</span>
+        <input type="text" id="c-fam" placeholder="Numele familiei..." style="flex:1;border:none;background:transparent;font-size:15px;font-family:'Playfair Display',serif;color:var(--dark);font-weight:500">
+      </div>
+      <div style="border:0.5px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1rem">
+        <table style="width:100%;border-collapse:collapse;font-size:13px">
+          <thead>
+            <tr style="background:var(--cream)">
+              <th style="padding:8px 10px;font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Prenume</th>
+              <th style="padding:8px 10px;font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Data nașterii</th>
+              <th style="padding:8px 10px;font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Parolă</th>
+              <th style="padding:8px 10px;font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:right">Acțiuni</th>
+            </tr>
+          </thead>
+          <tbody id="c-tbody">
+            <tr style="background:#F0F7E8" id="c-titular-row">
+              <td style="padding:8px 10px;border-bottom:0.5px solid var(--border)">
+                <input type="text" id="c-t-nume" placeholder="Prenumele titularului" style="border:none;background:transparent;font-size:13px;font-family:'DM Sans',sans-serif;width:75%;color:var(--dark)">
+                <span style="font-size:10px;background:var(--green-light);color:var(--green);padding:2px 6px;border-radius:4px;font-weight:600">TITULAR</span>
+              </td>
+              <td style="padding:8px 10px;border-bottom:0.5px solid var(--border)">
+                <input type="text" id="c-t-dn" placeholder="zz/ll/aaaa" oninput="setParolaTitular(this.value)" style="border:none;background:transparent;font-size:13px;font-family:'DM Sans',sans-serif;width:100%;color:var(--dark)">
+              </td>
+              <td style="padding:8px 10px;border-bottom:0.5px solid var(--border)">
+                <span id="c-t-pval" style="color:var(--muted);letter-spacing:2px">••••</span>
+                <input type="password" id="c-t-pedit" maxlength="4" style="display:none;border:0.5px solid var(--gold);border-radius:4px;padding:3px 6px;font-size:13px;width:58px">
+              </td>
+              <td style="padding:8px 10px;border-bottom:0.5px solid var(--border);text-align:right">
+                <button id="c-t-btn" onclick="cModP('t')" style="padding:4px 9px;font-size:11px;border:0.5px solid var(--gold);border-radius:4px;cursor:pointer;background:var(--white);color:var(--gold);font-family:'DM Sans',sans-serif">✏️ Modifică</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap">
+        <button onclick="cAdauga()" style="display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:var(--green);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif">＋ Adaugă membru</button>
+        <button onclick="cSterge()" style="padding:9px 14px;font-size:13px;border:0.5px solid var(--border);border-radius:7px;cursor:pointer;background:var(--white);color:var(--muted);font-family:'DM Sans',sans-serif">🗑️ Șterge</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:#FEF9EC;border:0.5px solid var(--gold);border-radius:8px;flex-wrap:wrap">
+        <span style="font-size:12px;color:var(--gold);font-weight:500;white-space:nowrap">🗝️ Parolă fabrică:</span>
+        <input type="password" id="c-fab" maxlength="20" placeholder="Cheia primită de la my-PAL" style="flex:1;min-width:130px;padding:7px 10px;border:0.5px solid var(--gold);border-radius:6px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--white)">
+        <button onclick="cSalvFab()" style="padding:7px 14px;background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500">✅ Salvează</button>
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;padding:10px 12px;background:var(--cream);border-radius:7px;border-left:2px solid var(--gold);margin-top:1rem;font-weight:400">
+        💡 Minorii pot fi adăugați doar de Titular · Parolă inițială = ziua și luna nașterii (ex: 1503) · Fiecare membru își modifică parola direct
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// UTILS
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
+function openOverlay(id){document.getElementById(id).classList.add('activ');document.body.style.overflow='hidden';}
+function openOverlayBottom(id){document.getElementById(id).classList.add('activ');document.body.style.overflow='hidden';}
+function closeOverlay(id){document.getElementById(id).classList.remove('activ');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){['o-verix','o-remind-add','o-remind-reg','o-consiliu'].forEach(closeOverlay);}});
+
+// CEAS
+function updateCeas(){
+  var d=new Date();
+  document.getElementById('ceas').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+  var zile=['Duminică','Luni','Marți','Miercuri','Joi','Vineri','Sâmbătă'];
+  var luni=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+  document.getElementById('ceas-data').textContent=zile[d.getDay()]+', '+d.getDate()+' '+luni[d.getMonth()]+' '+d.getFullYear();
+  var ora=d.getHours();
+  document.getElementById('bun-venit').textContent=(ora<12?'Bună dimineața':ora<18?'Bună ziua':'Bună seara')+'!';
+}
+updateCeas();
+setInterval(updateCeas,1000);
+
+// VIVIX
+function updateVivix(){
+  var ora=new Date().getHours();
+  var msg='';
+  if(ora>=6&&ora<12)msg='🌅 <strong>Bună dimineața!</strong> Vivix a pregătit <strong>reducerile și evenimentele zilei</strong> pentru familia ta.';
+  else if(ora>=12&&ora<15)msg='☀️ <strong>Pauza de prânz!</strong> Ai înregistrat cheltuielile de azi? Vivix te ajută.';
+  else if(ora>=15&&ora<20)msg='🌆 <strong>Bună seara!</strong> Vivix e gata să facă <strong>rezumatul zilei</strong> cu tine.';
+  else msg='🌙 <strong>Seară liniștită!</strong> Vivix te ajută să planifici <strong>agenda de mâine</strong>.';
+  document.getElementById('vivix-msg').innerHTML=msg;
+}
+updateVivix();
+setInterval(updateVivix,60000);
+
+// INTRA IN CASA
+function intraAcasa(){
+  var n=document.getElementById('cine-nume').value.trim();
+  var p=document.getElementById('cine-cod').value.trim();
+  if(!n){toast('⚠️ Scrie-ți numele!');return;}
+  if(!p||p.length<4){openOverlay('o-consiliu');return;}
+  toast('✅ Bine ai venit acasă, '+n+'!');
+  document.getElementById('bun-venit').textContent='Bine ai venit acasă, '+n+'!';
+}
+
+// VERIX
+function nxt(el,id){if(el.value.length===1)document.getElementById(id).focus();}
+function prv(e,el,id){if(e.key==='Backspace'&&!el.value)document.getElementById(id).focus();}
+function acceptVerix(){
+  var cod=['v1','v2','v3','v4'].map(function(id){return document.getElementById(id).value;}).join('');
+  if(cod.length<4){document.getElementById('verix-err').style.display='block';return;}
+  closeOverlay('o-verix');
+  window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_verix','width=480,height=860,left=0,top=0');
+}
+
+// REMIND
+function seteazaRemind(){
+  var text=document.getElementById('rp-text').value.trim();
+  if(!text){toast('⚠️ Scrie ce să-ți amintesc!');return;}
+  var data=document.getElementById('rp-data').value;
+  var mesaj=text+(data?' — la: '+new Date(data).toLocaleString('ro-RO',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'');
+  var tmp=document.createElement('textarea');
+  tmp.value=mesaj;tmp.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(tmp);tmp.focus();tmp.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(tmp);
+  var conf=document.getElementById('rp-conf');
+  conf.style.display='block';
+  conf.textContent='✅ Copiat! Lipește în SEARCHIX: '+mesaj;
+}
+
+function openRegistru(){
+  var rem=JSON.parse(localStorage.getItem('mypal_remind')||'[]');
+  var html='';
+  if(!rem.length){
+    html='<div style="padding:2rem;text-align:center;color:var(--muted);font-weight:400">Niciun reminder setat încă.</div>';
+  } else {
+    html='<table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr style="background:var(--cream)"><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">ID</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Ce</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Când</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Status</th></tr></thead><tbody>';
+    rem.forEach(function(r){
+      var sc=r.status==='Activ'?'var(--gold)':r.status==='Rezolvat'?'var(--green)':'var(--muted)';
+      html+='<tr><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:var(--gold);font-weight:600">'+r.id+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);max-width:200px">'+r.ce+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;white-space:nowrap">'+r.cand_text+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:'+sc+';font-size:12px">'+r.status+'</td></tr>';
+    });
+    html+='</tbody></table>';
+  }
+  document.getElementById('reg-continut').innerHTML=html;
+  openOverlay('o-remind-reg');
+}
+
+function copiazaRegistru(){
+  var rem=JSON.parse(localStorage.getItem('mypal_remind')||'[]');
+  if(!rem.length){toast('⚠️ Nu există remindere!');return;}
+  var text='REGISTRU REAMINTEȘTE-MI — my-PAL\n================================\n';
+  rem.forEach(function(r){text+=r.id+' | '+r.ce+' | '+r.cand_text+' | '+r.status+'\n';});
+  text+='================================\nGenerat: '+new Date().toLocaleString('ro-RO');
+  var tmp=document.createElement('textarea');
+  tmp.value=text;tmp.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(tmp);tmp.focus();tmp.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(tmp);
+  toast('📋 Registru copiat! Lipește în SEARCHIX.');
+}
+
+// CONSILIU
+var cMembri=[];var cContor=0;
+
+function setParolaTitular(dn){
+  var p = cPAuto(dn);
+  var pval = document.getElementById('c-t-pval');
+  var pedit = document.getElementById('c-t-pedit');
+  if(pval && pedit.style.display==='none') pval.textContent = p;
+  if(pedit && pedit.style.display!=='none') pedit.value = p;
+}
+
+function cModP(id){
+  if(id==='t'){
+    var val=document.getElementById('c-t-pval');
+    var edit=document.getElementById('c-t-pedit');
+    var btn=document.getElementById('c-t-btn');
+    if(edit.style.display==='none'||!edit.style.display){
+      val.style.display='none';edit.style.display='inline-block';edit.value='';edit.focus();btn.textContent='✅ Validează';
+    } else {
+      if(edit.value.length<4){toast('⚠️ 4 cifre necesare!');return;}
+      val.style.display='';edit.style.display='none';btn.textContent='✏️ Modifică';toast('✅ Parolă salvată!');
+    }
+    return;
+  }
+  var m=cMembri.find(function(x){return x.id===id;});
+  if(!m)return;
+  m.ed=!m.ed;cRand();
+}
+
+function cSalvP(id){
+  var m=cMembri.find(function(x){return x.id===id;});
+  if(!m)return;
+  var v=document.getElementById('cp'+id).value;
+  if(v.length<4){toast('⚠️ 4 cifre necesare!');return;}
+  m.p=v;m.ed=false;cRand();toast('✅ Parolă salvată!');
+}
+
+function cAdauga(){
+  cMembri.push({id:++cContor,n:'',dn:'',p:'',ed:false});
+  cRand();toast('✅ Membru adăugat!');
+}
+
+function cSterge(){
+  if(!cMembri.length){toast('⚠️ Nu există membri!');return;}
+  cMembri.pop();cRand();toast('🗑️ Șters!');
+}
+
+function cSalvFab(){
+  var v=document.getElementById('c-fab').value;
+  if(!v){toast('⚠️ Introdu cheia!');return;}
+  document.getElementById('c-fab').value='';
+  toast('✅ Parolă fabrică salvată!');
+}
+
+function cPAuto(dn){
+  if(!dn)return'0000';
+  var p=dn.split('/');
+  return(p.length>=2)?p[0].padStart(2,'0')+p[1].padStart(2,'0'):'0000';
+}
+
+function cRand(){
+  var tbody=document.getElementById('c-tbody');
+  var tRow=document.getElementById('c-titular-row').outerHTML;
+  var html=tRow;
+  cMembri.forEach(function(m){
+    var parolaViz = m.p ? m.p : cPAuto(m.dn);
+    var pD=m.ed?'<input type="password" id="cp'+m.id+'" maxlength="4" value="'+parolaViz+'" style="border:0.5px solid var(--gold);border-radius:4px;padding:3px 6px;font-size:13px;width:58px">':'<span style="font-size:13px;color:var(--muted);letter-spacing:1px">'+parolaViz+'</span>';
+    var bT=m.ed?'✅ Validează':'✏️ Modifică';
+    var bF=m.ed?'cSalvP('+m.id+')':'cModP('+m.id+')';
+    var s='padding:8px 10px;border-bottom:0.5px solid var(--border)';
+    html+='<tr>';
+    html+='<td style="'+s+'"><input type="text" value="'+m.n+'" placeholder="Prenume..." onchange="cUpd('+m.id+',\'n\',this.value)" style="border:none;background:transparent;font-size:13px;font-family:DM Sans,sans-serif;width:100%;color:var(--dark)"></td>';
+    html+='<td style="'+s+'"><input type="text" value="'+m.dn+'" placeholder="zz/ll/aaaa" onchange="cUpd('+m.id+',\'dn\',this.value)" style="border:none;background:transparent;font-size:13px;font-family:DM Sans,sans-serif;width:100%;color:var(--dark)"></td>';
+    html+='<td style="'+s+'">'+pD+'</td>';
+    html+='<td style="'+s+';text-align:right"><button onclick="'+bF+'" style="padding:4px 9px;font-size:11px;border:0.5px solid var(--gold);border-radius:4px;cursor:pointer;background:var(--white);color:var(--gold);font-family:DM Sans,sans-serif">'+bT+'</button></td>';
+    html+='</tr>';
+  });
+  tbody.innerHTML=html;
+}
+
+function cUpd(id,f,v){
+  var m=cMembri.find(function(x){return x.id===id;});
+  if(m){
+    m[f]=v;
+    // Daca se updateaza data nasterii si nu are parola custom, setam automat
+    if(f==='dn'&&!m.parola_custom){
+      m.p=cPAuto(v);
+      cRand();
+    }
+  }
+}
+
+// Butonul Registru din nav Remind deschide popup
+document.addEventListener('DOMContentLoaded',function(){
+  var btnReg=document.querySelector('[onclick*="o-remind-reg"]');
+  if(btnReg){
+    btnReg.setAttribute('onclick','openRegistru()');
+  }
+});
+</script>
+
+<!-- MODAL UPGRADE / CARD COMANDA -->
+<div id="modal-upgrade" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10000;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:var(--white);border-radius:16px;width:100%;max-width:400px;max-height:92vh;overflow-y:auto;padding:1.5rem;position:relative;box-shadow:0 8px 40px rgba(0,0,0,0.2)">
+
+    <button onclick="document.getElementById('modal-upgrade').style.display='none'" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);line-height:1">✕</button>
+
+    <!-- Header -->
+    <div style="margin-bottom:1.25rem;padding-right:20px">
+      <div style="font-size:14px;font-weight:700;color:var(--dark);text-transform:uppercase;letter-spacing:0.5px" id="upgrade-titlu">📦 Upgrade la Standard</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:3px">Familia Ionescu · Confirmare comandă</div>
+    </div>
+
+    <!-- Rezumat plan -->
+    <div id="card-plan" style="background:var(--cream);border-radius:12px;border:0.5px solid var(--border);padding:1rem;margin-bottom:1rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div style="font-size:12px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Plan selectat</div>
+          <div style="font-size:18px;font-weight:800;color:var(--dark);margin:4px 0 2px" id="upgrade-plan-nume">Standard</div>
+          <div style="font-size:12px;color:var(--muted)">3 consilieri · Memorie extinsă · Arhivă 6 luni</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:22px;font-weight:800;color:var(--dark)" id="upgrade-pret">59 lei</div>
+          <div style="font-size:11px;color:var(--muted)" id="upgrade-pret-an">sau 49 lei/lună · anual</div>
+        </div>
+      </div>
+      <!-- Toggle lunar/anual -->
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button id="btn-lunar" onclick="selectBillingPeriod('lunar')" style="flex:1;padding:7px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--green);background:var(--green);color:white;font-family:'DM Sans',sans-serif">Lunar</button>
+        <button id="btn-anual" onclick="selectBillingPeriod('anual')" style="flex:1;padding:7px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:var(--cream);color:var(--muted);font-family:'DM Sans',sans-serif">Anual <span style="font-size:10px;color:#3B6D11;font-weight:700">−17%</span></button>
+      </div>
+    </div>
+
+    <!-- Sumar comanda -->
+    <div style="background:var(--cream);border-radius:12px;border:0.5px solid var(--border);padding:1rem;margin-bottom:1rem">
+      <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.5px">🧾 Sumar comandă</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--dark)">
+          <span id="linie-plan">Plan Standard · lunar</span>
+          <span id="linie-pret">59,00 lei</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted)">
+          <span>TVA inclus (19%)</span>
+          <span id="linie-tva">9,38 lei</span>
+        </div>
+        <div style="border-top:0.5px solid var(--border);margin:4px 0"></div>
+        <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--dark)">
+          <span>Total de plată</span>
+          <span id="linie-total">59,00 lei</span>
+        </div>
+        <div style="font-size:11px;color:var(--muted);text-align:right" id="linie-reinnoire">Se reînnoiește automat lunar · Anulare oricând</div>
+      </div>
+    </div>
+
+    <!-- Metoda de plata -->
+    <div style="background:var(--cream);border-radius:12px;border:0.5px solid var(--border);padding:1rem;margin-bottom:1rem">
+      <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.5px">💳 Metodă de plată</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:8px;border-radius:8px;border:1.5px solid var(--green);background:var(--white)">
+          <input type="radio" name="plata" value="card" checked style="accent-color:var(--green)">
+          <span style="font-size:13px;font-weight:600;color:var(--dark)">💳 Card bancar</span>
+          <span style="font-size:11px;color:var(--muted);margin-left:auto">Visa · Mastercard</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:8px;border-radius:8px;border:1.5px solid var(--border);background:var(--white)">
+          <input type="radio" name="plata" value="transfer" style="accent-color:var(--green)">
+          <span style="font-size:13px;font-weight:600;color:var(--dark)">🏦 Transfer bancar</span>
+          <span style="font-size:11px;color:var(--muted);margin-left:auto">3-5 zile lucrătoare</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Acord -->
+    <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:1rem;font-size:12px;color:var(--muted);line-height:1.5">
+      <input type="checkbox" id="acord-upgrade" style="margin-top:2px;accent-color:var(--green);flex-shrink:0">
+      Sunt de acord cu <a href="myPAL_Legal.html" style="color:var(--green)">Termenii și Condițiile</a> și înțeleg că abonamentul se reînnoiește automat.
+    </label>
+
+    <!-- Buton confirmare -->
+    <button onclick="confirmaUpgrade()" style="width:100%;padding:14px;background:var(--green);border:none;border-radius:50px;font-size:14px;font-weight:700;color:white;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.3px;box-shadow:0 2px 12px rgba(74,144,34,0.3)">
+      ✓ Confirmă și plătește
+    </button>
+
+    <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5">
+      🔒 Plată securizată SSL · Datele cardului nu sunt stocate pe serverele noastre
+    </div>
+
+  </div>
+</div>
+
+<script>
+var planCurent = 'standard';
+var periodaCurenta = 'lunar';
+
+var planDate = {
+  standard: { nume:'Standard', lunar:59, anual:49, tvaL:9.38, tvaA:7.79, descriere:'3 consilieri · Memorie extinsă · Arhivă 6 luni' },
+  premium:  { nume:'Premium',  lunar:99, anual:89, tvaL:15.76, tvaA:14.16, descriere:'3 consilieri · Memorie completă · Arhivă nelimitată' }
+};
+
+function deschideUpgrade(plan) {
+  planCurent = plan;
+  periodaCurenta = 'lunar';
+  var m = document.getElementById('modal-abonament');
+  if(m) m.style.display='none';
+  actualizeazaCardComanda();
+  document.getElementById('modal-upgrade').style.display='flex';
+}
+
+function selectBillingPeriod(p) {
+  periodaCurenta = p;
+  actualizeazaCardComanda();
+  document.getElementById('btn-lunar').style.background = p==='lunar' ? 'var(--green)' : 'var(--cream)';
+  document.getElementById('btn-lunar').style.color = p==='lunar' ? 'white' : 'var(--muted)';
+  document.getElementById('btn-lunar').style.borderColor = p==='lunar' ? 'var(--green)' : 'var(--border)';
+  document.getElementById('btn-anual').style.background = p==='anual' ? 'var(--green)' : 'var(--cream)';
+  document.getElementById('btn-anual').style.color = p==='anual' ? 'white' : 'var(--muted)';
+  document.getElementById('btn-anual').style.borderColor = p==='anual' ? 'var(--green)' : 'var(--border)';
+}
+
+function actualizeazaCardComanda() {
+  var d = planDate[planCurent];
+  var pret = periodaCurenta==='lunar' ? d.lunar : d.anual;
+  var tva  = periodaCurenta==='lunar' ? d.tvaL  : d.tvaA;
+  var per  = periodaCurenta==='lunar' ? 'lunar' : 'anual';
+  document.getElementById('upgrade-titlu').textContent = '📦 Upgrade la ' + d.nume;
+  document.getElementById('upgrade-plan-nume').textContent = d.nume;
+  document.getElementById('upgrade-pret').textContent = pret + ' lei';
+  document.getElementById('upgrade-pret-an').textContent = periodaCurenta==='lunar' ? (d.anual+' lei/lună · anual') : (d.lunar+' lei/lună · lunar');
+  document.getElementById('linie-plan').textContent = 'Plan ' + d.nume + ' · ' + per;
+  document.getElementById('linie-pret').textContent = pret.toFixed(2).replace('.',',') + ' lei';
+  document.getElementById('linie-tva').textContent = tva.toFixed(2).replace('.',',') + ' lei';
+  document.getElementById('linie-total').textContent = pret.toFixed(2).replace('.',',') + ' lei';
+  document.getElementById('linie-reinnoire').textContent = 'Se reînnoiește automat ' + per + ' · Anulare oricând';
+}
+
+function confirmaUpgrade() {
+  if(!document.getElementById('acord-upgrade').checked) {
+    alert('Te rugăm să accepți Termenii și Condițiile pentru a continua.');
+    return;
+  }
+  var d = planDate[planCurent];
+  var pret = periodaCurenta==='lunar' ? d.lunar : d.anual;
+  document.getElementById('modal-upgrade').style.display='none';
+  alert('✅ Comandă confirmată!\n\nPlan ' + d.nume + ' · ' + pret + ' lei / ' + periodaCurenta + '\nFamilia Ionescu\n\nVei fi redirecționat către procesatorul de plăți securizat.\n\n(Demo — plata reală va fi activă la lansare)');
+}
+
+document.getElementById('modal-upgrade').addEventListener('click', function(e){
+  if(e.target===this) this.style.display='none';
+});
+</script>
+
+</body>
+</html>
