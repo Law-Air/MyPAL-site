@@ -82,7 +82,7 @@ export async function provisionSite(familyName?: string): Promise<ProvisionResul
     const siteId = siteRes.rows[0].id;
 
     // 5) Generation 0 team — one clone per domain, clone_id = site_number.
-    const domains = ['conta', 'juridic', 'activitati', 'simulari'];
+    const domains = ['conta', 'juridic', 'rezervari_simulari', 'audit'];
     for (const domain of domains) {
       await client.query(
         `INSERT INTO core.clones (site_id, clone_id, role_category, generation, status)

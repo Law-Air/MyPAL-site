@@ -47,7 +47,7 @@ CREATE TABLE core.clones (
     site_id               BIGINT      NOT NULL REFERENCES core.sites(id),
     clone_id              TEXT        NOT NULL,  -- e.g. '1/000.047' or '1/000.047-G1'
     role_category         TEXT        NOT NULL
-                                       CHECK (role_category IN ('conta','juridic','activitati','simulari')),
+                                       CHECK (role_category IN ('conta','juridic','rezervari_simulari','audit')),
     generation             INT         NOT NULL DEFAULT 0,
     mother_carrier_ref     TEXT,       -- lineage reference; can be updated as the chain extends
     status                 TEXT        NOT NULL DEFAULT 'activ'

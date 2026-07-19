@@ -17,7 +17,7 @@ CREATE TABLE :schema_name.family_members (
 -- without a schema change).
 CREATE TABLE :schema_name.categories (
     id          SERIAL PRIMARY KEY,
-    domain      TEXT NOT NULL CHECK (domain IN ('conta','juridic','activitati','simulari')),
+    domain      TEXT NOT NULL CHECK (domain IN ('conta','juridic','rezervari_simulari','audit')),
     name        TEXT NOT NULL,
     sort_order  INT  NOT NULL DEFAULT 0
 );
@@ -34,7 +34,7 @@ CREATE TABLE :schema_name.records (
 
 CREATE TABLE :schema_name.clone_replacement_requests (
     id              SERIAL PRIMARY KEY,
-    role_category   TEXT NOT NULL CHECK (role_category IN ('conta','juridic','activitati','simulari')),
+    role_category   TEXT NOT NULL CHECK (role_category IN ('conta','juridic','rezervari_simulari','audit')),
     requested_by_member_id INT REFERENCES :schema_name.family_members(id),
     reason          TEXT,
     status          TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','done','rejected')),
