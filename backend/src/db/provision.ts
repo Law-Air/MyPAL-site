@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { adminPool } from './adminPool';
 import { config } from '../config';
+import { MYPAL_CATEGORY_SEED } from './categorySeed';
 
 const TEMPLATE_SQL = readFileSync(
   join(__dirname, '..', '..', 'db', 'migrations', '002_site_schema_template.sql'),
@@ -59,6 +60,14 @@ export async function provisionSite(familyName?: string): Promise<ProvisionResul
     //    every site is the data, never the structure).
     const templateSql = TEMPLATE_SQL.replace(/:schema_name/g, schemaName);
     await client.query(templateSql);
+
+    // Seed identică de categorii MyPAL (PF) — aceleași pentru orice site nou.
+    for (const [i, cat] of MYPAL_CATEGORY_SEED.entries()) {
+      await client.query(
+        `INSERT INTO ${schemaName}.categories (code, domain, name, sort_order) VALUES ($1, $2, $3, $4)`,
+        [cat.code, cat.domain, cat.name, i]
+      );
+    }
 
     await client.query(
       `GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA ${schemaName} TO ${dbRoleName}`

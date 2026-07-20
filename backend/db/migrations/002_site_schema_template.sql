@@ -17,9 +17,11 @@ CREATE TABLE :schema_name.family_members (
 -- without a schema change).
 CREATE TABLE :schema_name.categories (
     id          SERIAL PRIMARY KEY,
+    code        TEXT NOT NULL,   -- referinta stabila folosita in ecosistem, ex. 'V01', 'C05', 'J03', 'A02'
     domain      TEXT NOT NULL CHECK (domain IN ('conta','juridic','rezervari_simulari','audit')),
     name        TEXT NOT NULL,
-    sort_order  INT  NOT NULL DEFAULT 0
+    sort_order  INT  NOT NULL DEFAULT 0,
+    UNIQUE (code)
 );
 
 CREATE TABLE :schema_name.records (
