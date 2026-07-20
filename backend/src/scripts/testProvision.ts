@@ -3,6 +3,7 @@ import { Pool } from 'pg';
 import { provisionSite } from '../db/provision';
 import { getSitePool } from '../db/sitePool';
 import { adminPool } from '../db/adminPool';
+import { scheduleAccessWindow, markWindowOpened, markWindowClosed, printManeuverSheet } from '../db/accessWindow';
 
 // Date exclusiv fictive — nicio informatie reala de familie in teste,
 // conform cerintei Safix (Sectiunea 3.3).
@@ -58,6 +59,24 @@ async function main() {
   console.log('--- Test login corect (Site A, parola buna) ---');
   const validCompare = await bcrypt.compare(testPassword, hash);
   console.log('Parola verificata local (bcrypt):', validCompare);
+
+  console.log('--- Test fisa de manevra (access_windows) pt Site A ---');
+  const now = new Date();
+  const in10min = new Date(now.getTime() + 10 * 60 * 1000);
+  const window = await scheduleAccessWindow({
+    siteNumber: siteA.siteNumber,
+    windowStart: now,
+    windowEnd: in10min,
+    requestedBy: 'Admin (test)',
+    notes: 'Migrare test clona conta',
+  });
+  console.log('Fereastra planificata:', window);
+  console.log(await printManeuverSheet(window.id));
+  await markWindowOpened(window.id);
+  console.log('--- Fereastra marcata "deschis" ---');
+  await markWindowClosed(window.id);
+  console.log('--- Fereastra marcata "inchis" ---');
+  console.log(await printManeuverSheet(window.id));
 
   await adminPool.end();
   const pools = [poolA, poolB];

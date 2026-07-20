@@ -62,3 +62,28 @@ CREATE TABLE core.clones (
 
 CREATE INDEX idx_clones_site ON core.clones(site_id);
 CREATE INDEX idx_sites_status ON core.sites(status);
+
+-- "Fisa de manevra" pentru migrarea manuala clona: acces temporar,
+-- time-boxed, la Proiectul claude.ai al unui site, acordat operatorului
+-- uman ("Admix") DOAR cat dureaza migrarea, niciodata permanent.
+-- Deschiderea/inchiderea efectiva a accesului in claude.ai raman manuale
+-- (nu exista API pentru asta) — acest tabel e turnul de control si
+-- jurnalul de audit, nu automatizarea propriu-zisa.
+CREATE TABLE core.access_windows (
+    id              BIGSERIAL PRIMARY KEY,
+    site_id         BIGINT      NOT NULL REFERENCES core.sites(id),
+    clone_id        BIGINT      REFERENCES core.clones(id),
+    operator        TEXT        NOT NULL DEFAULT 'Admix',
+    window_start    TIMESTAMPTZ NOT NULL,  -- planificat
+    window_end      TIMESTAMPTZ NOT NULL,  -- planificat
+    opened_at       TIMESTAMPTZ,           -- confirmat manual, cand chiar s-a deschis accesul
+    closed_at       TIMESTAMPTZ,           -- confirmat manual, cand chiar s-a inchis accesul
+    status          TEXT        NOT NULL DEFAULT 'planificat'
+                                 CHECK (status IN ('planificat','deschis','inchis','confirmat','anulat')),
+    requested_by    TEXT,       -- cine a cerut migrarea (Admin, sau referinta cererii din familie)
+    notes           TEXT,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX idx_access_windows_site ON core.access_windows(site_id);
+CREATE INDEX idx_access_windows_status ON core.access_windows(status);
