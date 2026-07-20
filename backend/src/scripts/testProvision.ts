@@ -3,33 +3,38 @@ import { Pool } from 'pg';
 import { provisionSite } from '../db/provision';
 import { getSitePool } from '../db/sitePool';
 import { adminPool } from '../db/adminPool';
-import { config } from '../config';
+
+// Date exclusiv fictive — nicio informatie reala de familie in teste,
+// conform cerintei Safix (Sectiunea 3.3).
+function safe(result: { siteNumber: string; schemaName: string; dbRoleName: string }) {
+  return { siteNumber: result.siteNumber, schemaName: result.schemaName, dbRoleName: result.dbRoleName };
+}
 
 async function main() {
-  console.log('--- Provisionez Site A (Familia Ionescu) ---');
-  const siteA = await provisionSite('Familia Ionescu');
-  console.log(siteA);
+  console.log('--- Provisionez Site A (familie test) ---');
+  const siteA = await provisionSite('Familie Test A');
+  console.log(safe(siteA)); // parola rolului NU se afiseaza, nici in teste
 
-  console.log('--- Provisionez Site B (Familia Popescu) ---');
-  const siteB = await provisionSite('Familia Popescu');
-  console.log(siteB);
+  console.log('--- Provisionez Site B (familie test) ---');
+  const siteB = await provisionSite('Familie Test B');
+  console.log(safe(siteB));
 
   const testPassword = 'parola-test-123';
   const hash = await bcrypt.hash(testPassword, 10);
   await adminPool.query('UPDATE core.sites SET access_password_hash = $1 WHERE id = $2', [hash, siteA.siteId]);
-  console.log('--- Parola de acces setata pt Site A ---');
+  console.log('--- Parola de acces setata pt Site A (doar hash stocat) ---');
 
   const poolA = await getSitePool(siteA.siteNumber);
   if (!poolA) throw new Error('poolA null');
   await poolA.query(
-    `INSERT INTO family_members (first_name, is_titular) VALUES ('Mircea', true)`
+    `INSERT INTO family_members (first_name, is_titular) VALUES ('Membru Test', true)`
   );
-  console.log('--- Membru familie adaugat in Site A, prin rolul dedicat Site A ---');
+  console.log('--- Membru familie (fictiv) adaugat in Site A, prin rolul dedicat Site A ---');
 
   const membersA = await poolA.query('SELECT first_name, is_titular FROM family_members');
-  console.log('Membri Site A (citit prin rolul A):', membersA.rows);
+  console.log('Membri Site A (cititi prin rolul A):', membersA.rows);
 
-  console.log('--- Test izolare: incerc sa citesc schema Site A folosind rolul Site B ---');
+  console.log('--- Test izolare 1: Site B incearca sa citeasca schema Site A ---');
   const poolB = await getSitePool(siteB.siteNumber);
   if (!poolB) throw new Error('poolB null');
   const schemaA = siteA.schemaName;
@@ -39,6 +44,15 @@ async function main() {
     process.exitCode = 1;
   } catch (err: any) {
     console.log('CORECT — Site B NU poate accesa schema Site A. Eroare Postgres:', err.message);
+  }
+
+  console.log('--- Test izolare 2: contul de provisionare (mypal_admin) incearca sa citeasca datele Site A ---');
+  try {
+    await adminPool.query(`SELECT * FROM ${schemaA}.family_members`);
+    console.log('EROARE DE SECURITATE: contul de provisionare a putut citi datele familiei!');
+    process.exitCode = 1;
+  } catch (err: any) {
+    console.log('CORECT — mypal_admin NU poate citi continutul familiei (doar structura, la provisionare). Eroare Postgres:', err.message);
   }
 
   console.log('--- Test login corect (Site A, parola buna) ---');

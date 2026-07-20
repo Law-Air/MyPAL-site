@@ -12,8 +12,16 @@ Node.js + Express + TypeScript, Postgres cu izolare pe schemă per site.
 - **Un rol Postgres dedicat per site**, cu drepturi STRICT limitate la
   propria schemă. Aplicația nu se conectează niciodată "ca admin" pentru
   a citi datele unui site — folosește mereu rolul acelui site
-  (`src/db/sitePool.ts`). Testat: un site nu poate citi schema altuia
-  (vezi `src/scripts/testProvision.ts`).
+  (`src/db/sitePool.ts`). Testat: un site nu poate citi schema altuia,
+  și — la fel de important — **contul de provisionare (`mypal_admin`) nu
+  poate citi conținutul niciunui site**, doar poate face operațiuni
+  structurale (creare schemă/rol/grant). Tabelele fiecărui site sunt
+  transferate ca proprietate către rolul acelui site imediat după
+  creare (`ALTER TABLE ... OWNER TO`) — altfel `mypal_admin`, fiind
+  cel care le creează, ar rămâne implicit proprietar și ar avea acces
+  complet, indiferent de `GRANT`-uri (cerință explicită din
+  `INSTRUCTIUNE_HOSTIX_Izolare_Securizata.md`, Secțiunea 3.2). Ambele
+  cazuri au test dedicat (vezi `src/scripts/testProvision.ts`).
 - **Parola de acces a site-ului** — hash bcrypt (`core.sites.access_password_hash`),
   nimeni (nici admin) nu o poate citi înapoi.
 - **Parola rolului Postgres al fiecărui site** — criptată (nu hash) cu

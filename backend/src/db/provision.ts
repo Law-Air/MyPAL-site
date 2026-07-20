@@ -53,7 +53,11 @@ export async function provisionSite(familyName?: string): Promise<ProvisionResul
     // 2) Dedicated role + isolated schema.
     await client.query(`CREATE ROLE ${dbRoleName} LOGIN PASSWORD '${dbRolePassword}'`);
     await client.query(`CREATE SCHEMA ${schemaName}`);
-    await client.query(`GRANT USAGE ON SCHEMA ${schemaName} TO ${dbRoleName}`);
+    // CREATE is required (not just USAGE) so that later "ALTER TABLE ...
+    // OWNER TO" succeeds — Postgres requires the new owner to have CREATE
+    // on the schema. Harmless here: it only affects this site's own
+    // isolated schema, never another site's.
+    await client.query(`GRANT USAGE, CREATE ON SCHEMA ${schemaName} TO ${dbRoleName}`);
     await client.query(`REVOKE ALL ON SCHEMA core FROM ${dbRoleName}`);
 
     // 3) Apply the identical per-site template (only difference across
@@ -69,15 +73,35 @@ export async function provisionSite(familyName?: string): Promise<ProvisionResul
       );
     }
 
-    await client.query(
-      `GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA ${schemaName} TO ${dbRoleName}`
+    // Transfer ownership of every table/sequence to the site's own role.
+    // Required, not cosmetic: whoever CREATEs a table in Postgres is its
+    // owner by default, and owners bypass GRANT restrictions entirely.
+    // Without this, mypal_admin (the provisioning account) would retain
+    // full read access to every family's data forever, even though it
+    // never received an explicit GRANT — exactly the gap Safix flagged.
+    // After this, mypal_admin's access to this schema's content is gone;
+    // it keeps only the ability to perform structural operations
+    // (provisioning), never to read family data.
+    // Membership in the target role is required to reassign ownership to
+    // it — granted only for the duration of this transaction, revoked
+    // immediately after, so mypal_admin never retains a standing SET ROLE
+    // path into any site's role.
+    await client.query(`GRANT ${dbRoleName} TO mypal_admin`);
+    const tablesRes = await client.query(
+      `SELECT tablename FROM pg_tables WHERE schemaname = $1`,
+      [schemaName]
     );
-    await client.query(
-      `GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA ${schemaName} TO ${dbRoleName}`
+    for (const { tablename } of tablesRes.rows) {
+      await client.query(`ALTER TABLE ${schemaName}.${tablename} OWNER TO ${dbRoleName}`);
+    }
+    const seqRes = await client.query(
+      `SELECT sequencename FROM pg_sequences WHERE schemaname = $1`,
+      [schemaName]
     );
-    await client.query(
-      `ALTER DEFAULT PRIVILEGES IN SCHEMA ${schemaName} GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO ${dbRoleName}`
-    );
+    for (const { sequencename } of seqRes.rows) {
+      await client.query(`ALTER SEQUENCE ${schemaName}.${sequencename} OWNER TO ${dbRoleName}`);
+    }
+    await client.query(`REVOKE ${dbRoleName} FROM mypal_admin`);
 
     // 4) Register the site + encrypt its role password with the master key.
     const siteRes = await client.query(
