@@ -101,6 +101,47 @@ claude.ai **nu se folosește cu date reale de familie**. În schimb:
 
 ---
 
+## Fișa 5 — Dimensionarea ferestrelor `access_windows` și procedura de extindere
+
+**Context:** ferestrele time-boxed (Fișa 4) reduc expunerea, dar dacă
+sunt calculate strict la minimul tehnic necesar (ex. 5 minute pentru 3
+migrări), orice variație normală (întârziere de rețea, o clarificare
+necesară, o eroare de tastare) transformă o activitate corectă
+într-o depășire de fereastră — ceea ce fie întrerupe operatorul la
+mijlocul unei migrări, fie îl obligă să justifice o abatere pentru un
+incident care nu a afectat securitatea datelor.
+
+**Decizie (Admin + Safix + Hostix):** timpul alocat unei ferestre =
+timp estimat pentru operațiune + marjă. Marja nu relaxează perimetrul
+de securitate (fereastra rămâne time-boxed, jurnalizată, restrânsă la
+proiectele necesare) — doar recunoaște variabilitatea normală a
+lucrului uman.
+
+**Mecanism implementat (`core.access_windows` + `core.access_window_extensions`):**
+- Câmp `estimated_minutes` (estimare tehnică minimă) separat de
+  `window_start`/`window_end` (fereastra alocată = estimare + marjă) —
+  ambele vizibile în jurnalul ferestrei, nu contopite.
+- Procedură de **extindere pro-activă**: dacă operatorul (Admix)
+  observă, ÎNAINTE de expirare, că nu se va încadra, poate cere
+  extindere prin sistem — cererea (motiv, timp suplimentar) și decizia
+  Admin (aprobat/respins) se jurnalizează separat, timestampat.
+- Câmp `unflagged_overrun`: **true doar** dacă fereastra s-a închis
+  DUPĂ termenul alocat (eventual extins) FĂRĂ nicio extindere aprobată
+  care să acopere acel moment. O extindere aprobată nu declanșează
+  acest semnal — e procesul funcționând corect, nu o abatere.
+
+**Testat adversarial, 3 scenarii — toate confirmate:**
+1. Închidere normală, în termen → fără semnal.
+2. Extindere cerută, aprobată, închidere în noul termen → fără semnal.
+3. Închidere după termenul alocat, fără nicio cerere de extindere →
+   semnal declanșat corect (`unflagged_overrun = true`).
+
+**Ce NU schimbă acest mecanism:** fereastra rămâne time-boxed și
+restrânsă la proiectele explicit listate; extinderea prelungește durata,
+nu lărgește niciodată scopul (proiectele) accesului deja aprobat.
+
+---
+
 ## Ce NU e acoperit de aceste teste (limite explicite)
 
 - **Izolarea între Proiecte claude.ai** (Team/Enterprise) nu a fost

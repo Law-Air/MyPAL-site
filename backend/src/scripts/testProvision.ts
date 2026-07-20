@@ -3,7 +3,14 @@ import { Pool } from 'pg';
 import { provisionSite } from '../db/provision';
 import { getSitePool } from '../db/sitePool';
 import { adminPool } from '../db/adminPool';
-import { scheduleAccessWindow, markWindowOpened, markWindowClosed, printManeuverSheet } from '../db/accessWindow';
+import {
+  scheduleAccessWindow,
+  markWindowOpened,
+  markWindowClosed,
+  printManeuverSheet,
+  requestExtension,
+  decideExtension,
+} from '../db/accessWindow';
 
 // Date exclusiv fictive — nicio informatie reala de familie in teste,
 // conform cerintei Safix (Sectiunea 3.3).
@@ -60,23 +67,55 @@ async function main() {
   const validCompare = await bcrypt.compare(testPassword, hash);
   console.log('Parola verificata local (bcrypt):', validCompare);
 
-  console.log('--- Test fisa de manevra (access_windows) pt Site A ---');
-  const now = new Date();
-  const in10min = new Date(now.getTime() + 10 * 60 * 1000);
-  const window = await scheduleAccessWindow({
+  console.log('--- Test A: fisa de manevra normala, inchisa in termen ---');
+  const win1 = await scheduleAccessWindow({
     siteNumber: siteA.siteNumber,
-    windowStart: now,
-    windowEnd: in10min,
+    estimatedMinutes: 5,
+    windowMinutes: 10, // estimare + marja
     requestedBy: 'Admin (test)',
     notes: 'Migrare test clona conta',
   });
-  console.log('Fereastra planificata:', window);
-  console.log(await printManeuverSheet(window.id));
-  await markWindowOpened(window.id);
-  console.log('--- Fereastra marcata "deschis" ---');
-  await markWindowClosed(window.id);
-  console.log('--- Fereastra marcata "inchis" ---');
-  console.log(await printManeuverSheet(window.id));
+  console.log(await printManeuverSheet(win1.id));
+  await markWindowOpened(win1.id);
+  const close1 = await markWindowClosed(win1.id);
+  console.log('Inchidere:', close1, '(asteptat: unflaggedOverrun=false)');
+  console.log(await printManeuverSheet(win1.id));
+
+  console.log('--- Test B: extindere proactiva, aprobata, inchisa in noul termen ---');
+  const win2 = await scheduleAccessWindow({
+    siteNumber: siteA.siteNumber,
+    estimatedMinutes: 5,
+    windowMinutes: 10,
+    requestedBy: 'Admin (test)',
+    notes: 'Migrare test clona juridic',
+  });
+  await markWindowOpened(win2.id);
+  const { extensionId } = await requestExtension(win2.id, 15, 'Clarificare suplimentara necesara la migrare');
+  await decideExtension(extensionId, true);
+  console.log('Extindere aprobata.');
+  const close2 = await markWindowClosed(win2.id);
+  console.log('Inchidere:', close2, '(asteptat: unflaggedOverrun=false, extinderea acopera)');
+  console.log(await printManeuverSheet(win2.id));
+
+  console.log('--- Test C: depasire NESEMNALATA (fara cerere de extindere) — trebuie detectata ---');
+  const win3 = await scheduleAccessWindow({
+    siteNumber: siteA.siteNumber,
+    estimatedMinutes: 1,
+    windowMinutes: 1,
+    requestedBy: 'Admin (test)',
+    notes: 'Simulare depasire, pt test detectie',
+  });
+  await markWindowOpened(win3.id);
+  // Simuleaza trecerea timpului fara sa astept efectiv minutul —
+  // impinge window_end in trecut, ca la o depasire reala, nesemnalata.
+  await adminPool.query(`UPDATE core.access_windows SET window_end = now() - interval '1 minute' WHERE id = $1`, [win3.id]);
+  const close3 = await markWindowClosed(win3.id);
+  console.log('Inchidere:', close3, '(asteptat: unflaggedOverrun=true)');
+  console.log(await printManeuverSheet(win3.id));
+  if (!close3.unflaggedOverrun) {
+    console.log('EROARE: depasirea nesemnalata NU a fost detectata!');
+    process.exitCode = 1;
+  }
 
   await adminPool.end();
   const pools = [poolA, poolB];

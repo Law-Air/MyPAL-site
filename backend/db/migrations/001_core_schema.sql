@@ -70,20 +70,44 @@ CREATE INDEX idx_sites_status ON core.sites(status);
 -- (nu exista API pentru asta) — acest tabel e turnul de control si
 -- jurnalul de audit, nu automatizarea propriu-zisa.
 CREATE TABLE core.access_windows (
-    id              BIGSERIAL PRIMARY KEY,
-    site_id         BIGINT      NOT NULL REFERENCES core.sites(id),
-    clone_id        BIGINT      REFERENCES core.clones(id),
-    operator        TEXT        NOT NULL DEFAULT 'Admix',
-    window_start    TIMESTAMPTZ NOT NULL,  -- planificat
-    window_end      TIMESTAMPTZ NOT NULL,  -- planificat
-    opened_at       TIMESTAMPTZ,           -- confirmat manual, cand chiar s-a deschis accesul
-    closed_at       TIMESTAMPTZ,           -- confirmat manual, cand chiar s-a inchis accesul
-    status          TEXT        NOT NULL DEFAULT 'planificat'
-                                 CHECK (status IN ('planificat','deschis','inchis','confirmat','anulat')),
-    requested_by    TEXT,       -- cine a cerut migrarea (Admin, sau referinta cererii din familie)
-    notes           TEXT,
-    created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+    id                  BIGSERIAL PRIMARY KEY,
+    site_id             BIGINT      NOT NULL REFERENCES core.sites(id),
+    clone_id            BIGINT      REFERENCES core.clones(id),
+    operator            TEXT        NOT NULL DEFAULT 'Admix',
+    estimated_minutes   INT         NOT NULL,  -- estimare_necesara: minim tehnic, NU fereastra alocata
+    window_start        TIMESTAMPTZ NOT NULL,  -- fereastra_alocata (estimare + marja) — planificat
+    window_end          TIMESTAMPTZ NOT NULL,  -- fereastra_alocata (estimare + marja) — planificat
+    opened_at           TIMESTAMPTZ,           -- confirmat manual, cand chiar s-a deschis accesul
+    closed_at           TIMESTAMPTZ,           -- confirmat manual, cand chiar s-a inchis accesul
+    unflagged_overrun   BOOLEAN     NOT NULL DEFAULT false,
+    -- true doar daca s-a inchis DUPA sfarsitul (eventual extins) alocat,
+    -- FARA nicio cerere de extindere aprobata care sa acopere acel moment.
+    -- O extindere aprobata NU seteaza acest camp — e procesul functionand
+    -- corect, nu o abatere. Semnalul real e depasirea NEsemnalata.
+    status              TEXT        NOT NULL DEFAULT 'planificat'
+                                     CHECK (status IN ('planificat','deschis','inchis','confirmat','anulat')),
+    requested_by        TEXT,       -- cine a cerut migrarea (Admin, sau referinta cererii din familie)
+    notes                TEXT,
+    created_at           TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE INDEX idx_access_windows_site ON core.access_windows(site_id);
 CREATE INDEX idx_access_windows_status ON core.access_windows(status);
+
+-- Cereri de extindere (Sectiunea C1 din Fisa de Manevra) — solicitate
+-- de Admix INAINTE de expirare, aprobate/respinse de Admin, jurnalizate
+-- separat. Extinderea prelungeste DURATA, niciodata scopul (proiectele
+-- deja aprobate in fereastra parinte raman aceleasi).
+CREATE TABLE core.access_window_extensions (
+    id                  BIGSERIAL PRIMARY KEY,
+    access_window_id    BIGINT      NOT NULL REFERENCES core.access_windows(id),
+    requested_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+    additional_minutes  INT         NOT NULL,
+    reason              TEXT        NOT NULL,
+    decision            TEXT        NOT NULL DEFAULT 'pending'
+                                     CHECK (decision IN ('pending','approved','rejected')),
+    decided_at           TIMESTAMPTZ,
+    new_window_end       TIMESTAMPTZ  -- setat doar daca decision = 'approved'
+);
+
+CREATE INDEX idx_access_window_extensions_window ON core.access_window_extensions(access_window_id);
