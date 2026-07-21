@@ -10,20 +10,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HETZNER_SSH_KEY_B64 }}" | base64 -d > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.HETZNER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
       - name: Sync files to server
-        uses: easingthemes/ssh-deploy@v6.0.3
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.HETZNER_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HETZNER_HOST }}
-          REMOTE_USER: ${{ secrets.HETZNER_USER }}
-          SOURCE: "./"
-          TARGET: "/var/www/mypal-site/"
-          EXCLUDE: "/.git/, /.github/"
+        run: |
+          rsync -avz --delete \
+            --exclude '.git/' --exclude '.github/' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            ./ "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/var/www/mypal-site/"
 
       - name: Reload nginx
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.HETZNER_HOST }}
-          username: ${{ secrets.HETZNER_USER }}
-          key: ${{ secrets.HETZNER_SSH_KEY }}
-          script: systemctl reload nginx
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" "systemctl reload nginx"
