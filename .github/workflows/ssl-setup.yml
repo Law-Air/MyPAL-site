@@ -1,0 +1,24 @@
+name: SSL Setup (Hetzner)
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HETZNER_SSH_KEY_B64 }}" | base64 -d > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.HETZNER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Show current nginx config
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" '
+            echo "=== nginx -v ==="; nginx -v 2>&1
+            echo "=== sites-enabled ==="; ls -la /etc/nginx/sites-enabled/ 2>&1
+            echo "=== continut sites-enabled ==="; for f in /etc/nginx/sites-enabled/*; do echo "--- $f ---"; cat "$f" 2>&1; done
+            echo "=== certbot instalat? ==="; command -v certbot && certbot --version || echo "certbot NU e instalat"
+          '
