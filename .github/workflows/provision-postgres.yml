@@ -1,0 +1,32 @@
+name: Provision Postgres (Hetzner)
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HETZNER_SSH_KEY_B64 }}" | base64 -d > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.HETZNER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Install Postgres & generate production secrets (idempotent)
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" 'bash -s' < .github/scripts/provision-postgres.sh
+
+      - name: Apply core schema migration
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" \
+            'set -a; source /etc/mypal/db.env; set +a; PGPASSWORD="$PGPASSWORD" psql -h 127.0.0.1 -U mypal_admin -d mypal_prod -v ON_ERROR_STOP=1' \
+            < backend/db/migrations/001_core_schema.sql
+
+      - name: Verify core schema
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" \
+            'set -a; source /etc/mypal/db.env; set +a; PGPASSWORD="$PGPASSWORD" psql -h 127.0.0.1 -U mypal_admin -d mypal_prod -c "\dt core.*"'
