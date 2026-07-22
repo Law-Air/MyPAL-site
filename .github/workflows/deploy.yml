@@ -19,8 +19,11 @@ jobs:
 
       - name: Sync files to server
         run: |
-          rsync -avz --delete \
+          rsync -avz --delete --delete-excluded \
             --exclude '.git/' --exclude '.github/' \
+            --exclude 'backend/' \
+            --exclude '*.md' \
+            --exclude '.env*' \
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
             ./ "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/var/www/mypal-site/"
 
