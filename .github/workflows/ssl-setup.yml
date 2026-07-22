@@ -22,3 +22,9 @@ jobs:
             echo "=== continut sites-enabled ==="; for f in /etc/nginx/sites-enabled/*; do echo "--- $f ---"; cat "$f" 2>&1; done
             echo "=== certbot instalat? ==="; command -v certbot && certbot --version || echo "certbot NU e instalat"
           '
+
+      - uses: actions/checkout@v4
+
+      - name: Link domain to nginx block, install certbot, obtain SSL cert
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" 'bash -s' < .github/scripts/ssl-setup.sh
