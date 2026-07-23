@@ -52,3 +52,34 @@ npm start               # porneste serverul pe :3000
 - Legătura cu sistemul extern de coduri (`Cod XXX.XXX` / `Parolă FAB-...`)
   — presupunere curentă: `site_number` (`core.sites.site_number`) chiar
   este acest cod, alocat extern și pre-perechiat. De confirmat.
+
+### Flux real de autentificare (clarificat cu Mircea, 23 iulie 2026) — de implementat
+
+`/api/login` e construit azi pe `site_number` + parolă, dar fluxul REAL, pe
+3 niveluri, e diferit:
+
+1. **Prima intrare** — verificare adresă de email (a familiei).
+2. **Intrări ulterioare** — email + **parola familiei** (poate exista și un
+   al doilea email de familie, adăugat ulterior). Aceasta e parola-mamă
+   emisă la alocarea site-ului (`core.sites.access_password_hash`), dar
+   verificarea se face după EMAIL, nu după `site_number` direct — deci
+   `core.sites` are nevoie de o coloană `email` (sau un tabel separat, dacă
+   se acceptă mai multe email-uri per familie), iar `/api/login` trebuie
+   rescris sa caute site-ul dupa email, nu dupa `site_number`.
+3. **În Acasă → Consiliul Familiei** — reprezentantul familiei (Titular)
+   activează codurile (PIN-urile) celorlalți membri, autorizat cu parola
+   familiei. Aici intră în joc `family_members.pin_hash` — dar activarea
+   e o acțiune a Titularului, nu un login separat al fiecărui membru.
+
+Pe frontend, ecranul "Intră în casă" din `myPAL_Acasa.html` (funcția
+`intraAcasa()`) NU e conectat azi la niciunul dintre aceste niveluri —
+verifică doar `lungime >= 4`, fără sa valideze nimic real. La fel, codul
+din overlay-ul Verix (`v1`-`v4`) e un al treilea cod, separat, folosit doar
+ca sa deschidă fereastra de chat — neconfirmat inca daca ramane asa sau
+se leaga de PIN-ul membrului.
+
+**De facut, pas cu pas:** (1) adaugă `email` la `core.sites` (sau tabel
+separat pt mai multe email-uri), (2) rescrie `/api/login` sa caute dupa
+email, (3) construiește ecranul de verificare email (prima intrare),
+(4) conectează Consiliul Familiei la un endpoint real de activare PIN-uri
+membri, autorizat cu parola familiei deja validata la login.
