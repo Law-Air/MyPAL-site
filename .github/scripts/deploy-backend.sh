@@ -21,6 +21,12 @@ fi
 
 echo "=== Instalare dependinte productie ==="
 npm install --omit=dev
+# npm blocheaza implicit scripturile de instalare ale pachetelor (politica
+# "allow-scripts"), inclusiv cel al bcrypt (node-gyp-build) - fara el,
+# binarul nativ nu se construieste si require('bcrypt') pica la runtime.
+# Aprobam explicit si reconstruim.
+npm approve-scripts --allow-scripts-pending || true
+npm rebuild
 
 echo "=== Configurare serviciu systemd ==="
 cat > /etc/systemd/system/mypal-backend.service <<'UNITEOF'
@@ -45,8 +51,20 @@ UNITEOF
 systemctl daemon-reload
 systemctl enable mypal-backend
 systemctl restart mypal-backend
-sleep 2
-systemctl is-active mypal-backend
+
+echo "=== Astept pornirea serviciului ==="
+for i in $(seq 1 10); do
+  if systemctl is-active --quiet mypal-backend; then
+    echo "Activ dupa ${i}s."
+    break
+  fi
+  sleep 1
+done
+if ! systemctl is-active --quiet mypal-backend; then
+  echo "EROARE: serviciul nu a pornit. Jurnal:"
+  journalctl -u mypal-backend --no-pager -n 50
+  exit 1
+fi
 
 echo "=== Legare nginx -> backend (/api/) ==="
 CONF=/etc/nginx/sites-available/mypal-site
