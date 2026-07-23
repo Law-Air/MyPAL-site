@@ -40,6 +40,10 @@ jobs:
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
             backend/package.json backend/package-lock.json \
             "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/opt/mypal-backend/"
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            backend/db/ \
+            "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/opt/mypal-backend/db/"
 
       - name: Install deps, configure systemd + nginx proxy, start service
         run: |
