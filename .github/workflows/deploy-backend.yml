@@ -28,13 +28,17 @@ jobs:
 
       - name: Prepare server directory
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" 'mkdir -p /opt/mypal-backend'
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" 'mkdir -p /opt/mypal-backend/dist'
 
       - name: Sync built backend to server
         run: |
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
-            backend/dist/ backend/package.json backend/package-lock.json \
+            backend/dist/ \
+            "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/opt/mypal-backend/dist/"
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            backend/package.json backend/package-lock.json \
             "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/opt/mypal-backend/"
 
       - name: Install deps, configure systemd + nginx proxy, start service
