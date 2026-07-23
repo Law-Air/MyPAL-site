@@ -104,5 +104,8 @@ else
 fi
 
 echo "=== Verificare finala ==="
+echo "--- direct pe backend (port 3000) ---"
 curl -s http://127.0.0.1:3000/health && echo
+echo "--- prin nginx + domeniu + SSL (calea reala folosita de site) ---"
+curl -s https://my-pal.ai/api/health && echo
 systemctl status mypal-backend --no-pager -l | head -10
