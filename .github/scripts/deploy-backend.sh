@@ -52,17 +52,22 @@ systemctl daemon-reload
 systemctl enable mypal-backend
 systemctl restart mypal-backend
 
-echo "=== Astept pornirea serviciului ==="
-for i in $(seq 1 10); do
-  if systemctl is-active --quiet mypal-backend; then
-    echo "Activ dupa ${i}s."
-    break
-  fi
+echo "=== Astept stabilizarea serviciului (verific de mai multe ori, ca sa prind crash-loop) ==="
+STABLE=true
+for i in $(seq 1 6); do
   sleep 1
+  STATE=$(systemctl is-active mypal-backend || true)
+  echo "  t+${i}s: $STATE"
+  if [ "$STATE" != "active" ]; then
+    STABLE=false
+  fi
 done
-if ! systemctl is-active --quiet mypal-backend; then
-  echo "EROARE: serviciul nu a pornit. Jurnal:"
-  journalctl -u mypal-backend --no-pager -n 50
+
+echo "=== Jurnal serviciu (ultimele 40 linii, mereu afisat) ==="
+journalctl -u mypal-backend --no-pager -n 40
+
+if [ "$STABLE" != "true" ]; then
+  echo "EROARE: serviciul nu a fost stabil 'active' pe durata verificarii."
   exit 1
 fi
 
