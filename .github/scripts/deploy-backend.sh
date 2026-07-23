@@ -73,6 +73,18 @@ fi
 
 echo "=== Legare nginx -> backend (/api/) ==="
 CONF=/etc/nginx/sites-available/mypal-site
+# proxy_pass FARA path (nici macar "/") dupa host:port - cu path (chiar
+# si doar "/") nginx REscrie prefixul location-ului, taind "/api/" din
+# cerere inainte sa ajunga la Express (care are rutele definite CU
+# "/api/..."). Fara path dupa "3000", nginx trimite URI-ul original,
+# neschimbat, catre backend.
+if grep -q "proxy_pass http://127.0.0.1:3000/;" "$CONF"; then
+  sed -i 's#proxy_pass http://127.0.0.1:3000/;#proxy_pass http://127.0.0.1:3000;#' "$CONF"
+  nginx -t
+  systemctl reload nginx
+  echo "Corectat: proxy_pass nu mai taie prefixul /api/."
+fi
+
 if ! grep -q "location /api/" "$CONF"; then
   # Insereaza blocul de proxy imediat dupa "location / { ... }" din
   # server block-ul HTTPS (singurul care are try_files - cel de pe 80
@@ -85,7 +97,7 @@ with open(path) as f:
 marker = "    location / {\n        try_files $uri $uri/ =404;\n    }\n"
 proxy_block = (
     "    location /api/ {\n"
-    "        proxy_pass http://127.0.0.1:3000/;\n"
+    "        proxy_pass http://127.0.0.1:3000;\n"
     "        proxy_set_header Host $host;\n"
     "        proxy_set_header X-Real-IP $remote_addr;\n"
     "    }\n"
