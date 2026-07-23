@@ -6,7 +6,10 @@ CREATE TABLE :schema_name.family_members (
     id                  SERIAL PRIMARY KEY,
     first_name          TEXT        NOT NULL,
     birth_date          DATE,
-    pin_hash            TEXT,                          -- 4-digit PIN, bcrypt hash
+    relation_label      TEXT,                          -- 'Tata','Mama','Copil mare', etc.
+    member_code         TEXT,                          -- cod membru, in clar — separare de fluxuri
+                                                         -- intre membri (prezentat liber Consilierului),
+                                                         -- NU un mecanism de securitate reala
     is_titular          BOOLEAN     NOT NULL DEFAULT false,
     can_set_custom_pin  BOOLEAN     NOT NULL DEFAULT true,
     created_at          TIMESTAMPTZ NOT NULL DEFAULT now()

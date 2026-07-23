@@ -7,6 +7,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "dev:migrate": "psql -f db/migrations/001_core_schema.sql",
+    "migrate:sites": "node dist/scripts/migrateSites.js",
     "test:provision": "npm run build && node dist/scripts/testProvision.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,12 +16,14 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "pg": "^8.22.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.9",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
     "@types/pg": "^8.20.0",

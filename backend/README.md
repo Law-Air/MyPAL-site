@@ -40,11 +40,58 @@ npm run test:provision # provisioneaza 2 site-uri de test si verifica izolarea
 npm start               # porneste serverul pe :3000
 ```
 
+## Flux real de autentificare (implementat 23 iulie 2026)
+
+Login-ul e pe email, nu pe `site_number` — deciziile lui Mircea din aceeași zi:
+
+1. **`POST /api/login`** `{email, password}` — caută site-ul după
+   `core.site_emails.email` (o familie poate avea mai multe email-uri;
+   primul e `is_primary`), verifică `access_password_hash` (bcrypt).
+   La succes creează o sesiune (`core.sessions`, token în cookie
+   `mypal_session`, httpOnly, **fără expirare automată** — "asta e casa
+   lor"). Răspunsul include `password_is_default`.
+2. **Doar la prima intrare** (`password_is_default = true`): frontend-ul
+   arată alegerea păstrează/schimbă. `POST /api/auth/keep-password` sau
+   `POST /api/auth/set-password {new_password}`.
+3. **Delogare protejată** — `POST /api/auth/logout {password}` cere
+   reconfirmarea parolei familiei înainte să revoce sesiunea (protecție la
+   glumele copiilor, cerere explicită Mircea).
+4. **Consiliul Familiei** (`GET/POST/PUT /api/family/members`, cu sesiunea
+   de familie) — Titularul setează `relation_label` + `member_code` per
+   membru. `member_code` e stocat **în clar** (nu hash) — decizie explicită
+   Mircea: separarea fluxurilor între membri e o formalitate internă
+   (mediu privat Claude Team), nu securitate reală, deci nu trebuie sa fie
+   ireversibil. `GET /api/family/consilier-line` produce linia unică
+   `Rol-Nume-Cod ; ...` codificată Base64, pe care Titularul o postează
+   manual la fiecare Consilier (Advix/Adviz/Verix/Vivix) — verificarea
+   Nume+Cod în chat rămâne manuală/conversațională, Consilierii nefiind
+   (încă) conectați live la acest backend.
+
+## Comenzi și alocare (plată → emitere site+parolă)
+
+Pentru pilot (20-30 comenzi), fără procesator de plăți — confirmarea e
+manuală, din `myPAL_Admin.html` (protejat cu header `x-admin-token`,
+secretul `ADMIN_TOKEN` din `/etc/mypal/db.env`, generat automat la deploy).
+
+1. **`POST /api/orders`** `{family_name, email, plan}` (public) — scrie o
+   comandă `pending` în `core.orders`.
+2. **`POST /api/admin/orders/:id/confirm-payment`** (admin) — alocă primul
+   site nevândut (`core.sites.allocated_at IS NULL`, sau provisionează unul
+   nou dacă rezerva e goală), generează parola, o hash-uiește, trimite
+   emailul (`src/mail.ts` — **stub, doar loghează**, nu există încă SMTP
+   configurat) și marchează alocarea. Parola în clar există o singură dată,
+   local, cât să fie trimisă — Admin nu o vede niciodată în răspuns
+   (`Nume+Email+Parolă Blank`, cerință explicită Mircea).
+
 ## Ce lipsește încă (nu blocant pentru pilot, dar de știut)
 
-- Sesiuni reale după login (acum doar confirmă parola, nu emite token/cookie).
-- PIN-uri membri familie (`family_members.pin_hash`) — coloana există, nu e
-  încă folosită de niciun endpoint.
+- **Trimitere reală de email** — `src/mail.ts` doar loghează conținutul;
+  are nevoie de credențiale SMTP sau un provider (Resend/Postmark/etc.)
+  ca să trimită efectiv.
+- Wiring frontend pentru Consiliul Familiei (`myPAL_Acasa.html`) — API-ul
+  există (`/api/family/members`, `/api/family/consilier-line`), dar tabelul
+  de membri din overlay rămâne pe datele mock existente; conectarea la API
+  e următorul pas.
 - Lista exactă de categorii (10-20 per domeniu) — schema `categories` e
   gata, dar neseeded — așteaptă lista finală de la Mircea/Safix.
 - Cererea de înlocuire clonă (`clone_replacement_requests`) — tabelul
@@ -52,34 +99,3 @@ npm start               # porneste serverul pe :3000
 - Legătura cu sistemul extern de coduri (`Cod XXX.XXX` / `Parolă FAB-...`)
   — presupunere curentă: `site_number` (`core.sites.site_number`) chiar
   este acest cod, alocat extern și pre-perechiat. De confirmat.
-
-### Flux real de autentificare (clarificat cu Mircea, 23 iulie 2026) — de implementat
-
-`/api/login` e construit azi pe `site_number` + parolă, dar fluxul REAL, pe
-3 niveluri, e diferit:
-
-1. **Prima intrare** — verificare adresă de email (a familiei).
-2. **Intrări ulterioare** — email + **parola familiei** (poate exista și un
-   al doilea email de familie, adăugat ulterior). Aceasta e parola-mamă
-   emisă la alocarea site-ului (`core.sites.access_password_hash`), dar
-   verificarea se face după EMAIL, nu după `site_number` direct — deci
-   `core.sites` are nevoie de o coloană `email` (sau un tabel separat, dacă
-   se acceptă mai multe email-uri per familie), iar `/api/login` trebuie
-   rescris sa caute site-ul dupa email, nu dupa `site_number`.
-3. **În Acasă → Consiliul Familiei** — reprezentantul familiei (Titular)
-   activează codurile (PIN-urile) celorlalți membri, autorizat cu parola
-   familiei. Aici intră în joc `family_members.pin_hash` — dar activarea
-   e o acțiune a Titularului, nu un login separat al fiecărui membru.
-
-Pe frontend, ecranul "Intră în casă" din `myPAL_Acasa.html` (funcția
-`intraAcasa()`) NU e conectat azi la niciunul dintre aceste niveluri —
-verifică doar `lungime >= 4`, fără sa valideze nimic real. La fel, codul
-din overlay-ul Verix (`v1`-`v4`) e un al treilea cod, separat, folosit doar
-ca sa deschidă fereastra de chat — neconfirmat inca daca ramane asa sau
-se leaga de PIN-ul membrului.
-
-**De facut, pas cu pas:** (1) adaugă `email` la `core.sites` (sau tabel
-separat pt mai multe email-uri), (2) rescrie `/api/login` sa caute dupa
-email, (3) construiește ecranul de verificare email (prima intrare),
-(4) conectează Consiliul Familiei la un endpoint real de activare PIN-uri
-membri, autorizat cu parola familiei deja validata la login.

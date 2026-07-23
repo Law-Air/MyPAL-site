@@ -180,13 +180,16 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
   <div class="sect-label">Identificare</div>
   <h2 class="sect-title">Intră în casă</h2>
   <div class="card">
-    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.6;font-weight:400">Spune-ne numele tău și introdu codul personal pentru a accesa spațiul tău din my-PAL.</p>
-    <div class="cine-row">
-      <input type="text" class="cine-input" id="cine-nume" placeholder="Numele tău...">
-      <input type="password" class="cine-input" id="cine-cod" placeholder="Cod personal (4 cifre)" maxlength="4">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.6;font-weight:400" id="login-instructiune">Introdu emailul și parola familiei pentru a accesa spațiul tău din my-PAL.</p>
+    <div class="cine-row" id="login-form">
+      <input type="email" class="cine-input" id="login-email" placeholder="Emailul familiei...">
+      <input type="password" class="cine-input" id="login-parola" placeholder="Parola familiei">
       <button class="btn-green" onclick="intraAcasa()">Intră →</button>
     </div>
-    <div style="margin-top:10px"><button onclick="openOverlay('o-consiliu')" style="padding:8px 16px;background:var(--green-light);border:1.5px solid var(--green);border-radius:7px;font-size:13px;color:var(--green);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500">👨‍👩‍👧‍👦 Prima dată? Deschide Consiliul Familiei →</button></div>
+    <div style="margin-top:10px" id="login-actiuni">
+      <button onclick="openOverlay('o-consiliu')" style="padding:8px 16px;background:var(--green-light);border:1.5px solid var(--green);border-radius:7px;font-size:13px;color:var(--green);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500">👨‍👩‍👧‍👦 Consiliul Familiei →</button>
+      <button id="btn-delogare" onclick="delogheaza()" style="display:none;margin-left:8px;padding:8px 16px;background:#fff;border:1.5px solid var(--muted);border-radius:7px;font-size:13px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500">🔒 Delogare</button>
+    </div>
   </div>
 </div>
 
@@ -457,6 +460,18 @@ document.getElementById('modal-abonament').addEventListener('click', function(e)
   </div>
 </div>
 
+<!-- OVERLAY PAS 2: PASTREAZA / SCHIMBA PAROLA (doar la prima intrare) -->
+<div class="overlay" id="o-parola-init">
+  <div class="modal-box">
+    <div class="modal-title" style="margin-bottom:0.5rem">Prima ta intrare</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1.25rem;font-weight:400">Poți păstra parola primită pe email, sau o poți schimba acum cu una a ta.</p>
+    <button onclick="pastreazaParola()" style="width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:14px">✅ Păstrează parola primită</button>
+    <label style="display:block;font-size:12px;color:var(--muted);text-align:left;margin-bottom:6px">Sau setează o parolă nouă</label>
+    <input type="password" id="parola-noua" placeholder="Parola ta nouă" style="width:100%;padding:10px 12px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:10px;box-sizing:border-box">
+    <button onclick="schimbaParola()" style="width:100%;padding:12px;background:var(--gold);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">🔑 Schimbă parola</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -493,14 +508,72 @@ function updateVivix(){
 updateVivix();
 setInterval(updateVivix,60000);
 
-// INTRA IN CASA
-function intraAcasa(){
-  var n=document.getElementById('cine-nume').value.trim();
-  var p=document.getElementById('cine-cod').value.trim();
-  if(!n){toast('⚠️ Scrie-ți numele!');return;}
-  if(!p||p.length<4){openOverlay('o-consiliu');return;}
-  toast('✅ Bine ai venit acasă, '+n+'!');
-  document.getElementById('bun-venit').textContent='Bine ai venit acasă, '+n+'!';
+// INTRA IN CASA — login real (email + parola familiei)
+function arataLogat(siteNumber){
+  document.getElementById('login-instructiune').textContent='Ești acasă (' + siteNumber + ').';
+  document.getElementById('login-form').style.display='none';
+  document.getElementById('btn-delogare').style.display='inline-block';
+}
+function arataDelogat(){
+  document.getElementById('login-instructiune').textContent='Introdu emailul și parola familiei pentru a accesa spațiul tău din my-PAL.';
+  document.getElementById('login-form').style.display='flex';
+  document.getElementById('btn-delogare').style.display='none';
+}
+async function verificaSesiune(){
+  try{
+    var r=await fetch('/api/me',{credentials:'same-origin'});
+    if(r.ok){var d=await r.json();arataLogat(d.site_number);}
+  }catch(e){/* nedeterminat, ramane ecranul de login */}
+}
+verificaSesiune();
+
+async function intraAcasa(){
+  var email=document.getElementById('login-email').value.trim();
+  var parola=document.getElementById('login-parola').value;
+  if(!email||!parola){toast('⚠️ Completează emailul și parola!');return;}
+  try{
+    var r=await fetch('/api/login',{
+      method:'POST',credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,password:parola})
+    });
+    var d=await r.json();
+    if(!r.ok){toast('⚠️ '+(d.error||'Autentificare eșuată.'));return;}
+    if(d.password_is_default){openOverlay('o-parola-init');}
+    arataLogat(d.site_number);
+    toast('✅ Bine ai venit acasă!');
+  }catch(e){toast('⚠️ Nu am putut contacta serverul. Încearcă din nou.');}
+}
+
+async function pastreazaParola(){
+  await fetch('/api/auth/keep-password',{method:'POST',credentials:'same-origin'});
+  closeOverlay('o-parola-init');
+  toast('✅ Parola rămâne cea primită.');
+}
+async function schimbaParola(){
+  var noua=document.getElementById('parola-noua').value;
+  if(!noua||noua.length<4){toast('⚠️ Parola nouă trebuie sa aiba cel putin 4 caractere!');return;}
+  var r=await fetch('/api/auth/set-password',{
+    method:'POST',credentials:'same-origin',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({new_password:noua})
+  });
+  if(!r.ok){toast('⚠️ Nu am putut schimba parola.');return;}
+  closeOverlay('o-parola-init');
+  toast('✅ Parola a fost schimbată.');
+}
+async function delogheaza(){
+  var parola=prompt('Pentru delogare, confirmă parola familiei:');
+  if(!parola)return;
+  var r=await fetch('/api/auth/logout',{
+    method:'POST',credentials:'same-origin',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({password:parola})
+  });
+  var d=await r.json();
+  if(!r.ok){toast('⚠️ '+(d.error||'Delogare eșuată.'));return;}
+  arataDelogat();
+  toast('👋 Te-ai delogat.');
 }
 
 // VERIX

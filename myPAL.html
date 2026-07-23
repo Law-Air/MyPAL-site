@@ -606,7 +606,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     <button class="modal-close" onclick="inchideComanda()">✕</button>
     <div id="form-comanda">
       <div class="modal-title">Comandă my-PAL</div>
-      <p class="modal-sub">Completează datele — vei primi codul tău de acces pe email în câteva minute.</p>
+      <p class="modal-sub">Completează datele — după confirmarea plății, primești codul tău de acces pe email.</p>
       <label class="field-label">Numele familiei</label>
       <input type="text" class="field-input" id="cmd-familie" placeholder="ex: Familia Ionescu">
       <label class="field-label">Email</label>
@@ -615,14 +615,12 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
       <input type="tel" class="field-input" id="cmd-tel" placeholder="07xx xxx xxx">
       <input type="hidden" id="cmd-plan" value="standard">
       <button class="btn-modal" onclick="trimiteComanda()">📨 Trimite comanda</button>
-      <p class="modal-nota">Vei primi codul tău de acces my-PAL pe email. Procesare automată — fără intervenție umană.</p>
+      <p class="modal-nota">Comanda ta e înregistrată imediat. După confirmarea plății, primești pe email codul tău de acces my-PAL și parola.</p>
     </div>
     <div class="confirmare" id="confirmare-comanda">
       <div class="confirmare-icon">✅</div>
       <div class="confirmare-title">Comanda ta a fost înregistrată!</div>
-      <p class="confirmare-text">Codul tău de acces my-PAL este:</p>
-      <div class="confirmare-cod" id="cod-generat">---</div>
-      <p class="confirmare-text">Salvează acest cod — îl vei folosi la fiecare intrare în my-PAL.<br><br>Un email de confirmare a fost trimis la adresa ta.</p>
+      <p class="confirmare-text">După confirmarea plății, vei primi pe email codul tău de site my-PAL și parola de acces.<br><br>Verifică emailul în perioada următoare.</p>
       <button onclick="treciLa(3)" style="margin-top:1rem;padding:13px 28px;background:var(--green);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Continuă spre Intrare →</button>
     </div>
   </div>
@@ -810,29 +808,24 @@ function inchideComanda(){
 document.getElementById('modal-comanda').addEventListener('click', function(e){
   if(e.target === this) inchideComanda();
 });
-function generaCod(){
-  if(nextIndex > 20) return null;
-  var nr = String(nextIndex).padStart(3, '0');
-  return '001.' + nr;
-}
-function generaCheieFabrica(cod){
-  return 'FAB-' + cod + '-' + Math.random().toString(36).substring(2,6).toUpperCase();
-}
-function trimiteComanda(){
+async function trimiteComanda(){
   var familie = document.getElementById('cmd-familie').value.trim();
   var email = document.getElementById('cmd-email').value.trim();
   if(!familie || !email){ toast('⚠️ Completează numele familiei și emailul!'); return; }
   if(!email.includes('@')){ toast('⚠️ Email invalid!'); return; }
-  var cod = generaCod();
-  if(!cod){ toast('⚠️ Nu mai sunt locuri disponibile în calupul curent. Contactați my-PAL.'); return; }
-  var cheie = generaCheieFabrica(cod);
-  coduriAlocate[cod] = {familie: familie, email: email, plan: planSelectat, data: new Date().toISOString(), cheie: cheie};
-  localStorage.setItem('mypal_coduri', JSON.stringify(coduriAlocate));
-  localStorage.setItem('mypal_ultimul_cod', cod);
-  nextIndex++;
-  document.getElementById('cod-generat').textContent = cod;
-  document.getElementById('form-comanda').style.display = 'none';
-  document.getElementById('confirmare-comanda').style.display = 'block';
+  try{
+    var r = await fetch('/api/orders', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({family_name: familie, email: email, plan: planSelectat})
+    });
+    var data = await r.json();
+    if(!r.ok){ toast('⚠️ ' + (data.error || 'Comanda nu a putut fi înregistrată.')); return; }
+    document.getElementById('form-comanda').style.display = 'none';
+    document.getElementById('confirmare-comanda').style.display = 'block';
+  }catch(e){
+    toast('⚠️ Nu am putut trimite comanda. Încearcă din nou.');
+  }
 }
 
 // ====== PAS 3 — INTRARE: flow login ======

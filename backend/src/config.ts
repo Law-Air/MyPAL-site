@@ -15,5 +15,6 @@ export const config = {
     password: required('PGPASSWORD'),
   },
   pgcryptoMasterKey: required('PGCRYPTO_MASTER_KEY'),
+  adminToken: required('ADMIN_TOKEN'),
   port: Number(process.env.PORT ?? 3000),
 };
