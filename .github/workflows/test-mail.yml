@@ -22,6 +22,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.HETZNER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
 
       - name: Send test email
+        timeout-minutes: 2
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" \
-            "cd /opt/mypal-backend && set -a && source /etc/mypal/db.env && set +a && node dist/scripts/testMail.js '${{ inputs.to }}'"
+            "cd /opt/mypal-backend && set -a && source /etc/mypal/db.env && set +a && timeout 30 node dist/scripts/testMail.js '${{ inputs.to }}'"
