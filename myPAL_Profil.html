@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil — my-PAL.ai</title><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;--gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;--white:#FFFFFF;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:0.5px solid var(--border);flex-wrap:wrap;gap:8px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--dark)}
+.nav-logo span{color:var(--green)}
+.nav-actions{display:flex;gap:8px}
+.btn{padding:7px 16px;font-size:15px;border:0.5px solid var(--border);border-radius:6px;cursor:pointer;background:var(--white);color:var(--muted);font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn:hover{border-color:var(--green);color:var(--green)}
+.btn.green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.green:hover{background:var(--dark)}
+.btn.gold{border-color:var(--gold);color:var(--gold)}
+.btn.gold:hover{background:var(--gold);color:#fff}
+
+.main{max-width:700px;margin:0 auto;padding:2rem}
+.page-badge{display:inline-block;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--green);background:var(--green-light);padding:4px 14px;border-radius:20px;margin-bottom:0.75rem;font-weight:500}
+.page-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:500;color:var(--dark);margin-bottom:0.5rem}
+.page-sub{font-size:15px;color:var(--muted);margin-bottom:2rem;line-height:1.6}
+
+/* SECTIUNI */
+.sect{background:var(--white);border:0.5px solid var(--border);border-radius:10px;margin-bottom:1rem;overflow:hidden}
+.sect-head{padding:10px 16px;background:var(--cream);border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--dark)}
+.sect-icon{font-size:16px}
+.sect-body{padding:0}
+
+table{width:100%;border-collapse:collapse;font-size:15px}
+td{padding:9px 14px;border-bottom:0.5px solid var(--border);vertical-align:top}
+td:first-child{width:40%;color:var(--muted);font-size:14px;font-weight:500;text-transform:uppercase;letter-spacing:0.3px}
+td:last-child{color:var(--dark)}
+tr:last-child td{border-bottom:none}
+.field-edit{width:100%;border:none;background:transparent;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--dark);padding:0;resize:none;min-height:20px;line-height:1.5}
+.field-edit:focus{outline:none;background:var(--green-light);border-radius:3px;padding:2px 4px}
+
+/* ERATA */
+.erata-sect{background:var(--white);border:0.5px solid var(--gold);border-radius:10px;margin-bottom:1rem;overflow:hidden}
+.erata-head{padding:10px 16px;background:#FEF9EC;border-bottom:0.5px solid var(--gold);font-size:15px;font-weight:500;color:var(--gold);display:flex;align-items:center;gap:8px}
+.erata-body{padding:1rem}
+.erata-input{width:100%;padding:8px 12px;border:0.5px solid var(--border);border-radius:6px;font-size:15px;font-family:'DM Sans',sans-serif;background:var(--cream);margin-bottom:8px}
+.erata-input:focus{outline:none;border-color:var(--gold)}
+.erata-list{display:flex;flex-direction:column;gap:6px}
+.erata-item{font-size:14px;color:var(--muted);padding:6px 10px;background:var(--cream);border-radius:6px;display:flex;justify-content:space-between;align-items:center}
+.erata-item strong{color:var(--gold)}
+
+/* META */
+.meta-box{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:1rem;display:flex;gap:1rem;flex-wrap:wrap}
+.meta-field{flex:1;min-width:140px}
+.meta-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.meta-input{width:100%;padding:7px 10px;border:0.5px solid var(--border);border-radius:6px;font-size:15px;font-family:'DM Sans',sans-serif;background:var(--cream)}
+.meta-input:focus{outline:none;border-color:var(--green)}
+
+/* NOTA PROTECTIE */
+.nota-prot{font-size:13px;color:var(--muted);text-align:center;padding:0.75rem;border-top:0.5px solid var(--border);line-height:1.6}
+
+/* PRINT */
+@media print{
+  nav,.nav-actions,.btn{display:none!important}
+  body{background:white}
+  .sect,.erata-sect,.meta-box{border:1px solid #ccc;box-shadow:none}
+  .field-edit{background:transparent!important}
+}
+
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark);color:var(--cream);padding:9px 18px;border-radius:8px;font-size:15px;opacity:0;transition:all 0.25s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.membru-foto{width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid var(--border);cursor:pointer;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:24px;overflow:hidden}
+.membru-foto img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.foto-input{display:none}
+
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--dark)}
+.nav-logo span{color:var(--green)}
+.nav-btn{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.nav-btn:hover{color:var(--dark);background:var(--cream)}
+.nav-btn.special{color:var(--gold);border:0.5px solid var(--gold)}
+.footer{background:var(--white);border-top:0.5px solid var(--border);padding:2.5rem 2rem;margin-top:2rem}
+.footer-inner{max-width:720px;margin:0 auto}
+.footer-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.footer-link-nav:hover{color:var(--dark);background:var(--cream)}
+.footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
+</style>
+</head>
+<body>
+<nav>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Acasa.html'">🏠 Acasă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Echipa.html'">👥 Echipă</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_BaniiTai.html'">💰 Banii tăi</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Verifica.html'">🔍 Verifică</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_MemorieAI.html'">📚 Memorie</button>
+    <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
+</nav>
+
+<div class="main">
+  <span class="page-badge">👨‍👩‍👧‍👦 Familie</span>
+  <h1 class="page-title">Documentul de Bază al Familiei</h1>
+  <p class="page-sub">Completat la prima întâlnire cu Verix. Document permanent — actualizabil doar prin Erata datată. Printabil pentru referință rapidă.</p>
+
+  <!-- META -->
+  <div class="meta-box">
+    <div class="meta-field">
+      <div class="meta-label">Serie produs</div>
+      <input type="text" class="meta-input" id="meta-serie" placeholder="myPAL-2024-XXXX">
+    </div>
+    <div class="meta-field">
+      <div class="meta-label">Data întocmirii</div>
+      <input type="date" class="meta-input" id="meta-data">
+    </div>
+    <div class="meta-field">
+      <div class="meta-label">Întocmit cu</div>
+      <input type="text" class="meta-input" id="meta-autor" value="Verix — my-PAL">
+    </div>
+  </div>
+
+  <!-- 1. MEMBRI -->
+  <div class="sect">
+    <div class="sect-head"><span class="sect-icon">👥</span> 1. Membrii Familiei</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6">💡 Parola fiecărui adult e folosită pentru deblocarea ecranului 🔒 din pagina Cont — orice membru poate debloca site-ul cu propria parolă.</p>
+    <table>
+      <tr><td style="width:80px;text-align:center">
+          <div onclick="document.getElementById('fi-1').click()" style="width:56px;height:56px;border-radius:50%;background:var(--cream);border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 auto">
+            <span id="fico-1" style="font-size:22px">👤</span>
+            <img id="fimg-1" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
+          </div>
+          <input type="file" id="fi-1" accept="image/*" style="display:none" onchange="incarcaFoto(this,'1')">
+          <div style="font-size:10px;color:var(--muted);margin-top:3px">📷 Foto</div>
+        </td><td>Reprezentant</td><td><textarea class="field-edit" placeholder="Nume, vârstă, ocupație"></textarea></td>
+        <td style="width:130px"><input type="text" class="parola-edit" id="parola-membru-1" placeholder="🔒 Parolă personală" style="width:100%;padding:8px 10px;border:0.5px solid var(--border);border-radius:6px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream)"></td></tr>
+      <tr><td style="width:80px;text-align:center">
+          <div onclick="document.getElementById('fi-2').click()" style="width:56px;height:56px;border-radius:50%;background:var(--cream);border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 auto">
+            <span id="fico-2" style="font-size:22px">👤</span>
+            <img id="fimg-2" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
+          </div>
+          <input type="file" id="fi-2" accept="image/*" style="display:none" onchange="incarcaFoto(this,'2')">
+          <div style="font-size:10px;color:var(--muted);margin-top:3px">📷 Foto</div>
+        </td><td>Membru 2</td><td><textarea class="field-edit" placeholder="Nume, vârstă, ocupație"></textarea></td>
+        <td style="width:130px"><input type="text" class="parola-edit" id="parola-membru-2" placeholder="🔒 Parolă personală" style="width:100%;padding:8px 10px;border:0.5px solid var(--border);border-radius:6px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--cream)"></td></tr>
+      <tr><td style="width:80px;text-align:center">
+          <div onclick="document.getElementById('fi-3').click()" style="width:56px;height:56px;border-radius:50%;background:var(--cream);border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 auto">
+            <span id="fico-3" style="font-size:22px">👤</span>
+            <img id="fimg-3" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
+          </div>
+          <input type="file" id="fi-3" accept="image/*" style="display:none" onchange="incarcaFoto(this,'3')">
+          <div style="font-size:10px;color:var(--muted);margin-top:3px">📷 Foto</div>
+        </td><td>Membri minori</td><td><textarea class="field-edit" placeholder="Nume, vârste"></textarea></td>
+        <td style="width:130px;text-align:center;color:var(--muted);font-size:11px">—</td></tr>
+      <tr><td style="width:80px;text-align:center">
+          <div onclick="document.getElementById('fi-4').click()" style="width:56px;height:56px;border-radius:50%;background:var(--cream);border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 auto">
+            <span id="fico-4" style="font-size:22px">👤</span>
+            <img id="fimg-4" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
+          </div>
+          <input type="file" id="fi-4" accept="image/*" style="display:none" onchange="incarcaFoto(this,'4')">
+          <div style="font-size:10px;color:var(--muted);margin-top:3px">📷 Foto</div>
+        </td><td>Alți membri</td><td><textarea class="field-edit" placeholder="După caz"></textarea></td>
+        <td style="width:130px;text-align:center;color:var(--muted);font-size:11px">—</td></tr>
+    </table>
+  </div>
+
+  <!-- 2. FINANCIAR -->
+  <div class="sect">
+    <div class="sect-head"><span class="sect-icon">💰</span> 2. Situație Financiară de Bază</div>
+    <table>
+      <tr><td>Venituri lunare nete totale</td><td><textarea class="field-edit" placeholder="Valoare aproximativă"></textarea></td></tr>
+      <tr><td>Cheltuieli fixe lunare</td><td><textarea class="field-edit" placeholder="Valoare aproximativă"></textarea></td></tr>
+      <tr><td>Sold lunar disponibil</td><td><textarea class="field-edit" placeholder="Valoare aproximativă"></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- 3. PROPRIETATI -->
+  <div class="sect">
+    <div class="sect-head"><span class="sect-icon">🏠</span> 3. Proprietăți</div>
+    <table>
+      <tr><td>Proprietate 1</td><td><textarea class="field-edit" placeholder="Tip, adresă sumară, titular"></textarea></td></tr>
+      <tr><td>Proprietate 2</td><td><textarea class="field-edit" placeholder="Tip, adresă sumară, titular"></textarea></td></tr>
+      <tr><td>Altele</td><td><textarea class="field-edit" placeholder="N/A dacă nu există"></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- 4. CREDITE -->
+  <div class="sect">
+    <div class="sect-head"><span class="sect-icon">🏦</span> 4. Credite Active</div>
+    <table>
+      <tr><td>Credit 1</td><td><textarea class="field-edit" placeholder="Tip, bancă, rată lunară, scadență"></textarea></td></tr>
+      <tr><td>Credit 2</td><td><textarea class="field-edit" placeholder="Tip, bancă, rată lunară, scadență"></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- 5. CONTRACTE -->
+  <div class="sect">
+    <div class="sect-head"><span class="sect-icon">📄</span> 5. Contracte Importante</div>
+    <table>
+      <tr><td>Contract 1</td><td><textarea class="field-edit" placeholder="Tip, contraparte, valabilitate"></textarea></td></tr>
+      <tr><td>Contract 2</td><td><textarea class="field-edit" placeholder="Tip, contraparte, valabilitate"></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- 6. OBIECTIVE -->
+  <div class="sect">
+    <div class="sect-head"><span class="sect-icon">🎯</span> 6. Obiective Declarate</div>
+    <table>
+      <tr><td>Termen scurt (sub 1 an)</td><td><textarea class="field-edit" placeholder="Obiective..."></textarea></td></tr>
+      <tr><td>Termen mediu (1-3 ani)</td><td><textarea class="field-edit" placeholder="Obiective..."></textarea></td></tr>
+      <tr><td>Termen lung (peste 3 ani)</td><td><textarea class="field-edit" placeholder="Obiective..."></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- 7. SENSIBILITATI -->
+  <div class="sect">
+    <div class="sect-head"><span class="sect-icon">💡</span> 7. Sensibilități și Priorități</div>
+    <table>
+      <tr><td>Ce e important pentru noi</td><td><textarea class="field-edit" placeholder="Valorile și prioritățile familiei..."></textarea></td></tr>
+      <tr><td>Ce vrem să evităm</td><td><textarea class="field-edit" placeholder="Situații sau decizii de evitat..."></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- ERATA -->
+  <div class="erata-sect">
+    <div class="erata-head"><span>📝</span> Erata — Modificări ulterioare</div>
+    <div class="erata-body">
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <input type="text" class="erata-input" id="erata-text" placeholder="Descrie modificarea..." style="flex:1;margin:0">
+        <button class="btn gold" onclick="adaugaErata()" style="white-space:nowrap">＋ Adaugă</button>
+      </div>
+      <div class="erata-list" id="erata-list">
+        <div style="font-size:14px;color:var(--muted);font-style:italic">Nicio modificare înregistrată încă.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nota-prot">
+    🔒 Document permanent — nu se șterge fără acordul Reprezentantului și al Asistenței Clienți my-PAL.<br>
+    Salvat local în browser · Printabil pentru referință rapidă
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var erata = JSON.parse(localStorage.getItem('mypal_profil_erata') || '[]');
+
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2500);
+}
+
+function salveaza(){
+  var date = {};
+  document.querySelectorAll('.field-edit').forEach(function(el,i){date['f'+i]=el.value;});
+  date.serie = document.getElementById('meta-serie').value;
+  date.data = document.getElementById('meta-data').value;
+  date.autor = document.getElementById('meta-autor').value;
+  date.parola1 = document.getElementById('parola-membru-1').value;
+  date.parola2 = document.getElementById('parola-membru-2').value;
+  localStorage.setItem('mypal_profil', JSON.stringify(date));
+  // Lista de parole valide pentru deblocarea Lock-ului din pagina Cont
+  var paroleValide = [date.parola1, date.parola2].filter(function(p){return p && p.trim() !== '';});
+  localStorage.setItem('mypal_parole_familie', JSON.stringify(paroleValide));
+  toast('💾 Profil salvat!');
+}
+
+function incarca(){
+  var date = JSON.parse(localStorage.getItem('mypal_profil') || '{}');
+  document.querySelectorAll('.field-edit').forEach(function(el,i){
+    if(date['f'+i]) el.value = date['f'+i];
+  });
+  if(date.serie) document.getElementById('meta-serie').value = date.serie;
+  if(date.data) document.getElementById('meta-data').value = date.data;
+  if(date.autor) document.getElementById('meta-autor').value = date.autor;
+  if(date.parola1) document.getElementById('parola-membru-1').value = date.parola1;
+  if(date.parola2) document.getElementById('parola-membru-2').value = date.parola2;
+  randeazaErata();
+}
+
+function adaugaErata(){
+  var text = document.getElementById('erata-text').value.trim();
+  if(!text){toast('⚠️ Scrie modificarea!');return;}
+  erata.unshift({
+    data: new Date().toLocaleDateString('ro-RO'),
+    text: text
+  });
+  localStorage.setItem('mypal_profil_erata', JSON.stringify(erata));
+  document.getElementById('erata-text').value = '';
+  randeazaErata();
+  toast('📝 Erata adăugată!');
+}
+
+function randeazaErata(){
+  if(!erata.length){
+    document.getElementById('erata-list').innerHTML='<div style="font-size:14px;color:var(--muted);font-style:italic">Nicio modificare înregistrată încă.</div>';
+    return;
+  }
+  document.getElementById('erata-list').innerHTML = erata.map(function(e){
+    return '<div class="erata-item"><span><strong>'+e.data+'</strong> — '+e.text+'</span></div>';
+  }).join('');
+}
+
+// Init
+document.getElementById('meta-data').value = new Date().toISOString().split('T')[0];
+incarca();
+
+function incarcaFoto(input, idx){
+  var file = input.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var img = document.getElementById('fimg-'+idx);
+    var preview = document.getElementById('fico-'+idx);
+    if(img && preview){
+      img.src = e.target.result;
+      img.style.display = 'block';
+      preview.style.display = 'none';
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+</script>
+<div class="footer">
+  <div class="footer-inner">
+        <div class="footer-btns">
+      <a href="myPAL_Legal.html" class="footer-link-nav">⚖️ Legal</a>
+      <a href="myPAL_Profil.html" class="footer-link-nav">👨‍👩‍👧‍👦 Familie</a>
+      <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
+      <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
+      <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
+    </div>
+    <div style="border-top:0.5px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="font-size:13px;font-weight:600;color:var(--dark)">my-PAL.ai · © 2026</div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
+    </div>
+    <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)">
+      <div style="font-size:11px;color:var(--muted);font-weight:400">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
