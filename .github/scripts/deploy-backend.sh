@@ -28,14 +28,6 @@ npm install --omit=dev
 npm approve-scripts --allow-scripts-pending || true
 npm rebuild
 
-echo "=== Secret ADMIN_TOKEN (generat o singura data, ramane doar pe server) ==="
-if ! grep -q "^ADMIN_TOKEN=" /etc/mypal/db.env; then
-  echo "ADMIN_TOKEN=$(openssl rand -base64 32 | tr -dc 'A-Za-z0-9')" >> /etc/mypal/db.env
-  echo "ADMIN_TOKEN generat si adaugat in /etc/mypal/db.env."
-else
-  echo "ADMIN_TOKEN exista deja - nu suprascriu."
-fi
-
 echo "=== Migratie 003 (core: email login, comenzi, sesiuni) ==="
 set -a
 source /etc/mypal/db.env

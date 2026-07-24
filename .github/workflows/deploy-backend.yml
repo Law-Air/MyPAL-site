@@ -45,26 +45,27 @@ jobs:
             backend/db/ \
             "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/opt/mypal-backend/db/"
 
-      - name: Write SMTP config (GoDaddy Workspace Email)
+      - name: Write secrets config (SMTP + Admin token)
         run: |
-          cat > /tmp/smtp.env <<EOF
+          cat > /tmp/secrets.env <<EOF
           SMTP_HOST='${{ secrets.SMTP_HOST }}'
           SMTP_PORT='${{ secrets.SMTP_PORT }}'
           SMTP_USER='${{ secrets.SMTP_USER }}'
           SMTP_PASSWORD='${{ secrets.SMTP_PASSWORD }}'
+          ADMIN_TOKEN='${{ secrets.ADMIN_TOKEN }}'
           EOF
 
-      - name: Sync SMTP config into /etc/mypal/db.env
+      - name: Sync secrets config into /etc/mypal/db.env
         run: |
           rsync -avz \
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
-            /tmp/smtp.env \
-            "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/etc/mypal/smtp.env.new"
+            /tmp/secrets.env \
+            "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/etc/mypal/secrets.env.new"
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" '
-            grep -v "^SMTP_" /etc/mypal/db.env > /etc/mypal/db.env.tmp || true
-            cat /etc/mypal/smtp.env.new >> /etc/mypal/db.env.tmp
+            grep -vE "^(SMTP_|ADMIN_TOKEN=)" /etc/mypal/db.env > /etc/mypal/db.env.tmp || true
+            cat /etc/mypal/secrets.env.new >> /etc/mypal/db.env.tmp
             mv /etc/mypal/db.env.tmp /etc/mypal/db.env
-            rm -f /etc/mypal/smtp.env.new
+            rm -f /etc/mypal/secrets.env.new
             chmod 600 /etc/mypal/db.env
           '
 
