@@ -48,10 +48,10 @@ jobs:
       - name: Write SMTP config (GoDaddy Workspace Email)
         run: |
           cat > /tmp/smtp.env <<EOF
-          SMTP_HOST=${{ secrets.SMTP_HOST }}
-          SMTP_PORT=${{ secrets.SMTP_PORT }}
-          SMTP_USER=${{ secrets.SMTP_USER }}
-          SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}
+          SMTP_HOST='${{ secrets.SMTP_HOST }}'
+          SMTP_PORT='${{ secrets.SMTP_PORT }}'
+          SMTP_USER='${{ secrets.SMTP_USER }}'
+          SMTP_PASSWORD='${{ secrets.SMTP_PASSWORD }}'
           EOF
 
       - name: Sync SMTP config into /etc/mypal/db.env
