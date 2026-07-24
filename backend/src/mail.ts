@@ -1,7 +1,18 @@
-// Fara SMTP configurat inca. Pana primim datele unui furnizor real
-// (SMTP sau API), doar logam continutul — Admin poate trimite manual din
-// jurnal daca e nevoie. Inlocuieste doar implementarea de aici cand exista
-// credentiale, restul codului (allocate.ts, app.ts) nu se schimba.
+import nodemailer from 'nodemailer';
+import { config } from './config';
+
+const transporter = nodemailer.createTransport({
+  host: config.smtp.host,
+  port: config.smtp.port,
+  secure: config.smtp.port === 465, // 465 = SSL implicit; 587 negociaza STARTTLS singur
+  auth: { user: config.smtp.user, pass: config.smtp.password },
+});
+
 export async function sendMail(to: string, subject: string, body: string): Promise<void> {
-  console.log(`[MAIL STUB] catre=${to} subiect="${subject}"\n${body}`);
+  await transporter.sendMail({
+    from: config.smtp.user,
+    to,
+    subject,
+    text: body,
+  });
 }

@@ -78,16 +78,15 @@ secretul `ADMIN_TOKEN` din `/etc/mypal/db.env`, generat automat la deploy).
 2. **`POST /api/admin/orders/:id/confirm-payment`** (admin) — alocă primul
    site nevândut (`core.sites.allocated_at IS NULL`, sau provisionează unul
    nou dacă rezerva e goală), generează parola, o hash-uiește, trimite
-   emailul (`src/mail.ts` — **stub, doar loghează**, nu există încă SMTP
-   configurat) și marchează alocarea. Parola în clar există o singură dată,
-   local, cât să fie trimisă — Admin nu o vede niciodată în răspuns
-   (`Nume+Email+Parolă Blank`, cerință explicită Mircea).
+   emailul (`src/mail.ts`, prin SMTP GoDaddy Workspace Email —
+   `SMTP_HOST/PORT/USER/PASSWORD`, secrete GitHub, scrise în
+   `/etc/mypal/db.env` la fiecare deploy) și marchează alocarea. Parola în
+   clar există o singură dată, local, cât să fie trimisă — Admin nu o vede
+   niciodată în răspuns (`Nume+Email+Parolă Blank`, cerință explicită
+   Mircea).
 
 ## Ce lipsește încă (nu blocant pentru pilot, dar de știut)
 
-- **Trimitere reală de email** — `src/mail.ts` doar loghează conținutul;
-  are nevoie de credențiale SMTP sau un provider (Resend/Postmark/etc.)
-  ca să trimită efectiv.
 - Wiring frontend pentru Consiliul Familiei (`myPAL_Acasa.html`) — API-ul
   există (`/api/family/members`, `/api/family/consilier-line`), dar tabelul
   de membri din overlay rămâne pe datele mock existente; conectarea la API

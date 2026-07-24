@@ -19,6 +19,7 @@
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "nodemailer": "^9.0.3",
     "pg": "^8.22.0"
   },
   "devDependencies": {
@@ -26,6 +27,7 @@
     "@types/cookie-parser": "^1.4.9",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
+    "@types/nodemailer": "^6.4.20",
     "@types/pg": "^8.20.0",
     "ts-node": "^10.9.2",
     "typescript": "^7.0.2"
