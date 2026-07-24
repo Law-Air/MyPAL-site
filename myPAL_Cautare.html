@@ -15,9 +15,12 @@ body{font-family:'DM Sans',sans-serif;font-weight:500;background:var(--dark);col
 .reflector{position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 35%, rgba(59,109,17,0.35) 0%, rgba(28,28,26,0.85) 55%, rgba(10,10,9,1) 100%);z-index:1}
 .reflector::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:140%;height:80%;background:radial-gradient(ellipse 50% 50% at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 70%);}
 
-/* IMAGINE PLACEHOLDER - se inlocuieste cu imaginea reala Imagix */
-.imagine-wrap{position:relative;z-index:2;width:min(380px,80vw);aspect-ratio:1/1;border-radius:24px;overflow:hidden;margin-bottom:2rem;box-shadow:0 30px 80px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1)}
-.imagine-placeholder{width:100%;height:100%;background:linear-gradient(135deg, #3B6D11 0%, #1C1C1A 100%);display:flex;align-items:center;justify-content:center;font-size:13px;color:rgba(255,255,255,0.5);text-align:center;padding:2rem;font-style:italic}
+/* IMAGINE Imagix, cu numele familiei + seria suprapuse dinamic */
+.imagine-wrap{position:relative;z-index:2;width:min(460px,88vw);aspect-ratio:3/2;border-radius:24px;overflow:hidden;margin-bottom:2rem;box-shadow:0 30px 80px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1)}
+.imagine-bg{width:100%;height:100%;object-fit:cover;display:block}
+.imagine-overlay{position:absolute;left:53%;top:64%;width:36%;text-align:center;color:var(--gold);pointer-events:none}
+.overlay-familie{font-family:'DM Sans',sans-serif;font-size:clamp(10px,2.4vw,15px);font-weight:600;margin-bottom:2px;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,0.6)}
+.overlay-serie{font-family:'DM Sans',sans-serif;font-size:clamp(8px,1.8vw,12px);opacity:0.9;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,0.6)}
 
 .content{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;padding:2rem;max-width:480px}
 .logo-text{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:rgba(255,255,255,0.6);letter-spacing:1px;margin-bottom:2.5rem;text-transform:uppercase}
@@ -45,7 +48,11 @@ body{font-family:'DM Sans',sans-serif;font-weight:500;background:var(--dark);col
   <div class="logo-text">my<span>-PAL</span>.ai</div>
 
   <div class="imagine-wrap">
-    <div class="imagine-placeholder">[ Imagine Imagix — „Cu myPAL" ]<br><br>se va înlocui aici cu vizualul final</div>
+    <img src="mypal-cautare-bg.png" alt="" class="imagine-bg">
+    <div class="imagine-overlay">
+      <div class="overlay-familie" id="overlay-familie"></div>
+      <div class="overlay-serie" id="overlay-serie"></div>
+    </div>
   </div>
 
   <div class="welcome-label">Bine ai venit acasă</div>
@@ -82,6 +89,8 @@ async function init(){
     var familieText = formateazaFamilie(d.family_name || '');
     document.getElementById('titlu-familie').textContent = familieText;
     document.getElementById('btn-text').textContent = 'Intră, ' + familieText;
+    document.getElementById('overlay-familie').textContent = familieText;
+    document.getElementById('overlay-serie').textContent = 'Seria: ' + (d.site_number || '—');
   }catch(e){
     window.location.href = 'myPAL_Acasa.html';
   }
