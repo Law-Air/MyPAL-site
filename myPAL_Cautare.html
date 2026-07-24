@@ -61,8 +61,6 @@ body{font-family:'DM Sans',sans-serif;font-weight:500;background:var(--dark);col
 <div class="skip-note">Acest ecran apare o singură dată, la fiecare intrare în cont</div>
 
 <script>
-var nume = localStorage.getItem('mypal_nume_familie') || '';
-
 function formateazaFamilie(nume){
   if(!nume) return 'Bine ai venit!';
   // Daca numele contine deja "Familia", il folosim direct
@@ -73,18 +71,26 @@ function formateazaFamilie(nume){
   return 'Familia ' + numeFamilie;
 }
 
-var familieText = formateazaFamilie(nume);
-document.getElementById('titlu-familie').textContent = familieText;
-document.getElementById('btn-text').textContent = 'Intră, ' + familieText;
+// Sursa numelui e sesiunea reala de familie (server), nu o valoare locala
+// necontrolata - daca nu exista o sesiune valida, nu aratam acest ecran,
+// redirectionam direct la login (myPAL_Acasa.html).
+async function init(){
+  try{
+    var r = await fetch('/api/me', {credentials:'same-origin'});
+    if(!r.ok){ window.location.href = 'myPAL_Acasa.html'; return; }
+    var d = await r.json();
+    var familieText = formateazaFamilie(d.family_name || '');
+    document.getElementById('titlu-familie').textContent = familieText;
+    document.getElementById('btn-text').textContent = 'Intră, ' + familieText;
+  }catch(e){
+    window.location.href = 'myPAL_Acasa.html';
+  }
+}
+init();
 
 function intraAcasa(){
   sessionStorage.setItem('mypal_capac_vazut', '1');
   window.location.href = 'myPAL_Acasa.html';
-}
-
-// Daca cineva ajunge aici fara sa fi trecut prin Login (acces direct la link), redirectionam la Login
-if(!nume){
-  // las pagina sa functioneze cu text generic, dar fara sa blocheze testarea manuala
 }
 </script>
 </body>

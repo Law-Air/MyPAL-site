@@ -519,10 +519,23 @@ function arataDelogat(){
   document.getElementById('login-form').style.display='flex';
   document.getElementById('btn-delogare').style.display='none';
 }
+// Ecranul de bun-venit (myPAL_Cautare.html) apare o singura data per
+// sesiune de BROWSER (sessionStorage, se reseteaza la inchiderea
+// tab-ului) - distinct de sesiunea de familie (cookie, fara expirare).
+var loginSiteNumber = null;
+function intraCatreSiteSauCautare(siteNumber){
+  loginSiteNumber = siteNumber;
+  if(!sessionStorage.getItem('mypal_capac_vazut')){
+    window.location.href = 'myPAL_Cautare.html';
+    return;
+  }
+  arataLogat(siteNumber);
+}
+
 async function verificaSesiune(){
   try{
     var r=await fetch('/api/me',{credentials:'same-origin'});
-    if(r.ok){var d=await r.json();arataLogat(d.site_number);}
+    if(r.ok){var d=await r.json();intraCatreSiteSauCautare(d.site_number);}
   }catch(e){/* nedeterminat, ramane ecranul de login */}
 }
 verificaSesiune();
@@ -539,16 +552,16 @@ async function intraAcasa(){
     });
     var d=await r.json();
     if(!r.ok){toast('⚠️ '+(d.error||'Autentificare eșuată.'));return;}
-    if(d.password_is_default){openOverlay('o-parola-init');}
-    arataLogat(d.site_number);
-    toast('✅ Bine ai venit acasă!');
+    loginSiteNumber=d.site_number;
+    if(d.password_is_default){openOverlay('o-parola-init');return;}
+    intraCatreSiteSauCautare(d.site_number);
   }catch(e){toast('⚠️ Nu am putut contacta serverul. Încearcă din nou.');}
 }
 
 async function pastreazaParola(){
   await fetch('/api/auth/keep-password',{method:'POST',credentials:'same-origin'});
   closeOverlay('o-parola-init');
-  toast('✅ Parola rămâne cea primită.');
+  intraCatreSiteSauCautare(loginSiteNumber);
 }
 async function schimbaParola(){
   var noua=document.getElementById('parola-noua').value;
@@ -560,7 +573,7 @@ async function schimbaParola(){
   });
   if(!r.ok){toast('⚠️ Nu am putut schimba parola.');return;}
   closeOverlay('o-parola-init');
-  toast('✅ Parola a fost schimbată.');
+  intraCatreSiteSauCautare(loginSiteNumber);
 }
 async function delogheaza(){
   var parola=prompt('Pentru delogare, confirmă parola familiei:');
