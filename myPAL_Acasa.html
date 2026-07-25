@@ -123,8 +123,6 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
     <button class="nav-btn" onclick="window.location.href='myPAL_Memorie.html'">📚 Memorie</button>
     <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
-    <span id="nav-nr-site" style="display:none;font-size:12px;color:var(--muted);padding:6px 10px;font-family:'DM Sans',sans-serif;white-space:nowrap">📍 Site —</span>
-    <button class="nav-btn" id="nav-btn-delogare" onclick="delogheaza()" style="display:none;color:var(--muted)">🔒 Delogare</button>
 </nav>
 
 <!-- 1. CEAS -->
@@ -133,7 +131,9 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     <div class="ceas" id="ceas">--:--</div>
     <div class="ceas-data" id="ceas-data"></div>
     <div class="bun-venit" id="bun-venit">Bună ziua!</div>
-    <div style="font-size:13px;font-weight:600;color:var(--gold);margin-top:4px;letter-spacing:0.3px">Familia Ionescu</div>
+    <div style="display:none;font-size:13px;font-weight:600;color:var(--gold);margin-top:4px;letter-spacing:0.3px" id="ceas-familie">Familia —</div>
+    <div style="display:none;font-size:12px;color:var(--muted);margin-top:2px" id="ceas-site">📍 Site nr. —</div>
+    <button onclick="delogheaza()" style="display:none;margin-top:8px;padding:6px 14px;background:none;border:1px solid var(--border);border-radius:20px;font-size:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif" id="ceas-delogare">🔒 Delogare</button>
   </div>
 </div>
 
@@ -497,21 +497,29 @@ updateVivix();
 setInterval(updateVivix,60000);
 
 // INTRA IN CASA — login real (email + parola familiei)
-function arataLogat(siteNumber){
+function formateazaFamilie(nume){
+  if(!nume) return 'Familia —';
+  if(nume.toLowerCase().indexOf('familia') === 0) return nume;
+  var parti = nume.trim().split(' ');
+  return 'Familia ' + parti[parti.length - 1];
+}
+function arataLogat(siteNumber, familyName){
   document.getElementById('login-instructiune').textContent='Ești acasă (' + siteNumber + ').';
   document.getElementById('login-form').style.display='none';
   document.getElementById('btn-delogare').style.display='inline-block';
-  document.getElementById('nav-btn-delogare').style.display='inline-block';
-  var navNr=document.getElementById('nav-nr-site');
-  navNr.textContent='📍 Site '+siteNumber;
-  navNr.style.display='inline-block';
+  document.getElementById('ceas-familie').textContent = formateazaFamilie(familyName);
+  document.getElementById('ceas-familie').style.display='block';
+  document.getElementById('ceas-site').textContent = '📍 Site nr. ' + siteNumber;
+  document.getElementById('ceas-site').style.display='block';
+  document.getElementById('ceas-delogare').style.display='inline-block';
 }
 function arataDelogat(){
   document.getElementById('login-instructiune').textContent='Introdu emailul și parola familiei pentru a accesa spațiul tău din my-PAL.';
   document.getElementById('login-form').style.display='flex';
   document.getElementById('btn-delogare').style.display='none';
-  document.getElementById('nav-btn-delogare').style.display='none';
-  document.getElementById('nav-nr-site').style.display='none';
+  document.getElementById('ceas-familie').style.display='none';
+  document.getElementById('ceas-site').style.display='none';
+  document.getElementById('ceas-delogare').style.display='none';
 }
 // Ecranul de bun-venit (myPAL_Cautare.html): apare la FIECARE logare
 // activa (cineva chiar completeaza email+parola), dar nu se repeta la un
@@ -519,19 +527,19 @@ function arataDelogat(){
 // (sessionStorage 'mypal_capac_vazut' - se reseteaza la inchiderea
 // tab-ului) - distinct de sesiunea de familie (cookie, fara expirare).
 var loginSiteNumber = null;
-function reintraDejaLogat(siteNumber){
+function reintraDejaLogat(siteNumber, familyName){
   loginSiteNumber = siteNumber;
   if(!sessionStorage.getItem('mypal_capac_vazut')){
     window.location.href = 'myPAL_Cautare.html';
     return;
   }
-  arataLogat(siteNumber);
+  arataLogat(siteNumber, familyName);
 }
 
 async function verificaSesiune(){
   try{
     var r=await fetch('/api/me',{credentials:'same-origin'});
-    if(r.ok){var d=await r.json();reintraDejaLogat(d.site_number);}
+    if(r.ok){var d=await r.json();reintraDejaLogat(d.site_number, d.family_name);}
   }catch(e){/* nedeterminat, ramane ecranul de login */}
 }
 verificaSesiune();
