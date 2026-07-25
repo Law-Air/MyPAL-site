@@ -70,6 +70,11 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 .footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
 
 @media (max-width:600px){.grid-servicii{grid-template-columns:1fr}}
+.header{background:var(--green);color:#fff;padding:1rem 2rem}
+.header-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.h-ceas{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;letter-spacing:-1px}
+.h-data{font-size:11px;opacity:0.8;margin-top:2px;font-weight:400}
+.h-tag{font-size:13px;opacity:0.9;font-style:italic;font-weight:400}
 </style>
 </head>
 <body>
@@ -83,6 +88,16 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     <button class="nav-btn" onclick="window.location.href='myPAL_Memorie.html'">📚 Memorie</button>
     <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
 </nav>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="h-ceas" id="h-ceas">--:--</div>
+      <div class="h-data" id="h-data"></div>
+    </div>
+    <div class="h-tag">Consilierii tăi. Doar ai tăi.</div>
+  </div>
+</div>
 
 <div class="main">
 
@@ -191,6 +206,18 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 <div class="toast" id="toast"></div>
 
 <script>
+function updateCeas(){
+  var d=new Date();
+  var el=document.getElementById('h-ceas');
+  var el2=document.getElementById('h-data');
+  if(el) el.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+  var zile=['Duminică','Luni','Marți','Miercuri','Joi','Vineri','Sâmbătă'];
+  var luni=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+  if(el2) el2.textContent=zile[d.getDay()]+', '+d.getDate()+' '+luni[d.getMonth()]+' '+d.getFullYear();
+}
+updateCeas();
+setInterval(updateCeas,1000);
+
 function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 
 function deschidePopup(icon, titlu, text){
