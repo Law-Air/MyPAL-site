@@ -1,0 +1,30 @@
+name: Create Test Account (Prod, fictive data)
+
+on:
+  workflow_dispatch:
+    inputs:
+      family_name:
+        description: 'Nume familie (fictiv)'
+        required: true
+      email:
+        description: 'Email-ul contului de test'
+        required: true
+      password:
+        description: 'Parola aleasa pt test'
+        required: true
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HETZNER_SSH_KEY_B64 }}" | base64 -d > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.HETZNER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+      - name: Create test account
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" \
+            "cd /opt/mypal-backend && set -a && source /etc/mypal/db.env && set +a && node dist/scripts/createTestAccount.js '${{ inputs.family_name }}' '${{ inputs.email }}' '${{ inputs.password }}'"
