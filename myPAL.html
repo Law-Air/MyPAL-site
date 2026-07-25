@@ -688,10 +688,10 @@ function togglePoveste(){
 
 function treciLa(n){
   // Pas 3 (Intrare) era un mockup separat, niciodata conectat la login-ul
-  // real - trimite direct la login-ul real (myPAL_Acasa.html), care chiar
-  // verifica email+parola.
+  // real - trimite direct la pagina de login reala, care chiar verifica
+  // email+parola.
   if(n === 3){
-    window.location.href = 'myPAL_Acasa.html';
+    window.location.href = 'myPAL_Intrare.html';
     return;
   }
   document.getElementById('pas-'+pasCurent).classList.remove('activ');

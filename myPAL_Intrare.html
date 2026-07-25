@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intrare — my-PAL.ai</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F4EE;--dark:#1C1C1A;--green:#3B6D11;--green-light:#EAF3DE;--gold:#C9A84C;--text:#2A2A28;--muted:#7A7A72;--border:#E2DDD4;--white:#FFFFFF;--red:#A32D2D;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'DM Sans',sans-serif;font-weight:500;background:var(--cream);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(59,109,17,0.06) 0%,transparent 70%);pointer-events:none}
+.container{width:100%;max-width:400px;position:relative;z-index:1}
+.logo{text-align:center;margin-bottom:2.5rem}
+.logo-text{font-family:'Playfair Display',serif;font-size:34px;font-weight:600;color:var(--dark);letter-spacing:-1px}
+.logo-text span{color:var(--green)}
+.logo-tag{font-size:15px;color:var(--muted);margin-top:6px;font-style:italic;font-weight:400}
+.card{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:2rem;box-shadow:0 8px 40px rgba(0,0,0,0.06)}
+.card-title{font-family:'Playfair Display',serif;font-size:23px;font-weight:500;color:var(--dark);margin-bottom:0.4rem}
+.card-sub{font-size:15px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;font-weight:500}
+.fl{margin-bottom:1.1rem}
+.fl label{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:5px;display:block}
+.fl input{width:100%;padding:12px 14px;border:0.5px solid var(--border);border-radius:8px;font-size:16px;font-family:'DM Sans',sans-serif;color:var(--text);background:var(--cream);transition:border-color 0.2s}
+.fl input:focus{outline:none;border-color:var(--green);background:var(--white)}
+.info-pasiv{background:var(--cream);border:0.5px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:1rem;font-weight:500}
+.nota{background:#FEF9EC;border:0.5px solid var(--gold);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);line-height:1.6;margin-bottom:1rem;font-weight:500}
+.nota strong{color:var(--gold)}
+.btn-p{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-p:hover{background:var(--dark)}
+.btn-p:disabled{opacity:0.6;cursor:default}
+.btn-gold{width:100%;padding:13px;background:none;border:0.5px solid var(--gold);border-radius:8px;font-size:15px;font-weight:500;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:8px;transition:all 0.2s}
+.btn-gold:hover{background:var(--gold);color:#fff}
+.btn-s{width:100%;padding:12px;background:none;border:0.5px solid var(--border);border-radius:8px;font-size:15px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:8px;font-weight:400}
+.btn-s:hover{border-color:var(--muted);color:var(--dark)}
+.err{font-size:14px;color:var(--red);margin-top:4px;display:none}
+.err.show{display:block}
+.conf-nota{font-size:13px;color:var(--gold);font-style:italic;margin-top:1rem;text-align:center;font-weight:400}
+.footer-note{text-align:center;font-size:13px;color:var(--muted);margin-top:1.5rem;font-weight:500}
+.footer-note a{color:var(--green);text-decoration:none}
+.pagina{display:none}
+.pagina.activa{display:block}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="logo">
+    <div class="logo-text">my<span>-PAL</span>.ai</div>
+    <div class="logo-tag">Consilierii tăi. Doar ai tăi.</div>
+  </div>
+
+  <!-- PAS 1: LOGIN (email + parola familiei) -->
+  <div class="card pagina activa" id="pasLogin">
+    <div class="card-title" id="salut-titlu">Bună ziua!</div>
+    <div class="card-sub">Ușa ta, cheia ta.</div>
+    <div class="fl">
+      <label>Email familie</label>
+      <input type="email" id="lg-email" placeholder="adresa@email.ro" autocomplete="email">
+    </div>
+    <div class="fl">
+      <label>Parola familiei</label>
+      <input type="password" id="lg-parola" placeholder="Parola familiei tale" autocomplete="current-password">
+    </div>
+    <div class="err" id="err-login">Email sau parolă incorectă.</div>
+    <button class="btn-p" id="btn-login" onclick="intra()">Intră în casă →</button>
+    <div class="conf-nota">⚠️ Nu uita unde ai pus cheia!</div>
+  </div>
+
+  <!-- PAS 2: PRIMA INTRARE — pastreaza sau schimba parola -->
+  <div class="card pagina" id="pasParola">
+    <div class="card-title">Prima ta intrare</div>
+    <div class="info-pasiv" id="info-site">Site nr. —</div>
+    <div class="nota"><strong>⚠️ O singură parolă pentru toată familia</strong> — folosită de toți membrii pentru acces în my-PAL.</div>
+    <div class="card-sub" style="margin-bottom:0.75rem">Poți păstra parola primită pe email, sau o poți schimba acum cu una a ta.</div>
+    <button class="btn-p" onclick="pastreazaParola()">✅ Păstrează parola primită</button>
+    <div class="fl" style="margin-top:1.1rem">
+      <label>Sau setează o parolă nouă</label>
+      <input type="password" id="p2-noua" placeholder="Parola ta nouă (min. 4 caractere)">
+    </div>
+    <div class="err" id="err-parola">Parola nouă trebuie să aibă minim 4 caractere.</div>
+    <button class="btn-gold" onclick="schimbaParola()">🔑 Schimbă parola</button>
+  </div>
+
+  <div class="footer-note">
+    my-PAL.ai
+  </div>
+</div>
+
+<div style="text-align:center;margin-top:2rem;padding:1.5rem;border-top:0.5px solid var(--border)">
+  <div style="font-size:13px;color:var(--muted);font-weight:500">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
+</div>
+
+<script>
+// Salut dinamic
+(function(){
+  var ora=new Date().getHours();
+  var s=ora<12?'Bună dimineața!':ora<18?'Bună ziua!':'Bună seara!';
+  document.getElementById('salut-titlu').textContent=s;
+})();
+
+var siteNumber = null;
+
+// Ecranul Cautare apare la FIECARE logare activa (cineva chiar completeaza
+// email+parola), dar nu se repeta la reincarcare de pagina cat esti deja
+// logat in acelasi tab (sessionStorage 'mypal_capac_vazut', se reseteaza
+// la inchiderea tab-ului) - distinct de sesiunea de familie (cookie, fara
+// expirare). Vezi acelasi tipar in myPAL_Acasa.html (mergiLaCautare/reintraDejaLogat).
+function mergiLaCautare(){
+  window.location.href = 'myPAL_Cautare.html';
+}
+function reintraDejaLogat(){
+  if(!sessionStorage.getItem('mypal_capac_vazut')){
+    window.location.href = 'myPAL_Cautare.html';
+    return;
+  }
+  window.location.href = 'myPAL_Acasa.html';
+}
+
+// Daca exista deja o sesiune valida, nu mai aratam login-ul.
+(async function verificaSesiune(){
+  try{
+    var r = await fetch('/api/me', {credentials:'same-origin'});
+    if(r.ok) reintraDejaLogat();
+  }catch(e){/* nedeterminat, ramane ecranul de login */}
+})();
+
+async function intra(){
+  var email = document.getElementById('lg-email').value.trim();
+  var parola = document.getElementById('lg-parola').value;
+  var err = document.getElementById('err-login');
+  err.classList.remove('show');
+  if(!email || !parola){ err.textContent='Completează emailul și parola.'; err.classList.add('show'); return; }
+  var btn = document.getElementById('btn-login');
+  btn.disabled = true; btn.textContent = 'Se verifică...';
+  try{
+    var r = await fetch('/api/login', {
+      method:'POST', credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email:email, password:parola})
+    });
+    var d = await r.json();
+    if(!r.ok){ err.textContent = d.error || 'Email sau parolă incorectă.'; err.classList.add('show'); btn.disabled=false; btn.textContent='Intră în casă →'; return; }
+    siteNumber = d.site_number;
+    if(d.password_is_default){
+      document.getElementById('info-site').textContent = 'Site nr. ' + (siteNumber || '—');
+      document.getElementById('pasLogin').classList.remove('activa');
+      document.getElementById('pasParola').classList.add('activa');
+      return;
+    }
+    mergiLaCautare();
+  }catch(e){
+    err.textContent = 'Nu am putut contacta serverul. Încearcă din nou.';
+    err.classList.add('show');
+    btn.disabled=false; btn.textContent='Intră în casă →';
+  }
+}
+
+async function pastreazaParola(){
+  await fetch('/api/auth/keep-password', {method:'POST', credentials:'same-origin'});
+  mergiLaCautare();
+}
+
+async function schimbaParola(){
+  var noua = document.getElementById('p2-noua').value;
+  var err = document.getElementById('err-parola');
+  if(!noua || noua.length < 4){ err.classList.add('show'); return; }
+  err.classList.remove('show');
+  var r = await fetch('/api/auth/set-password', {
+    method:'POST', credentials:'same-origin',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({new_password:noua})
+  });
+  if(!r.ok){ err.textContent='Nu am putut schimba parola. Încearcă din nou.'; err.classList.add('show'); return; }
+  mergiLaCautare();
+}
+
+document.getElementById('lg-parola').addEventListener('keydown', function(e){ if(e.key==='Enter') intra(); });
+document.getElementById('p2-noua').addEventListener('keydown', function(e){ if(e.key==='Enter') schimbaParola(); });
+</script>
+</body>
+</html>
