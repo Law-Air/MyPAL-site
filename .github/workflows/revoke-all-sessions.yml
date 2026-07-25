@@ -1,0 +1,20 @@
+name: Force Logout Everyone (Revoke Sessions)
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  revoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HETZNER_SSH_KEY_B64 }}" | base64 -d > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.HETZNER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+      - name: Revoke sessions
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" \
+            'cd /opt/mypal-backend && set -a && source /etc/mypal/db.env && set +a && node dist/scripts/revokeAllSessions.js'
