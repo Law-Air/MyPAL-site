@@ -11,3 +11,4 @@ curl -s -u mypal:1631 https://my-pal.ai/myPAL_Intrare.html | grep -c "Prima ta i
 echo "=== Acasa arata link catre pagina noua, nu mai are inputuri inline? ==="
 curl -s -u mypal:1631 https://my-pal.ai/myPAL_Acasa.html | grep -c "myPAL_Intrare.html"
 curl -s -u mypal:1631 https://my-pal.ai/myPAL_Acasa.html | grep -c 'id="login-email"'
+true
