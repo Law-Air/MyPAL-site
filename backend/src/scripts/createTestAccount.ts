@@ -24,7 +24,7 @@ async function main() {
     siteId = existing.rows[0].id;
     siteNumber = existing.rows[0].site_number;
   } else {
-    const allocated = await allocateSite(familyName, email, 'plan-test');
+    const allocated = await allocateSite(familyName, email, 'start');
     siteId = allocated.siteId;
     siteNumber = allocated.siteNumber;
   }
