@@ -123,6 +123,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     <button class="nav-btn" onclick="window.location.href='myPAL_Birou.html'">📊 Birou</button>
     <button class="nav-btn" onclick="window.location.href='myPAL_Memorie.html'">📚 Memorie</button>
     <button class="nav-btn" onclick="window.location.href='myPAL_Rezervari.html'" style="background:var(--gold);color:white;border-color:var(--gold)">🎭 Rezervări</button>
+    <span id="nav-nr-site" style="display:none;font-size:12px;color:var(--muted);padding:6px 10px;font-family:'DM Sans',sans-serif;white-space:nowrap">📍 Site —</span>
     <button class="nav-btn" id="nav-btn-delogare" onclick="delogheaza()" style="display:none;color:var(--muted)">🔒 Delogare</button>
 </nav>
 
@@ -515,12 +516,16 @@ function arataLogat(siteNumber){
   document.getElementById('login-form').style.display='none';
   document.getElementById('btn-delogare').style.display='inline-block';
   document.getElementById('nav-btn-delogare').style.display='inline-block';
+  var navNr=document.getElementById('nav-nr-site');
+  navNr.textContent='📍 Site '+siteNumber;
+  navNr.style.display='inline-block';
 }
 function arataDelogat(){
   document.getElementById('login-instructiune').textContent='Introdu emailul și parola familiei pentru a accesa spațiul tău din my-PAL.';
   document.getElementById('login-form').style.display='flex';
   document.getElementById('btn-delogare').style.display='none';
   document.getElementById('nav-btn-delogare').style.display='none';
+  document.getElementById('nav-nr-site').style.display='none';
 }
 // Ecranul de bun-venit (myPAL_Cautare.html): apare la FIECARE logare
 // activa (cineva chiar completeaza email+parola), dar nu se repeta la un
