@@ -35,6 +35,17 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 .btn-gold{padding:10px 20px;background:var(--gold);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
 .doc-nota{font-size:12px;color:var(--muted);font-weight:400;line-height:1.6;padding:8px 12px;background:var(--cream);border-radius:6px}
 
+/* SALVARE/RECUPERARE — copie de siguranta in Postgres, a familiei */
+.bk-textarea{width:100%;min-height:110px;padding:10px 14px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);resize:vertical;margin-bottom:8px}
+.bk-textarea:focus{outline:none;border-color:var(--green)}
+.bk-lista{display:none;margin-top:1rem}
+.bk-lista.open{display:block}
+.bk-item{background:var(--cream);border:0.5px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:8px}
+.bk-item-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.bk-item-eticheta{font-size:13px;font-weight:600;color:var(--dark)}
+.bk-item-data{font-size:11px;color:var(--muted)}
+.bk-item-continut{font-size:13px;color:var(--text);line-height:1.6;white-space:pre-wrap;font-weight:400;margin-bottom:6px}
+
 /* INSTRUCTIUNI */
 .inst-card{background:var(--white);border:0.5px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden}
 .inst-head{padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;justify-content:space-between}
@@ -109,6 +120,29 @@ footer{padding:1.5rem 2rem;text-align:center;border-top:0.5px solid var(--border
       <button class="btn-gold" onclick="deschideDoc()">📄 Deschide</button>
     </div>
     <div class="doc-nota">💡 Creează un Google Doc, setează accesul la „Oricine cu linkul poate citi" și lipește linkul aici. Consilierii vor putea citi documentul la cerere.</div>
+  </div>
+
+  <!-- SALVARE/RECUPERARE COPIE DE SIGURANTA -->
+  <div class="doc-card">
+    <div class="doc-card-title">🗄️ Copie de siguranță</div>
+    <p class="doc-card-sub">Claude nu are un buton de confirmare la ștergere — dacă cineva șterge din greșeală fișierele sau instrucțiunile unui Consilier, nu mai există cale de recuperare din partea Claude. Aici poți păstra o copie, în siguranță, doar a familiei tale.</p>
+
+    <label style="font-size:12px;font-weight:500;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:5px;display:block">Cum salvezi</label>
+    <p class="doc-card-sub" style="margin-bottom:0.75rem">Copiază textul din Proiectul Claude al Consilierului tău (instrucțiuni, fișiere, orice vrei să nu pierzi) și lipește-l mai jos. Poți adăuga și o etichetă scurtă (ex: „Advix — iulie 2026"), ca să știi ușor ce e.</p>
+    <input type="text" class="doc-input" id="bk-eticheta" placeholder="Etichetă (opțional) — ex: Advix — iulie 2026" style="margin-bottom:8px;width:100%">
+    <textarea class="bk-textarea" id="bk-continut" placeholder="Lipește aici textul de salvat..."></textarea>
+    <div class="doc-link-row">
+      <button class="btn-green" onclick="salveazaBackup()">💾 Salvează</button>
+      <button class="btn-gold" onclick="incarcaBackups()">📂 Recuperează</button>
+    </div>
+
+    <div class="doc-nota" style="margin-top:0.75rem">💡 <strong>Important:</strong> o copie salvată nu poate fi ștearsă, editată sau înlocuită — nici de tine, nici de altcineva din familie. Fiecare Salvare rămâne pentru totdeauna, exact așa cum a fost trimisă. Dacă salvezi de mai multe ori, ai pur și simplu mai multe copii în istoric, nu se pierde nimic din cele vechi.</div>
+
+    <div class="bk-lista" id="bk-lista">
+      <label style="font-size:12px;font-weight:500;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;margin:1rem 0 8px;display:block">Cum recuperezi</label>
+      <p class="doc-card-sub" style="margin-bottom:0.75rem">Alege copia de care ai nevoie, apasă „Copiază", și lipește-o înapoi în Proiectul Claude.</p>
+      <div id="bk-items"></div>
+    </div>
   </div>
 
   <!-- INSTRUCTIUNI -->
@@ -291,6 +325,73 @@ function deschideDoc(){
   var link = document.getElementById('doc-link').value.trim() || localStorage.getItem('mypal_doc_link');
   if(!link){toast('⚠️ Salvează mai întâi linkul documentului!');return;}
   window.open(link,'mypal_doc','width=900,height=860,left=200,top=0');
+}
+
+// SALVARE/RECUPERARE COPIE DE SIGURANTA (Postgres, a familiei, append-only)
+async function salveazaBackup(){
+  var eticheta = document.getElementById('bk-eticheta').value.trim();
+  var continut = document.getElementById('bk-continut').value.trim();
+  if(!continut){toast('⚠️ Lipește textul de salvat!');return;}
+  try{
+    var r = await fetch('/api/family/memorie/salveaza', {
+      method:'POST', credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({eticheta: eticheta || null, continut: continut})
+    });
+    if(!r.ok){toast('⚠️ Nu am putut salva. Încearcă din nou.');return;}
+    document.getElementById('bk-eticheta').value='';
+    document.getElementById('bk-continut').value='';
+    toast('✅ Copie salvată!');
+    if(document.getElementById('bk-lista').classList.contains('open')) incarcaBackups();
+  }catch(e){toast('⚠️ Nu am putut contacta serverul.');}
+}
+
+function formateazaDataBackup(iso){
+  var d = new Date(iso);
+  var zile=['Duminică','Luni','Marți','Miercuri','Joi','Vineri','Sâmbătă'];
+  var luni=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+  return zile[d.getDay()]+', '+d.getDate()+' '+luni[d.getMonth()]+' '+d.getFullYear()+' — '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+
+async function incarcaBackups(){
+  var lista = document.getElementById('bk-lista');
+  var items = document.getElementById('bk-items');
+  try{
+    var r = await fetch('/api/family/memorie', {credentials:'same-origin'});
+    if(!r.ok){toast('⚠️ Nu am putut încărca istoricul.');return;}
+    var d = await r.json();
+    if(d.length === 0){
+      items.innerHTML = '<p style="font-size:14px;color:var(--muted)">Nu ai nicio copie salvată încă.</p>';
+    } else {
+      items.innerHTML = d.map(function(b, i){
+        var eticheta = b.eticheta || ('Copie #'+(d.length-i));
+        return '<div class="bk-item">'
+          + '<div class="bk-item-head"><span class="bk-item-eticheta">'+escBk(eticheta)+'</span><span class="bk-item-data">'+formateazaDataBackup(b.creat_la)+'</span></div>'
+          + '<div class="bk-item-continut">'+escBk(b.continut)+'</div>'
+          + '<button class="btn-copy" onclick="copiazaBackup('+b.id+')">📋 Copiază</button>'
+          + '</div>';
+      }).join('');
+    }
+    window._bkData = d;
+    lista.classList.add('open');
+  }catch(e){toast('⚠️ Nu am putut contacta serverul.');}
+}
+
+function escBk(s){
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function copiazaBackup(id){
+  var b = (window._bkData || []).find(function(x){return x.id == id;});
+  if(!b)return;
+  var tmp=document.createElement('textarea');
+  tmp.value=b.continut;tmp.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(tmp);tmp.focus();tmp.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(tmp);
+  toast('📋 Copiat — lipește-l în Proiectul Claude!');
 }
 
 // TOGGLE INSTRUCTIUNI
