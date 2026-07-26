@@ -47,3 +47,14 @@ CREATE TABLE :schema_name.clone_replacement_requests (
 );
 
 CREATE INDEX idx_records_category ON :schema_name.records(category_id);
+
+-- Copie de siguranta text (instructiuni/fisiere Consilieri), salvata si
+-- recuperata exclusiv de familie, prin site — niciodata scrisa automat de
+-- catre un Consilier, nici citita de Admin (decizie Mircea, 25 iulie 2026).
+-- Append-only: nu exista UPDATE/DELETE expuse, doar INSERT + citire.
+CREATE TABLE :schema_name.memorie_backup (
+    id          BIGSERIAL PRIMARY KEY,
+    eticheta    TEXT,
+    continut    TEXT NOT NULL,
+    creat_la    TIMESTAMPTZ NOT NULL DEFAULT now()
+);

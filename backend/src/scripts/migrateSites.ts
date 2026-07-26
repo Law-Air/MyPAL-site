@@ -26,6 +26,14 @@ async function main() {
            ADD COLUMN IF NOT EXISTS member_code TEXT`
       );
       await client.query(`ALTER TABLE ${schema_name}.family_members DROP COLUMN IF EXISTS pin_hash`);
+      await client.query(
+        `CREATE TABLE IF NOT EXISTS ${schema_name}.memorie_backup (
+           id          BIGSERIAL PRIMARY KEY,
+           eticheta    TEXT,
+           continut    TEXT NOT NULL,
+           creat_la    TIMESTAMPTZ NOT NULL DEFAULT now()
+         )`
+      );
       await client.query('RESET ROLE');
       await client.query(`REVOKE ${db_role_name} FROM mypal_admin`);
       await client.query('COMMIT');

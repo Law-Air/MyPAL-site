@@ -151,6 +151,31 @@ app.get('/api/family/consilier-line', requireFamilySession, async (req, res) => 
   res.json({ line_plain: linePlain, line_base64: Buffer.from(linePlain, 'utf-8').toString('base64') });
 });
 
+// ===== Memorie AI: copie de siguranta text, salvata/recuperata doar de familie =====
+// Niciun Consilier nu scrie sau citeste automat aici — familia copiaza
+// manual din/spre Proiectul Claude. Append-only, fara UPDATE/DELETE expuse.
+
+app.get('/api/family/memorie', requireFamilySession, async (req, res) => {
+  const pool = await getSitePool(req.site!.siteNumber);
+  if (!pool) return res.status(404).json({ error: 'Site necunoscut sau inactiv' });
+  const result = await pool.query(
+    `SELECT id, eticheta, continut, creat_la FROM memorie_backup ORDER BY creat_la DESC`
+  );
+  res.json(result.rows);
+});
+
+app.post('/api/family/memorie/salveaza', requireFamilySession, async (req, res) => {
+  const pool = await getSitePool(req.site!.siteNumber);
+  if (!pool) return res.status(404).json({ error: 'Site necunoscut sau inactiv' });
+  const { eticheta, continut } = req.body ?? {};
+  if (!continut) return res.status(400).json({ error: 'continut este obligatoriu' });
+  const result = await pool.query(
+    `INSERT INTO memorie_backup (eticheta, continut) VALUES ($1, $2) RETURNING id, creat_la`,
+    [eticheta ?? null, continut]
+  );
+  res.json({ ok: true, id: result.rows[0].id, creat_la: result.rows[0].creat_la });
+});
+
 // ===== Comenzi si alocare (plata -> emitere site+parola) =====
 
 app.post('/api/orders', async (req, res) => {
