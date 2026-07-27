@@ -82,10 +82,6 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 .bk-item-data{font-size:11px;color:var(--muted)}
 .bk-item-continut{font-size:13px;color:var(--text);line-height:1.6;white-space:pre-wrap;font-weight:400;margin-bottom:6px}
 
-/* RECALIBRARE - stub, in lucru */
-.stub-card{background:var(--cream);border:1px dashed var(--border);border-radius:14px;padding:1.5rem;text-align:center;margin-bottom:1.5rem}
-.stub-card p{font-size:13px;color:var(--muted);line-height:1.6}
-
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark);color:var(--cream);padding:9px 18px;border-radius:8px;font-size:13px;opacity:0;transition:all 0.25s;pointer-events:none;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .footer{background:var(--white);border-top:0.5px solid var(--border);padding:2.5rem 2rem}
@@ -192,12 +188,16 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
   </div>
 
   <div class="warn-box">
-    <strong>Modificarea Instrucțiunilor NU este permisă</strong>, pentru a asigura funcționarea corespunzătoare a Consilierilor și a site-ului. Au fost proiectate de experți, calibrate să funcționeze împreună — o intervenție neautorizată poate compromite ireversibil funcționarea Consilierului. Puteți adăuga liber documente noi; nu aveți voie să modificați reglajele originale.
+    <strong>Modificarea Instrucțiunilor NU este permisă</strong>, sub niciun motiv, la inițiativa familiei, dacă modificarea nu a fost solicitată de MyPAL în mod direct sau prin intermediul Consilierului Actualizat sau Recalibrat. Au fost proiectate de experți, calibrate să funcționeze împreună — o intervenție neautorizată poate compromite ireversibil funcționarea Consilierului. Puteți adăuga liber documente noi; nu aveți voie să modificați reglajele originale.
   </div>
 
   <button class="toggle-link" onclick="togLista()">ⓘ Ce se recomandă să salvați aici?</button>
   <div class="lista-doc" id="lista-doc">
-    Raport ADN (predare Consilier) &middot; Bibliografie specifică familiei &middot; Copii de siguranță ale unor fire importante &middot; Rezumate de fire &middot; Instrucțiuni punctuale de lucru &middot; Date de familie frecvente &middot; Contracte
+    <strong>Documente și fișe:</strong> Raport ADN (predare Consilier) · Bibliografie specifică familiei · Copii de siguranță ale unor fire importante · Rezumate de fire · Instrucțiuni punctuale de lucru · Contracte<br><br>
+    <strong>Date financiare:</strong> venituri lunare nete, rate și credite active, cheltuieli fixe, economii și rezerve, obiective financiare<br><br>
+    <strong>Date juridice și patrimoniale:</strong> proprietăți deținute, contracte active, litigii în curs, succesiuni sau moșteniri relevante<br><br>
+    <strong>Decizii și context nou:</strong> decizii importante ale familiei (cu dată), schimbări în situația financiară/juridică, informații noi relevante pentru Consilieri<br><br>
+    <strong>Când actualizezi:</strong> la prima utilizare (profil complet) · lunar (cifre + decizii noi) · la orice schimbare majoră · înainte de o eventuală recalibrare
   </div>
 
   <!-- SALVARE/RECUPERARE COPIE DE SIGURANTA -->
@@ -226,11 +226,56 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     </div>
   </div>
 
-  <!-- RECALIBRARE - STUB -->
+  <!-- RECALIBRARE -->
   <div class="sect-label" style="margin-top:0.5rem">Recalibrare</div>
-  <div class="stub-card">
-    <p>📌 Capitol în lucru — locul final (aici sau în Actualizare) și mecanismul exact urmează să fie decise.</p>
+  <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);margin-bottom:1rem">Recalibrează consilierii tăi</h2>
+
+  <div class="warn-box" style="border-color:var(--border);color:var(--text)">
+    <strong>Nu e un pas de rutină.</strong> Faceți asta doar dacă simțiți că a apărut un derapaj de context (Consilierul pare că a „uitat" ceva important) — <strong>și doar dacă Consilierul însuși confirmă sau acceptă</strong> recalibrarea. Nu forțați acest pas fără motiv.
   </div>
+
+  <div class="doc-card" style="border-color:var(--border)">
+    <div class="doc-card-title">🔄 Cum recalibrezi</div>
+    <p class="doc-card-sub">Deschide Instrucțiunile (Pasul 2, mai sus), copiază promptul inițial complet — cu toate addendumurile adăugate în timp — și postează-l direct în firul curent al Consilierului, ca mesaj obișnuit.</p>
+    <div class="mini-open-row">
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('2f6c6eca-73ac-431f-8828-016c80add51c')">💰 Advix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️ Adviz</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍 Verix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭 Vivix</button>
+    </div>
+  </div>
+
+  <!-- ACTUALIZARE -->
+  <div class="sect-label" style="margin-top:1.5rem">Actualizare</div>
+  <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);margin-bottom:1rem">La înlocuirea unui Consilier</h2>
+
+  <div class="doc-card" style="border-color:var(--border)">
+    <div class="doc-card-title">📋 Raport ADN</div>
+    <p class="doc-card-sub">La primirea noului Consilier, se postează Raportul ADN al Consilierului care pleacă — <strong>atât în Fișiere, cât și direct în fir</strong>, ca noul Consilier să aibă context imediat, din prima interacțiune.</p>
+  </div>
+
+  <div class="doc-card" style="border-color:var(--border)">
+    <div class="doc-card-title">📦 Instrucțiuni de la Fabricant, livrate cu Noul Consilier</div>
+    <p class="doc-card-sub">În anumite situații, Noul Consilier vine deja cu instrucțiuni și solicitări suplimentare din partea Fabricantului (MyPAL), postate direct în modulul lui de livrare. <strong>Acestea trebuie respectate de familie</strong> — nu sunt opționale, nu sunt negociate cu Consilierul, vin gata incluse.</p>
+  </div>
+
+  <div class="doc-card" style="border-color:var(--border)">
+    <div class="doc-card-title">✨ Addendum nou, la cererea Consilierului</div>
+    <p class="doc-card-sub">Dacă noul Consilier solicită postarea unui addendum nou la promptul operativ, acel addendum se postează exact în forma cerută de el. O astfel de solicitare reprezintă o modernizare și o îmbunătățire a modelului de lucru — nu o abatere de la instrucțiunile originale.</p>
+  </div>
+
+  <div class="doc-card" style="border-color:var(--border);margin-bottom:1.5rem">
+    <div class="doc-card-title">🛠️ Cum actualizezi</div>
+    <p class="doc-card-sub">Deschide firul Noului Consilier și postează direct acolo Raportul ADN sau addendumul solicitat, conform cazului de mai sus.</p>
+    <div class="mini-open-row">
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('2f6c6eca-73ac-431f-8828-016c80add51c')">💰 Advix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️ Adviz</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍 Verix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭 Vivix</button>
+    </div>
+  </div>
+
+  <p style="text-align:center;font-size:12px;margin-bottom:1.5rem"><a href="myPAL_Actualizare.html" style="color:var(--green);text-decoration:underline">Vezi pagina completă Actualizare →</a></p>
 
 </div>
 
