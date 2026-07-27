@@ -153,41 +153,41 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
   <div class="sect-label" style="margin-top:0.5rem">Secțiunea I</div>
   <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);margin-bottom:1rem">Memorie, Instrucțiuni, Fișiere</h2>
 
+  <div class="warn-box" style="border-color:var(--border);color:var(--text)">
+    <strong>Cum lucrezi, pas cu pas:</strong><br>
+    1. Deschide firul Consilierului (butoanele de mai jos) — de acolo copiezi ce vrei să păstrezi (rezumat, fir întreg, o parte din el).<br>
+    2. Deschide Memoria (butonul din cardul potrivit — Memorie / Instrucțiuni / Fișiere, toate în același loc) și postează ce ai copiat, cu un titlu adecvat — de obicei la Fișiere.
+  </div>
+
+  <div class="sect-label" style="margin-top:1rem;margin-bottom:8px">Pasul 1 — deschide firul sursă (Consilierul)</div>
+  <div class="mini-open-row" style="margin-bottom:1.5rem">
+    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('2f6c6eca-73ac-431f-8828-016c80add51c')">💰 Advix</button>
+    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️ Adviz</button>
+    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍 Verix</button>
+    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭 Vivix</button>
+  </div>
+
+  <div class="sect-label" style="margin-bottom:8px">Pasul 2 — deschide Memoria (destinație, un singur loc)</div>
   <div class="grid3">
     <div class="mini-card">
       <div style="font-size:18px">🧠</div>
       <div class="mini-card-title">Memorie</div>
       <p>Gestionată de Consilieri — se actualizează singură, pe măsură ce discutați.</p>
-      <div class="mini-open-row">
-        <button class="mini-open" onclick="deschideAI('2f6c6eca-73ac-431f-8828-016c80add51c')">💰</button>
-        <button class="mini-open" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️</button>
-        <button class="mini-open" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍</button>
-        <button class="mini-open" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭</button>
-      </div>
+      <button class="mini-open" style="width:100%" onclick="deschideMemorie()">Deschide Memoria</button>
     </div>
 
     <div class="mini-card warn">
       <div style="font-size:18px">🔒</div>
       <div class="mini-card-title">Instrucțiuni</div>
       <p>Ca la motorul unei mașini — nu se umblă „de capul nostru".</p>
-      <div class="mini-open-row">
-        <button class="mini-open" onclick="deschideAI('2f6c6eca-73ac-431f-8828-016c80add51c')">💰</button>
-        <button class="mini-open" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️</button>
-        <button class="mini-open" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍</button>
-        <button class="mini-open" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭</button>
-      </div>
+      <button class="mini-open" style="width:100%" onclick="deschideMemorie()">Deschide Memoria</button>
     </div>
 
     <div class="mini-card">
       <div style="font-size:18px">📁</div>
       <div class="mini-card-title">Fișiere</div>
-      <p>Rapoarte, contracte, bibliografie — orice document permanent.</p>
-      <div class="mini-open-row">
-        <button class="mini-open" onclick="deschideAI('2f6c6eca-73ac-431f-8828-016c80add51c')">💰</button>
-        <button class="mini-open" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️</button>
-        <button class="mini-open" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍</button>
-        <button class="mini-open" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭</button>
-      </div>
+      <p>Aici postezi, de obicei, ce ai copiat din firul Consilierului.</p>
+      <button class="mini-open" style="width:100%" onclick="deschideMemorie()">Deschide Memoria</button>
     </div>
   </div>
 
@@ -373,12 +373,19 @@ function copiazaBackup(id){
   toast('📋 Copiat — lipește-l în Proiectul Claude!');
 }
 
-// Deschide chat-ul unui Consilier intr-o fereastra suficient de larga cat
-// sa arate intreg layout-ul Claude (lista + panoul din dreapta) - la
-// 480px se vedea doar coloana din stanga (raportat de Mircea, 26 iulie 2026).
+// Deschide firul sursa al unui Consilier - fereastra larga cat sa arate
+// intreg layout-ul Claude (la 480px se vedea doar coloana din stanga,
+// raportat de Mircea, 26 iulie 2026).
 function deschideAI(chatId){
   var w=window.open('https://claude.ai/chat/'+chatId,'mypal_ai','width=1100,height=860,left=0,top=0');
   if(!w||w.closed) window.open('https://claude.ai/chat/'+chatId,'_blank');
+}
+
+// LINK MAIN - Memorie/Instructiuni/Fisiere, un singur Proiect, 3 sectiuni
+function deschideMemorie(){
+  var url = 'https://claude.ai/project/019e6f53-848c-765f-b31f-c0a3f3ee2c78';
+  var w=window.open(url,'mypal_memorie','width=1100,height=860,left=0,top=0');
+  if(!w||w.closed) window.open(url,'_blank');
 }
 </script>
 
