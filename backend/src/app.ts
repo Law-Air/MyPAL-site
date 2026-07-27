@@ -89,6 +89,18 @@ app.get('/api/me', requireFamilySession, (req, res) => {
   res.json({ site_number: req.site!.siteNumber, family_name: req.site!.familyName });
 });
 
+// Reconfirmare parola familiei, fara niciun efect secundar (nu deloghea,
+// nu schimba nimic) - folosita ca poarta usoara pe pagini sensibile
+// (Memorie), cu parola standard, nu una separata (decizie Mircea, 25 iulie 2026).
+app.post('/api/auth/confirm-password', requireFamilySession, async (req, res) => {
+  const { password } = req.body ?? {};
+  const result = await adminPool.query(`SELECT access_password_hash FROM core.sites WHERE id = $1`, [req.site!.id]);
+  const hash = result.rows[0]?.access_password_hash;
+  const valid = hash && (await bcrypt.compare(password ?? '', hash));
+  if (!valid) return res.status(401).json({ error: 'Parola incorecta' });
+  res.json({ ok: true });
+});
+
 // ===== Consiliul Familiei =====
 
 app.get('/api/family/members', requireFamilySession, async (req, res) => {
