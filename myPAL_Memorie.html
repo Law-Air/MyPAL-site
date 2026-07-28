@@ -43,11 +43,11 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 /* CARDURI SECTIUNE I */
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:0.75rem}
 @media(max-width:640px){.grid3{grid-template-columns:1fr}}
-.mini-card{background:var(--white);border:0.5px solid var(--border);border-radius:12px;padding:1rem}
+.mini-card{background:var(--white);border:0.5px solid var(--border);border-radius:12px;padding:1rem;display:flex;flex-direction:column}
 .mini-card.warn{background:#FAEEDA;border:none}
 .mini-card-title{font-family:'Playfair Display',serif;font-weight:500;font-size:15px;margin:8px 0 4px;color:var(--dark)}
 .mini-card.warn .mini-card-title{color:#854F0B}
-.mini-card p{font-size:12px;color:var(--muted);line-height:1.4;margin-bottom:10px}
+.mini-card p{font-size:12px;color:var(--muted);line-height:1.4;margin-bottom:10px;flex-grow:1}
 .mini-card.warn p{color:#854F0B}
 .mini-open-row{display:flex;gap:4px;flex-wrap:wrap}
 .mini-open{flex:1;min-width:0;background:var(--green);color:#fff;border:none;border-radius:16px;padding:6px 4px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
@@ -151,8 +151,8 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 
   <div class="warn-box" style="border-color:var(--border);color:var(--text)">
     <strong>Cum lucrezi, pas cu pas:</strong><br>
-    1. Deschide firul Consilierului (butoanele de mai jos) — de acolo copiezi ce vrei să păstrezi (rezumat, fir întreg, o parte din el).<br>
-    2. Deschide Memoria (butonul din cardul potrivit — Memorie / Instrucțiuni / Fișiere, toate în același loc) și postează ce ai copiat, cu un titlu adecvat — de obicei la Fișiere.
+    1. PASUL 1 - Deschide firul Consilierului (butoanele de mai jos) — de acolo copiezi ce vrei să păstrezi (rezumat, fir întreg, o parte din el).<br>
+    2. PASUL 2 - Deschide Memoria (butonul din cardul potrivit — Memorie / Instrucțiuni / Fișiere, toate în același loc) și postează ce ai copiat, cu un titlu adecvat — de obicei la Fișiere.
   </div>
 
   <div class="sect-label" style="margin-top:1rem;margin-bottom:8px">Pasul 1 — deschide firul sursă (Consilierul)</div>
@@ -188,10 +188,11 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
   </div>
 
   <div class="warn-box">
-    <strong>Modificarea Instrucțiunilor NU este permisă</strong>, sub niciun motiv, la inițiativa familiei, dacă modificarea nu a fost solicitată de MyPAL în mod direct sau prin intermediul Consilierului Actualizat sau Recalibrat. Au fost proiectate de experți, calibrate să funcționeze împreună — o intervenție neautorizată poate compromite ireversibil funcționarea Consilierului. Puteți adăuga liber documente noi; nu aveți voie să modificați reglajele originale.
+    <strong>Modificarea Instrucțiunilor NU este permisă</strong>, sub niciun motiv, la inițiativa familiei, dacă modificarea nu a fost solicitată de MyPAL în mod direct sau prin intermediul Consilierului Actualizat sau Recalibrat. Acestea au fost proiectate de experți, calibrate să funcționeze împreună — o intervenție neautorizată poate compromite ireversibil funcționarea Consilierului. Puteți adăuga liber documente noi; nu aveți voie să modificați reglajele originale.
   </div>
 
-  <button class="toggle-link" onclick="togLista()">ⓘ Ce se recomandă să salvați aici?</button>
+  <div class="sect-label" style="margin-top:1rem">Secțiunea II</div>
+  <button class="toggle-link" onclick="togLista()">ⓘ Ce se salvează în Memorie</button>
   <div class="lista-doc" id="lista-doc">
     <strong>Documente și fișe:</strong> Raport ADN (predare Consilier) · Bibliografie specifică familiei · Copii de siguranță ale unor fire importante · Rezumate de fire · Instrucțiuni punctuale de lucru · Contracte<br><br>
     <strong>Date financiare:</strong> venituri lunare nete, rate și credite active, cheltuieli fixe, economii și rezerve, obiective financiare<br><br>
@@ -201,12 +202,12 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
   </div>
 
   <!-- SALVARE/RECUPERARE COPIE DE SIGURANTA -->
-  <div class="sect-label" style="margin-top:0.5rem">Secțiunile IV + V</div>
-  <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);margin-bottom:1rem">Salvează și recuperează din Postgres</h2>
+  <div class="sect-label" style="margin-top:0.5rem">Secțiunile III + IV</div>
+  <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);margin-bottom:1rem">Salvează și recuperează din Postgres <span style="font-size:14px;color:var(--muted);font-weight:400">(Memoria my-PAL.ai a Familiei)</span></h2>
 
   <div class="doc-card">
     <div class="doc-card-title">🗄️ Copie de siguranță</div>
-    <p class="doc-card-sub">Claude nu are un buton de confirmare la ștergere — dacă cineva șterge din greșeală fișierele sau instrucțiunile unui Consilier, nu mai există cale de recuperare din partea Claude. Aici poți păstra o copie, în siguranță, doar a familiei tale.</p>
+    <p class="doc-card-sub">Platforma Claude și deci nici MyPAL, nu are un buton de confirmare la ștergere — dacă cineva șterge din greșeală fișierele sau instrucțiunile unui Consilier, nu mai există cale de recuperare din partea Claude. Aici poți păstra o copie, în siguranță, doar a familiei tale.</p>
 
     <label style="font-size:12px;font-weight:500;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:5px;display:block">Cum salvezi</label>
     <p class="doc-card-sub" style="margin-bottom:0.75rem">Copiază textul din Proiectul Claude al Consilierului tău (instrucțiuni, fișiere, orice vrei să nu pierzi) și lipește-l mai jos. Poți adăuga și o etichetă scurtă (ex: „Advix — iulie 2026"), ca să știi ușor ce e.</p>
@@ -219,6 +220,11 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 
     <div class="doc-nota" style="margin-top:0.75rem">💡 <strong>Important:</strong> o copie salvată nu poate fi ștearsă, editată sau înlocuită — nici de tine, nici de altcineva din familie. Fiecare Salvare rămâne pentru totdeauna, exact așa cum a fost trimisă. Dacă salvezi de mai multe ori, ai pur și simplu mai multe copii în istoric, nu se pierde nimic din cele vechi.</div>
 
+    <div class="doc-card-title" style="font-size:16px;margin-top:1.25rem">🔓 Recuperare din Memorie</div>
+    <p class="doc-card-sub"><strong>Cum recuperezi:</strong> apasă „Recuperează" — vezi toate copiile salvate până acum, afișate în ordine: <strong>prima este ultima memorie salvată</strong> (cea mai recentă apare prima). Alege copia de care ai nevoie, apasă „Copiază", și lipește-o înapoi în Proiectul Claude.</p>
+    <p class="doc-card-sub"><strong>Nimic nu se poate șterge:</strong> odată salvată, o copie rămâne definitiv în istoric — nu există buton de ștergere, editare sau înlocuire, pentru nimeni.</p>
+    <p class="doc-card-sub" style="margin-bottom:0"><strong>Confidențialitate:</strong> Memoria Familiei nu poate fi accesată de nimeni din afara familiei.</p>
+
     <div class="bk-lista" id="bk-lista">
       <label style="font-size:12px;font-weight:500;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;margin:1rem 0 8px;display:block">Cum recuperezi</label>
       <p class="doc-card-sub" style="margin-bottom:0.75rem">Alege copia de care ai nevoie, apasă „Copiază", și lipește-o înapoi în Proiectul Claude.</p>
@@ -227,7 +233,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
   </div>
 
   <!-- RECALIBRARE -->
-  <div class="sect-label" style="margin-top:0.5rem">Recalibrare</div>
+  <div class="sect-label" style="margin-top:0.5rem">Secțiunea V — Recalibrare</div>
   <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);margin-bottom:1rem">Recalibrează consilierii tăi</h2>
 
   <div class="warn-box" style="border-color:var(--border);color:var(--text)">
@@ -242,26 +248,27 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
       <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️ Adviz</button>
       <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍 Verix</button>
       <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭 Vivix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px;background:var(--gold);margin-left:auto" onclick="deschideMemorie()">📚 Deschide Memoria</button>
     </div>
   </div>
 
   <!-- ACTUALIZARE -->
-  <div class="sect-label" style="margin-top:1.5rem">Actualizare</div>
+  <div class="sect-label" style="margin-top:1.5rem">Secțiunea VI — Actualizare</div>
   <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);margin-bottom:1rem">La înlocuirea unui Consilier</h2>
 
   <div class="doc-card" style="border-color:var(--border)">
     <div class="doc-card-title">📋 Raport ADN</div>
-    <p class="doc-card-sub">La primirea noului Consilier, se postează Raportul ADN al Consilierului care pleacă — <strong>atât în Fișiere, cât și direct în fir</strong>, ca noul Consilier să aibă context imediat, din prima interacțiune.</p>
+    <p class="doc-card-sub">La primirea noului Consilier, se postează Raportul ADN al Consilierului care pleacă — <strong>atât în Fișiere, cât și direct în firul de conversație al Consilierului</strong>, ca noul Consilier să aibă context imediat, din prima interacțiune.</p>
   </div>
 
   <div class="doc-card" style="border-color:var(--border)">
-    <div class="doc-card-title">📦 Instrucțiuni de la Fabricant, livrate cu Noul Consilier</div>
-    <p class="doc-card-sub">În anumite situații, Noul Consilier vine deja cu instrucțiuni și solicitări suplimentare din partea Fabricantului (MyPAL), postate direct în modulul lui de livrare. <strong>Acestea trebuie respectate de familie</strong> — nu sunt opționale, nu sunt negociate cu Consilierul, vin gata incluse.</p>
+    <div class="doc-card-title">📦 Instrucțiuni de fabricație, livrate cu Noul Consilier</div>
+    <p class="doc-card-sub">În anumite situații, Noul Consilier vine deja cu Instrucțiuni de fabricație și solicitări suplimentare din partea Fabricantului (MyPAL), postate direct în modulul lui de livrare. <strong>Acestea trebuie respectate de familie</strong> — nu sunt opționale, nu sunt negociate cu Consilierul, vin gata incluse.</p>
   </div>
 
   <div class="doc-card" style="border-color:var(--border)">
     <div class="doc-card-title">✨ Addendum nou, la cererea Consilierului</div>
-    <p class="doc-card-sub">Dacă noul Consilier solicită postarea unui addendum nou la promptul operativ, acel addendum se postează exact în forma cerută de el. O astfel de solicitare reprezintă o modernizare și o îmbunătățire a modelului de lucru — nu o abatere de la instrucțiunile originale.</p>
+    <p class="doc-card-sub">Dacă noul Consilier solicită, la sosire dar și prin documentul cu care a fost livrat, postarea unui addendum nou la promptul operativ, acel addendum se postează exact în forma cerută de el. O astfel de solicitare reprezintă o modernizare și o îmbunătățire a modelului de lucru — nu o abatere de la instrucțiunile originale.</p>
   </div>
 
   <div class="doc-card" style="border-color:var(--border);margin-bottom:1.5rem">
@@ -272,6 +279,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
       <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️ Adviz</button>
       <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍 Verix</button>
       <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭 Vivix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px;background:var(--gold);margin-left:auto" onclick="deschideMemorie()">📚 Deschide Memoria</button>
     </div>
   </div>
 

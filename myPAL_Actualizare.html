@@ -15,6 +15,11 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 .nav-btn{padding:6px 12px;font-size:14px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif}
 .nav-btn:hover{color:var(--dark);background:var(--cream)}
 .nav-btn.special{color:var(--gold);border:0.5px solid var(--gold)}
+.header{background:var(--green);color:#fff;padding:1rem 2rem}
+.header-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.h-ceas{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;letter-spacing:-1px}
+.h-data{font-size:11px;opacity:0.8;margin-top:2px;font-weight:400}
+.h-tag{font-size:13px;opacity:0.9;font-style:italic;font-weight:400}
 .main{max-width:760px;margin:0 auto;padding:2rem}
 .hero{text-align:center;padding:2rem 0 2.5rem}
 .hero-label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:0.75rem}
@@ -48,11 +53,6 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 .footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
 .footer-link-nav:hover{color:var(--dark);background:var(--cream)}
 .footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
-.header{background:var(--green);color:#fff;padding:1rem 2rem}
-.header-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.h-ceas{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;letter-spacing:-1px}
-.h-data{font-size:11px;opacity:0.8;margin-top:2px;font-weight:400}
-.h-tag{font-size:13px;opacity:0.9;font-style:italic;font-weight:400}
 </style>
 </head>
 <body>
@@ -192,6 +192,14 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     </div>
   </div>
 
+  <!-- NOTA DE LEGATURA CU MEMORIA (adaugare, nu rescriere a pasilor de mai sus) -->
+  <div class="gold-box">
+    <p class="gold-text" style="margin-bottom:0.75rem"><strong>📌 Notă — legătura cu pagina Memorie</strong></p>
+    <p class="gold-text" style="margin-bottom:0.5rem">Firul salvat la Pasul 1 de mai sus (numerotat, în Fișiere) este exact ceea ce, în pagina <strong>Memorie</strong>, numim <strong>Raportul ADN</strong> al consilierului care pleacă — aceeași acțiune, aceeași locație, doar denumire consecventă între pagini.</p>
+    <p class="gold-text" style="margin-bottom:0.5rem">Uneori, noul consilier vine deja cu <strong>Instrucțiuni de fabricație</strong> — cerințe suplimentare din partea MyPAL, incluse direct în modulul lui de livrare. Acestea se respectă întocmai, la fel ca pașii de mai sus.</p>
+    <p class="gold-text" style="margin-bottom:0">Pentru siguranță suplimentară, poți salva același conținut (fir, Raport ADN, orice addendum) și în <strong>Memoria my-PAL.ai a Familiei</strong> — o copie permanentă, separată de firul de chat. Detalii complete: <a href="myPAL_Memorie.html" style="color:var(--dark);text-decoration:underline">pagina Memorie →</a></p>
+  </div>
+
   <!-- EXIT/RETRY -->
   <div class="card">
     <div class="card-title">🔧 Dacă firul nu mai răspunde — ce înseamnă mesajele pe care le vezi</div>
@@ -269,6 +277,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
       <a href="myPAL_Prezentare.html" class="footer-link-nav">📖 Funcționare</a>
       <a href="myPAL_Actualizare.html" class="footer-link-nav">🔄 Actualizare</a>
       <a href="myPAL_Satisfactie.html" class="footer-link-nav special">📋 Satisfacție</a>
+      <a href="myPAL_Memorie.html" class="footer-link-nav special">🔄 Actualizează Consilier</a>
     </div>
     <div style="border-top:0.5px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
       <div style="font-size:13px;font-weight:600;color:var(--dark)">my-PAL.ai · © 2026</div>
