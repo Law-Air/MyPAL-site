@@ -53,6 +53,9 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 .footer-link-nav{padding:6px 12px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
 .footer-link-nav:hover{color:var(--dark);background:var(--cream)}
 .footer-link-nav.special{color:var(--gold);border:0.5px solid var(--gold)}
+.toggle-link{background:none;border:none;color:var(--green);font-size:13px;text-decoration:underline;cursor:pointer;padding:0;margin:0.5rem 0 0;display:block;font-family:'DM Sans',sans-serif}
+.tehnic-box{display:none;margin-top:1rem;padding-top:1rem;border-top:0.5px dashed var(--border)}
+.tehnic-box.open{display:block}
 </style>
 </head>
 <body>
@@ -88,23 +91,28 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
   <!-- CE ESTE UP-GRADE -->
   <div class="card">
     <div class="card-title">💡 Ce înseamnă Actualizare?</div>
-    <p class="card-text">Fiecare consilier my-PAL lucrează cu familia ta într-un fir de conversație dedicat. Pe măsură ce familia folosește consilierul, firul acumulează date, memorii și context — până când atinge capacitatea maximă.</p>
-    <p class="card-text">Când acest moment vine, sistemul realizează automat o comasare a datelor esențiale — un rezumat inteligent al istoricului important — iar tu primești un consilier nou, cu același ADN, același caracter și aceeași dedicare, dar cu spațiu proaspăt pentru a continua.</p>
+    <p class="card-text">Din când în când, primești un consilier nou — cu același ADN, același caracter și aceeași dedicare pentru familia ta, dar cu spațiu proaspăt pentru a continua.</p>
     <p class="card-text">Nu pierzi nimic important. Primești un produs mai nou și mai specializat.</p>
+    <button class="toggle-link" onclick="togTehnic('t1')">ⓘ Cum funcționează, în detaliu tehnic</button>
+    <div class="tehnic-box" id="t1">
+      <p class="card-text">Fiecare consilier my-PAL lucrează cu familia ta într-un fir de conversație dedicat. Pe măsură ce familia folosește consilierul, firul acumulează date, memorii și context — până când atinge capacitatea maximă. Când acest moment vine, sistemul realizează automat o comasare a datelor esențiale — un rezumat inteligent al istoricului important.</p>
+    </div>
   </div>
 
   <!-- CUM STII -->
   <div class="card">
     <div class="card-title">🔔 Cum știi că e momentul?</div>
-    <p class="card-text">Consilierii tăi îți vor semnala când firul de conversație se apropie de capacitatea maximă. Vei primi un mesaj clar în chat, înainte ca funcționarea să fie afectată.</p>
-    <p class="card-text">Nu trebuie să monitorizezi nimic — consilierul te anunță el însuși când e momentul Actualizării.</p>
+    <p class="card-text">Consilierul te anunță el însuși, cu un mesaj clar în chat, înainte ca funcționarea să fie afectată. Nu trebuie să monitorizezi nimic.</p>
   </div>
 
   <div class="divider"></div>
 
   <!-- PAȘII UP-GRADE -->
   <div class="card">
-    <div class="card-title">📋 Pașii Actualizării</div>
+    <div class="card-title">📋 Ce se întâmplă în spate, automat</div>
+    <p class="card-text">Sistemul se ocupă singur de partea tehnică — livrarea noului consilier e automată, fără nicio acțiune din partea ta pentru acest pas.</p>
+    <button class="toggle-link" onclick="togTehnic('t2')">ⓘ Vezi pașii tehnici, în detaliu</button>
+    <div class="tehnic-box" id="t2">
 
     <div class="step">
       <div class="step-nr">1</div>
@@ -138,6 +146,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
       </div>
     </div>
 
+    </div>
   </div>
 
   <!-- SFAT FRAZA CHEIE -->
@@ -202,8 +211,10 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 
   <!-- EXIT/RETRY -->
   <div class="card">
-    <div class="card-title">🔧 Dacă firul nu mai răspunde — ce înseamnă mesajele pe care le vezi</div>
-    <p class="card-text">Pe lângă anunțul clar al consilierului că e momentul Actualizării, pot apărea și mesaje de eroare — firul se blochează, nu mai răspunde, sau platforma arată un avertisment tehnic. Nu este un semn că ai pierdut conversația. Iată ce înseamnă pașii pe care îi vezi:</p>
+    <div class="card-title">🔧 Dacă firul nu mai răspunde</div>
+    <p class="card-text">Poate apărea ocazional un mesaj de eroare — nu înseamnă că ai pierdut conversația.</p>
+    <button class="toggle-link" onclick="togTehnic('t3')">ⓘ Ce înseamnă mesajele tehnice pe care le vezi</button>
+    <div class="tehnic-box" id="t3">
 
     <div class="step">
       <div class="step-nr" style="background:var(--gold)">↺</div>
@@ -223,6 +234,8 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 
     <div class="gold-box">
       <p class="gold-text"><strong>💡 Ordinea corectă:</strong> Încearcă „Retry" mai întâi. Dacă firul tot nu răspunde după 2-3 încercări, abia atunci „Exit" — și, dacă blocarea persistă, tratează firul ca fiind la capacitate maximă: parcurge cei 4 pași de mai sus, ca la o Actualizare normală.</p>
+    </div>
+
     </div>
   </div>
 
@@ -290,6 +303,10 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 </div>
 
 <script>
+function togTehnic(id){
+  document.getElementById(id).classList.toggle('open');
+}
+
 function updateCeas(){
   var d=new Date();
   var el=document.getElementById('h-ceas');

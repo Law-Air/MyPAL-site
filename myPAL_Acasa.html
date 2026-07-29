@@ -111,6 +111,24 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark);color:var(--cream);padding:9px 18px;border-radius:8px;font-size:13px;opacity:0;transition:all 0.25s;pointer-events:none;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* DE CE MY-PAL */
+.dcm-trigger{display:inline-flex;align-items:center;gap:8px;background:var(--gold);border:1px solid var(--gold);color:#fff;padding:10px 22px;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 2px 8px rgba(201,168,76,0.3)}
+.dcm-trigger:hover{background:#B8963E;border-color:#B8963E}
+.dcm-overlay{position:fixed;inset:0;background:rgba(28,28,26,0.6);z-index:900;display:none;align-items:center;justify-content:center;padding:1.5rem}
+.dcm-overlay.activ{display:flex}
+.dcm-modal{background:var(--cream);border-radius:20px;padding:2rem;max-width:620px;width:100%;max-height:85vh;overflow-y:auto;position:relative}
+.dcm-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;line-height:1}
+.dcm-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:var(--dark);text-align:center;margin-bottom:0.5rem}
+.dcm-sub{text-align:center;font-size:13px;color:var(--muted);margin-bottom:1.75rem}
+.dcm-item{background:#fff;border:0.5px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:12px}
+.dcm-q{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--green);margin-bottom:8px}
+.dcm-a{font-size:14.5px;color:var(--text);line-height:1.7;font-weight:400}
+
+/* SPOTIFY BONUS - buton activ + pop-up */
+.spf-trigger{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:var(--green-light);border:0.5px solid var(--green);border-radius:20px;font-size:11px;color:var(--green);font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.spf-trigger:hover{background:var(--green);color:#fff}
+.spf-modal{background:var(--white);border-radius:16px;padding:1.75rem;max-width:360px;width:100%;text-align:center;position:relative}
 </style>
 </head>
 <body>
@@ -139,20 +157,6 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 
 <div class="divider"></div>
 
-<!-- BONUS SPOTIFY -->
-<div class="sect">
-  <div style="background:linear-gradient(135deg,#1C1C1A,#2A2A28);border-radius:14px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:32px">🎵</div>
-      <div>
-        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:#fff">Abonează-te până la 31 august</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.65);font-weight:400">și primești Spotify-Playlist gratuit 2 luni</div>
-      </div>
-    </div>
-    <button onclick="deschideUpgrade('standard')" style="padding:9px 18px;background:var(--gold);color:#1C1C1A;border:none;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap">Vezi oferta →</button>
-  </div>
-</div>
-
 <div class="divider"></div>
 
 <!-- 2. PREZENTARE -->
@@ -160,6 +164,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
   <div class="sect-label">Despre my-PAL</div>
   <h2 class="sect-title">my-PAL — aici ești acasă</h2>
   <p style="font-family:'Playfair Display',serif;font-size:15px;color:var(--muted);font-style:italic;margin-bottom:1.25rem;font-weight:400">Consilierii tăi. Doar ai tăi.</p>
+  <button class="dcm-trigger" onclick="document.getElementById('dcm-overlay').classList.add('activ')" style="margin-bottom:1.25rem">🛡️ De ce my-PAL?</button>
   <div class="card">
     <p class="card-text">my-PAL este echipa ta de consilieri dedicați — financiar, juridic și simulare — disponibili oricând ai nevoie. Nu suntem un chatbot generic. Suntem consilierii care știu cine ești, ce ai și ce vrei să construiești pentru familia ta.</p>
     <p class="card-text">Confidențialitate absolută. Limbaj uman. Fără judecăți. Întotdeauna de partea familiei tale.</p>
@@ -227,6 +232,47 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     <button onclick="openOverlayBottom('o-remind-add')" style="display:inline-flex;align-items:center;gap:7px;padding:11px 22px;background:var(--gold);border:none;border-radius:8px;font-size:14px;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:all 0.2s">🔔 Adaugă în Agendă</button>
     <button class="btn-outline" onclick="openOverlay('o-remind-reg')">📋 Registru</button>
     <button class="btn-blue" onclick="window.open('https://chatgpt.com/g/g-p-6a291859d2388191826554297081d454-remind/project','mypal_searchix','width=400,height=700,left='+(screen.width-420)+',top=0')">📋 Deschide Agenda</button>
+  </div>
+</div>
+
+<!-- POP-UP DE CE MY-PAL -->
+<div class="dcm-overlay" id="dcm-overlay">
+  <div class="dcm-modal">
+    <button class="dcm-close" onclick="document.getElementById('dcm-overlay').classList.remove('activ')">✕</button>
+    <div class="dcm-title">De ce my-PAL?</div>
+    <div class="dcm-sub">Probabil te întrebi — și e corect s-o faci. Iată răspunsurile, direct.</div>
+
+    <div class="dcm-item">
+      <div class="dcm-q">De ce my-PAL? Adică — datele mele sunt în siguranță?</div>
+      <div class="dcm-a">Da. Doar tu ai acces la ele — site-ul tău e privat, Consilierii tăi sunt unici, Memoria e doar a ta. Totul e așa prin arhitectură, testat integral.</div>
+    </div>
+
+    <div class="dcm-item">
+      <div class="dcm-q">De ce my-PAL? Adică — cine vede conversațiile mele cu Consilierii?</div>
+      <div class="dcm-a">Doar tu. Nici echipa tehnică nu are acces la datele stocate ale familiei — am testat și acest scenariu separat, inclusiv pentru contul folosit la crearea de noi conturi în platformă.</div>
+    </div>
+
+    <div class="dcm-item">
+      <div class="dcm-q">De ce my-PAL? Adică — parola mea e cunoscută și de altcineva?</div>
+      <div class="dcm-a">De nimeni, în afara ta. Parola ta e creată aleatoriu de un instrument dedicat, care ți-o transmite direct odată cu alocarea microsite-ului tău — nici Admin n-o cunoaște.</div>
+    </div>
+
+    <div class="dcm-item">
+      <div class="dcm-q">De ce my-PAL? Adică — ce se întâmplă dacă anulez abonamentul?</div>
+      <div class="dcm-a">Simplu — microsite-ul tău, împreună cu datele lui, se dezactivează odată cu abonamentul.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- POP-UP SPOTIFY -->
+<div class="dcm-overlay" id="spf-overlay" onclick="if(event.target===this)document.getElementById('spf-overlay').classList.remove('activ')">
+  <div class="spf-modal">
+    <button class="dcm-close" onclick="document.getElementById('spf-overlay').classList.remove('activ')">✕</button>
+    <div style="font-size:32px;margin-bottom:8px">🎵</div>
+    <div class="dcm-title" style="font-size:20px">Bonus Spotify</div>
+    <p style="font-size:14px;color:var(--text);line-height:1.7;margin:0.75rem 0 1.5rem">Abonează-te până la <strong>31 august</strong> și primești <strong>Spotify-Playlist gratuit, 2 luni</strong> — cadoul nostru pentru familiile care ni se alătură acum.</p>
+    <button onclick="document.getElementById('spf-overlay').classList.remove('activ');var m=document.getElementById('modal-abonament');m.style.display='flex';" style="width:100%;padding:11px;background:var(--gold);color:#1C1C1A;border:none;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Vezi oferta →</button>
   </div>
 </div>
 
@@ -336,12 +382,10 @@ document.getElementById('modal-abonament').addEventListener('click', function(e)
         <button onclick="var m=document.getElementById('modal-abonament');m.style.display='flex';" style="display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:var(--gold);border:none;border-radius:50px;font-size:12px;font-weight:700;color:white;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 2px 8px rgba(201,168,76,0.3);letter-spacing:0.3px">
           📦 Actualizează Abonament
         </button>
+        <button class="spf-trigger" onclick="document.getElementById('spf-overlay').classList.add('activ')">🎵 + Spotify-Playlist gratuit, 2 luni</button>
       </div>
       <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
     </div>
-    <div style="display:none">
-  <div style="font-size:12px;color:var(--muted);font-style:italic;text-align:right;font-weight:600">myPAL nu înlocuiește judecata familiei.<br>myPAL există AICI pentru a o întări.</div>
-  </div>
     <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)">
       <div style="font-size:11px;color:var(--muted);font-weight:400">my-PAL folosește Claude · Claude este AI și poate face erori · Vă rugăm verificați răspunsurile</div>
     </div>
