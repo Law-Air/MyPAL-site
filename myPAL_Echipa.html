@@ -121,50 +121,6 @@ footer{padding:1.5rem;text-align:center;border-top:0.5px solid var(--border);fon
     <p class="intro-sub">Patru specialiști dedicați exclusiv familiei tale. Fiecare cu domeniul său — toți cu același angajament față de familia ta.</p>
   </div>
 
-  <!-- VERIX INAUGURAL -->
-  <div class="verix-section">
-    <div style="font-size:36px">🔍</div>
-    <div class="verix-text">
-      <div class="verix-title">Cum funcționează my-PAL — ghidul tău de start</div>
-      <div class="verix-desc">La prima întâlnire, Verix vă prezintă echipa, regulile de colaborare și răspunde la primele întrebări despre cum funcționează my-PAL pentru familia voastră.</div>
-    </div>
-    <a onclick="window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_verix','width=480,height=860,left=0,top=0')" href="#" class="btn-verix">
-      📖 Citește ghidul de start
-    </a>
-  </div>
-
-  
-  <!-- BLOC INSTRUCTIUNI -->
-  <div style="background:var(--white);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:2rem">
-    <div style="padding:1.25rem 1.25rem 0.75rem">
-      <div style="font-size:28px;margin-bottom:0.5rem">📖</div>
-      <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:4px">Cum lucrezi cu echipa ta</div>
-      <div style="font-size:13px;color:var(--muted);font-weight:400">Ghid rapid — ce face fiecare consilier și cum să obții cel mai bun ajutor.</div>
-    </div>
-    <div style="padding:0.75rem 1.25rem 1.25rem">
-      <button onclick="deschidePopupEchipa()" style="display:inline-flex;align-items:center;gap:7px;padding:10px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">📖 Citește ghidul de start</button>
-    </div>
-  </div>
-
-  <!-- POPUP INSTRUCTIUNI ECHIPA -->
-  <div class="overlay" id="popup-instructiuni-echipa" onclick="if(event.target===this)inchidePopupEchipa()" style="position:fixed;inset:0;background:rgba(28,28,26,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)">
-    <div style="background:var(--white);border-radius:14px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;padding:1.5rem;box-shadow:0 24px 60px rgba(0,0,0,0.2)">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
-        <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark)">Consilierii tăi — cum lucrezi cu ei</div>
-        <button onclick="inchidePopupEchipa()" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
-      </div>
-      <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:1rem;font-weight:400">Fiecare consilier e dedicat exclusiv familiei tale și cunoaște situația voastră. Apasă pe oricare pentru a deschide conversația direct.</p>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:1rem">
-        <div style="padding:10px 14px;background:var(--green-light);border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:var(--green)">💰 Advix</strong> — pentru orice întrebare financiară: venituri, cheltuieli, rate, credite, economii, taxe personale.</div>
-        <div style="padding:10px 14px;background:#EEF0FF;border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:#4A5AB9">⚖️ Adviz</strong> — pentru orice situație juridică: contracte, proprietăți, chirii, drepturi, succesiuni, raporturi cu autoritățile.</div>
-        <div style="padding:10px 14px;background:#FEF9EC;border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:var(--gold)">🔍 Verix</strong> — când vrei o a doua opinie sau ai o situație mixtă. Verifică, confirmă și îndrumă neutru.</div>
-        <div style="padding:10px 14px;background:#FCEEF0;border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:#C96B7A">🎭 Vivix</strong> — când vrei să planifici, să simulezi un scenariu sau să afli ce oportunități ai azi.</div>
-      </div>
-      <div style="padding:10px 14px;background:var(--green-light);border-radius:8px;font-size:13px;color:var(--green);font-weight:500">💡 Când nu știi la cine să mergi — începe cu Verix. El te îndrumă către consilierul potrivit.</div>
-    </div>
-  </div>
-
-  
   <!-- NOTA CUM LUCREAZA -->
   <div style="background:#FEF9EC;border:0.5px solid var(--gold);border-radius:12px;padding:1.5rem;margin-bottom:2rem">
     <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:0.75rem">Cum lucrează consilierii tăi</div>
@@ -373,18 +329,6 @@ function updateCeas(){
 }
 updateCeas();
 setInterval(updateCeas,1000);
-
-function deschidePopupEchipa(){
-  var p=document.getElementById('popup-instructiuni-echipa');
-  p.style.display='flex';
-  document.body.style.overflow='hidden';
-}
-function inchidePopupEchipa(){
-  var p=document.getElementById('popup-instructiuni-echipa');
-  p.style.display='none';
-  document.body.style.overflow='';
-}
-
 
 // Notite
 var notiteSalvate = localStorage.getItem('echipa_notite');

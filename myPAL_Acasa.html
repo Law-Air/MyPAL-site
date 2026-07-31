@@ -129,6 +129,14 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 .spf-trigger{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:var(--green-light);border:0.5px solid var(--green);border-radius:20px;font-size:11px;color:var(--green);font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
 .spf-trigger:hover{background:var(--green);color:#fff}
 .spf-modal{background:var(--white);border-radius:16px;padding:1.75rem;max-width:360px;width:100%;text-align:center;position:relative}
+
+/* GHID DE START (mutat din Echipa) */
+.verix-section{background:var(--white);border:0.5px solid var(--gold);border-radius:12px;padding:1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.verix-text{}
+.verix-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:0.5rem}
+.verix-desc{font-size:13px;color:var(--muted);line-height:1.6;max-width:500px}
+.btn-verix{display:flex;align-items:center;gap:8px;padding:12px 24px;background:none;border:0.5px solid var(--gold);border-radius:8px;color:var(--gold);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:'DM Sans',sans-serif;text-decoration:none}
+.btn-verix:hover{background:var(--gold);color:#fff}
 </style>
 </head>
 <body>
@@ -159,12 +167,48 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 
 <div class="divider"></div>
 
-<!-- 2. PREZENTARE -->
+<!-- 2. INTRA IN CASA -->
+<div class="sect">
+  <div class="sect-label">Identificare</div>
+  <h2 class="sect-title">Intră în casă</h2>
+  <div class="card">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.6;font-weight:400" id="login-instructiune">Spune-ne numele tău și codul personal pentru a accesa spațiul tău din my-PAL.</p>
+    <div class="cine-row" id="login-form">
+      <input type="text" class="cine-input" id="cine-nume" placeholder="Numele tău">
+      <input type="text" class="cine-input" id="cine-cod" placeholder="Cod personal (4 cifre)" maxlength="4" inputmode="numeric">
+      <button class="btn-green" onclick="intraCasa()">Intră →</button>
+    </div>
+    <div style="margin-top:10px" id="login-actiuni">
+      <span class="cine-nota">🔑 Prima dată? <a onclick="openOverlay('o-consiliu')">Deschide Consiliul Familiei →</a></span>
+      <button id="btn-delogare" onclick="delogheaza()" style="display:none;margin-left:8px;padding:8px 16px;background:#fff;border:1.5px solid var(--muted);border-radius:7px;font-size:13px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500">🔒 Delogare</button>
+    </div>
+    <button class="dcm-trigger" onclick="document.getElementById('dcm-overlay').classList.add('activ')" style="margin-top:1.25rem">🛡️ De ce my-PAL?</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 3. CUM FUNCTIONEAZA MY-PAL -->
+<div class="sect">
+  <div class="verix-section">
+    <div style="font-size:36px">🔍</div>
+    <div class="verix-text">
+      <div class="verix-title">Cum funcționează my-PAL — ghidul tău de start</div>
+      <div class="verix-desc">La prima întâlnire, Verix vă prezintă echipa, regulile de colaborare și răspunde la primele întrebări despre cum funcționează my-PAL pentru familia voastră.</div>
+    </div>
+    <a onclick="openOverlay('o-verix')" href="#" class="btn-verix">
+      📖 Citește Ghidul Verix
+    </a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 4. CUM LUCREZI CU ECHIPA TA -->
 <div class="sect">
   <div class="sect-label">Despre my-PAL</div>
   <h2 class="sect-title">my-PAL — aici ești acasă</h2>
   <p style="font-family:'Playfair Display',serif;font-size:15px;color:var(--muted);font-style:italic;margin-bottom:1.25rem;font-weight:400">Consilierii tăi. Doar ai tăi.</p>
-  <button class="dcm-trigger" onclick="document.getElementById('dcm-overlay').classList.add('activ')" style="margin-bottom:1.25rem">🛡️ De ce my-PAL?</button>
   <div class="card">
     <p class="card-text">my-PAL este echipa ta de consilieri dedicați — financiar, juridic și simulare — disponibili oricând ai nevoie. Nu suntem un chatbot generic. Suntem consilierii care știu cine ești, ce ai și ce vrei să construiești pentru familia ta.</p>
     <p class="card-text">Confidențialitate absolută. Limbaj uman. Fără judecăți. Întotdeauna de partea familiei tale.</p>
@@ -174,33 +218,35 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
       <a onclick="openOverlay('o-verix')" style="padding:6px 14px;background:#FEF9EC;border:0.5px solid var(--gold);border-radius:20px;font-size:13px;color:var(--gold);cursor:pointer;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='var(--gold)';this.style.color='#fff'" onmouseout="this.style.background='#FEF9EC';this.style.color='var(--gold)'">🔍 Verix — Siguranța ta</a>
       <a onclick="window.open('https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f','mypal_vivix','width=480,height=860,left=980,top=0')" style="padding:6px 14px;background:#FCEEF0;border:0.5px solid #C96B7A;border-radius:20px;font-size:13px;color:#C96B7A;cursor:pointer;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='#C96B7A';this.style.color='#fff'" onmouseout="this.style.background='#FCEEF0';this.style.color='#C96B7A'">🎭 Vivix — Viitorul tău</a>
     </div>
-    <div class="btn-row">
-      <a href="myPAL_Echipa.html" style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;transition:all 0.2s">👥 Cine suntem noi →</a>
+    <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:0.5px solid var(--border)">
+      <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:500;color:var(--dark);margin-bottom:4px">Cum lucrezi cu echipa ta</div>
+      <div style="font-size:13px;color:var(--muted);font-weight:400;margin-bottom:0.75rem">Ghid rapid — ce face fiecare consilier și cum să obții cel mai bun ajutor.</div>
+      <button onclick="deschidePopupEchipa()" style="display:inline-flex;align-items:center;gap:7px;padding:10px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">📖 Citește ghidul de start</button>
     </div>
+  </div>
+</div>
+
+<!-- POPUP INSTRUCTIUNI ECHIPA -->
+<div class="overlay" id="popup-instructiuni-echipa" onclick="if(event.target===this)inchidePopupEchipa()">
+  <div style="background:var(--white);border-radius:14px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;padding:1.5rem;box-shadow:0 24px 60px rgba(0,0,0,0.2)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--dark)">Consilierii tăi — cum lucrezi cu ei</div>
+      <button onclick="inchidePopupEchipa()" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:1rem;font-weight:400">Fiecare consilier e dedicat exclusiv familiei tale și cunoaște situația voastră. Apasă pe oricare pentru a deschide conversația direct.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:1rem">
+      <div style="padding:10px 14px;background:var(--green-light);border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:var(--green)">💰 Advix</strong> — pentru orice întrebare financiară: venituri, cheltuieli, rate, credite, economii, taxe personale.</div>
+      <div style="padding:10px 14px;background:#EEF0FF;border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:#4A5AB9">⚖️ Adviz</strong> — pentru orice situație juridică: contracte, proprietăți, chirii, drepturi, succesiuni, raporturi cu autoritățile.</div>
+      <div style="padding:10px 14px;background:#FEF9EC;border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:var(--gold)">🔍 Verix</strong> — când vrei o a doua opinie sau ai o situație mixtă. Verifică, confirmă și îndrumă neutru.</div>
+      <div style="padding:10px 14px;background:#FCEEF0;border-radius:8px;font-size:13px;color:var(--text);line-height:1.6"><strong style="color:#C96B7A">🎭 Vivix</strong> — când vrei să planifici, să simulezi un scenariu sau să afli ce oportunități ai azi.</div>
+    </div>
+    <div style="padding:10px 14px;background:var(--green-light);border-radius:8px;font-size:13px;color:var(--green);font-weight:500">💡 Când nu știi la cine să mergi — începe cu Verix. El te îndrumă către consilierul potrivit.</div>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- 3. INTRA IN CASA -->
-<div class="sect">
-  <div class="sect-label">Identificare</div>
-  <h2 class="sect-title">Intră în casă</h2>
-  <div class="card">
-    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.6;font-weight:400" id="login-instructiune">Introdu emailul și parola familiei pentru a accesa spațiul tău din my-PAL.</p>
-    <div class="cine-row" id="login-form">
-      <a href="myPAL_Intrare.html" class="btn-green">Intră în casă →</a>
-    </div>
-    <div style="margin-top:10px" id="login-actiuni">
-      <button onclick="openOverlay('o-consiliu')" style="padding:8px 16px;background:var(--green-light);border:1.5px solid var(--green);border-radius:7px;font-size:13px;color:var(--green);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500">👨‍👩‍👧‍👦 Consiliul Familiei →</button>
-      <button id="btn-delogare" onclick="delogheaza()" style="display:none;margin-left:8px;padding:8px 16px;background:#fff;border:1.5px solid var(--muted);border-radius:7px;font-size:13px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500">🔒 Delogare</button>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- 4. VERIX -->
+<!-- 5. VERIX -->
 <div class="sect">
   <div class="sect-label">Consilierul tău</div>
   <h2 class="sect-title"><span class="verix-dot"></span>Verix — sunt aici pentru tine</h2>
@@ -212,7 +258,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 
 <div class="divider"></div>
 
-<!-- 5. VIVIX -->
+<!-- 6. VIVIX -->
 <div class="sect">
   <div class="sect-label">Vivix — Astăzi pentru tine</div>
   <h2 class="sect-title">🎭 Ce ți-a pregătit Vivix?</h2>
@@ -224,7 +270,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 
 <div class="divider"></div>
 
-<!-- 6. REAMINTESTE-MI -->
+<!-- 7. REAMINTESTE-MI -->
 <div class="sect">
   <div class="sect-label">Evenimente & Remindere</div>
   <h2 class="sect-title">📅 Agenda mea</h2>
@@ -513,6 +559,21 @@ function openOverlay(id){document.getElementById(id).classList.add('activ');docu
 function openOverlayBottom(id){document.getElementById(id).classList.add('activ');document.body.style.overflow='hidden';}
 function closeOverlay(id){document.getElementById(id).classList.remove('activ');document.body.style.overflow='';}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){['o-verix','o-remind-add','o-remind-reg','o-consiliu'].forEach(closeOverlay);}});
+
+// INTRA IN CASA - identificare (Nume + Cod personal), doar personalizare locala
+function intraCasa(){
+  var nume=document.getElementById('cine-nume').value.trim();
+  if(nume) localStorage.setItem('mypal_nume_afisat', nume);
+  window.location.href='myPAL_Intrare.html';
+}
+
+// GHID DE START (popup mutat din Echipa)
+function deschidePopupEchipa(){
+  openOverlay('popup-instructiuni-echipa');
+}
+function inchidePopupEchipa(){
+  closeOverlay('popup-instructiuni-echipa');
+}
 
 // CEAS
 function updateCeas(){
