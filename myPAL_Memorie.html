@@ -472,8 +472,10 @@ function randeazaLinkuriConsilieri(){
       + '<div class="bk-item-continut" style="word-break:break-all;font-size:12px;color:var(--muted)">'+escBk(link)+'</div>'
       + '<div class="doc-link-row" style="margin-top:8px;margin-bottom:0">'
       +   '<input type="text" class="doc-input" id="cl-nou-'+rol+'" placeholder="Link nou (https://claude.ai/...)">'
+      +   '<input type="password" class="doc-input" id="cl-parola-'+rol+'" placeholder="Parola familiei" style="flex:none;width:140px" onkeydown="if(event.key===\'Enter\')suprascrieLink(\''+rol+'\')">'
       +   '<button class="btn-green" onclick="suprascrieLink(\''+rol+'\')">Suprascrie</button>'
       + '</div>'
+      + '<div class="doc-nota" style="margin-top:4px;padding:4px 10px;font-size:11px">🔒 Suprascrierea cere parola familiei, indiferent cât timp îți ia să completezi câmpul — nu se întâmplă nimic până nu apeși Suprascrie cu parola corectă.</div>'
       + '<div style="display:flex;gap:16px;margin-top:8px;font-size:12px">'
       +   '<a onclick="toggleIstoricLink(\''+rol+'\')" style="color:var(--gold);cursor:pointer;text-decoration:underline">↩️ Restaurează</a>'
       +   '<a onclick="toggleAjutorTehnic(\''+rol+'\')" style="color:var(--muted);cursor:pointer;text-decoration:underline">🆘 Nu pot singur — solicit ajutor tehnic</a>'
@@ -486,16 +488,20 @@ function randeazaLinkuriConsilieri(){
 
 async function suprascrieLink(rol){
   var input = document.getElementById('cl-nou-'+rol);
+  var parolaInput = document.getElementById('cl-parola-'+rol);
   var link = input.value.trim();
+  var parola = parolaInput.value;
   if(!link){toast('⚠️ Lipește link-ul nou!');return;}
   if(link.indexOf('https://claude.ai/') !== 0){toast('⚠️ Link-ul trebuie să înceapă cu https://claude.ai/');return;}
+  if(!parola){toast('⚠️ Scrie parola familiei pentru a confirma suprascrierea!');return;}
   try{
     var r = await fetch('/api/family/consilieri-link', {
       method:'POST', credentials:'same-origin',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({rol: rol, link: link})
+      body: JSON.stringify({rol: rol, link: link, password: parola})
     });
     var d = await r.json();
+    parolaInput.value='';
     if(!r.ok){toast('⚠️ '+(d.error||'Nu am putut salva.'));return;}
     linkuriConsilieri[rol] = link;
     revizieConsilieri[rol] = {link: link, revizie: d.revizie};
@@ -529,10 +535,16 @@ async function toggleIstoricLink(rol){
   }
 }
 
+// Restaureaza doar COMPLETEAZA campul cu valoarea veche - nu are niciun
+// efect pana familia nu scrie parola si apasa Suprascrie ea insasi
+// (decizie Mircea, 23 august 2026).
 function restaureazaLink(rol, index){
   var v = istoricLinkCache[rol][index];
   document.getElementById('cl-nou-'+rol).value = v.link;
-  suprascrieLink(rol);
+  document.getElementById('cl-istoric-'+rol).style.display = 'none';
+  var parolaInput = document.getElementById('cl-parola-'+rol);
+  parolaInput.focus();
+  toast('📋 Link completat — scrie parola și apasă Suprascrie pentru a confirma.');
 }
 
 function toggleAjutorTehnic(rol){

@@ -208,11 +208,19 @@ app.get('/api/family/consilieri-linkuri', requireFamilySession, async (req, res)
   res.json(linkuri);
 });
 
+// Suprascrierea cere parola familiei in ACEEASI cerere, verificata atomic
+// inainte de orice scriere — nu o fereastra de timp separata (decizie
+// Mircea, 23 august 2026: "efectul apare doar daca si cand scrii parola").
+// Acelasi tipar deja folosit la /api/auth/logout, nu unul nou.
 app.post('/api/family/consilieri-link', requireFamilySession, async (req, res) => {
   const pool = await getSitePool(req.site!.siteNumber);
   if (!pool) return res.status(404).json({ error: 'Site necunoscut sau inactiv' });
-  const { rol, link } = req.body ?? {};
+  const { rol, link, password } = req.body ?? {};
   if (!ROLURI_VALIDE.includes(rol)) return res.status(400).json({ error: 'Rol necunoscut' });
+  const siteRes = await adminPool.query(`SELECT access_password_hash FROM core.sites WHERE id = $1`, [req.site!.id]);
+  const hash = siteRes.rows[0]?.access_password_hash;
+  const parolaValida = hash && (await bcrypt.compare(password ?? '', hash));
+  if (!parolaValida) return res.status(401).json({ error: 'Parola incorecta — nu s-a suprascris nimic' });
   if (typeof link !== 'string' || !link.startsWith('https://claude.ai/')) {
     return res.status(400).json({ error: 'Link invalid — trebuie sa inceapa cu https://claude.ai/' });
   }
