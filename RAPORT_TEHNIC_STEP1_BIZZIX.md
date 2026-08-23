@@ -1,3 +1,5 @@
+> ⚠️ **SUPERSEDAT** — document scris pe 21 iulie 2026, păstrat neschimbat mai jos ca instantaneu istoric ("ce știam atunci"). Descrierea din Secțiunea 5 (ecran de intrare mockup, fără autentificare reală) NU mai reflectă starea curentă: backend-ul din Secțiunea 4 e conectat de mult, cu login real (email + parolă, bcrypt, sesiuni), confirmat direct printr-un HTTP 401 real la o încercare de parolă greșită. Opțiunea B din Secțiunea 6 e deja realitatea de azi. Nu folosiți acest document ca sursă pentru starea curentă — marcat de Hostix pe 23 august 2026, la observația lui Safix.
+
 # Raport tehnic de funcționare — STEP ONE
 **Pentru:** Bizzix (strategie business / lansare PILOT)
 **De la:** Hostix (rol tehnic hosting & deployment)

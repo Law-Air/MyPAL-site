@@ -197,6 +197,13 @@ app.post('/api/family/memorie/salveaza', requireFamilySession, async (req, res) 
 
 const ROLURI_VALIDE = ['advix', 'adviz', 'verix', 'vivix'];
 
+// Accepta ambele formate reale folosite in ecosistem — /chat/<uuid>
+// (Consilierii) SI /project/<uuid> (ex. "Deschide Memoria") — nu doar
+// /chat/, ca sa nu respingem propriul nostru mecanism deja in productie.
+// UUID verificat cu regex real, nu doar "exista ceva dupa slash" (revizie
+// Safix, 23 august 2026).
+const LINK_CONSILIER_VALID = /^https:\/\/claude\.ai\/(chat|project)\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 app.get('/api/family/consilieri-linkuri', requireFamilySession, async (req, res) => {
   const pool = await getSitePool(req.site!.siteNumber);
   if (!pool) return res.status(404).json({ error: 'Site necunoscut sau inactiv' });
@@ -221,8 +228,8 @@ app.post('/api/family/consilieri-link', requireFamilySession, async (req, res) =
   const hash = siteRes.rows[0]?.access_password_hash;
   const parolaValida = hash && (await bcrypt.compare(password ?? '', hash));
   if (!parolaValida) return res.status(401).json({ error: 'Parola incorecta — nu s-a suprascris nimic' });
-  if (typeof link !== 'string' || !link.startsWith('https://claude.ai/')) {
-    return res.status(400).json({ error: 'Link invalid — trebuie sa inceapa cu https://claude.ai/' });
+  if (typeof link !== 'string' || !LINK_CONSILIER_VALID.test(link)) {
+    return res.status(400).json({ error: 'Link invalid — trebuie sa fie un link claude.ai/chat/... sau claude.ai/project/... valid' });
   }
   const result = await pool.query(
     `UPDATE consilieri_linkuri SET link_curent = $1, revizie = revizie + 1, actualizat_la = now()

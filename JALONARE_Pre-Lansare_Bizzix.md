@@ -1,3 +1,5 @@
+> ⚠️ **SUPERSEDAT** — document scris pe 21 iulie 2026, păstrat neschimbat mai jos ca instantaneu istoric ("ce știam atunci"). Majoritatea punctelor de mai jos sunt deja realizate: backend-ul e conectat și live (autentificare reală, nu mockup), Postgres rulează în producție cu migrații aplicate, testele de izolare există și rulează la cerere (workflow-uri GitHub). Nu folosiți acest document ca sursă pentru starea curentă a proiectului — marcat de Hostix pe 23 august 2026, la observația lui Safix.
+
 # Jalonare Pre-Lansare — pentru Bizzix
 **Data:** 21 iulie 2026 · **Estimare propusă:** ~1 săptămână
 **Scop:** listă finală, PROFI, pentru stabilirea calendarului cu Bizzix înainte de a declara faza de fezabilitate/pre-lansare încheiată.
