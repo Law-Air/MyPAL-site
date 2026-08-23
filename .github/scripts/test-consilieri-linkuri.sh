@@ -13,10 +13,15 @@ echo "=== GET linkuri (trebuie sa arate cele 4 valori demo) ==="
 curl -s -u "$CAPAC" -b "$COOKIES" https://my-pal.ai/api/family/consilieri-linkuri
 echo
 
-echo "=== POST suprascrie link Advix cu un link de test ==="
+echo "=== Test parola gresita: suprascrierea trebuie respinsa (401), nimic schimbat ==="
+curl -s -u "$CAPAC" -b "$COOKIES" -o /dev/null -w "HTTP %{http_code}\n" -X POST https://my-pal.ai/api/family/consilieri-link \
+  -H "Content-Type: application/json" \
+  -d '{"rol":"advix","link":"https://claude.ai/chat/00000000-0000-0000-0000-000000000001","password":"gresita-cu-totul"}'
+
+echo "=== POST suprascrie link Advix cu un link de test, parola corecta ==="
 curl -s -u "$CAPAC" -b "$COOKIES" -X POST https://my-pal.ai/api/family/consilieri-link \
   -H "Content-Type: application/json" \
-  -d '{"rol":"advix","link":"https://claude.ai/chat/00000000-0000-0000-0000-000000000001"}'
+  -d '{"rol":"advix","link":"https://claude.ai/chat/00000000-0000-0000-0000-000000000001","password":"1234&1234"}'
 echo
 
 echo "=== GET linkuri din nou (Advix trebuie sa aiba revizia crescuta) ==="
@@ -27,21 +32,21 @@ echo "=== GET istoric Advix (trebuie sa arate versiunea anterioara) ==="
 curl -s -u "$CAPAC" -b "$COOKIES" https://my-pal.ai/api/family/consilieri-link/advix/istoric
 echo
 
-echo "=== Restaureaza (suprascrie cu link-ul demo original) ==="
+echo "=== Restaureaza (suprascrie cu link-ul demo original, parola corecta) ==="
 curl -s -u "$CAPAC" -b "$COOKIES" -X POST https://my-pal.ai/api/family/consilieri-link \
   -H "Content-Type: application/json" \
-  -d '{"rol":"advix","link":"https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c"}'
+  -d '{"rol":"advix","link":"https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c","password":"1234&1234"}'
 echo
 
-echo "=== Test validare: link invalid (asteptat 400) ==="
+echo "=== Test validare: link invalid (asteptat 400), parola corecta ==="
 curl -s -u "$CAPAC" -b "$COOKIES" -o /dev/null -w "HTTP %{http_code}\n" -X POST https://my-pal.ai/api/family/consilieri-link \
   -H "Content-Type: application/json" \
-  -d '{"rol":"advix","link":"https://evil.example.com/phish"}'
+  -d '{"rol":"advix","link":"https://evil.example.com/phish","password":"1234&1234"}'
 
 echo "=== Test validare: rol invalid (asteptat 400) ==="
 curl -s -u "$CAPAC" -b "$COOKIES" -o /dev/null -w "HTTP %{http_code}\n" -X POST https://my-pal.ai/api/family/consilieri-link \
   -H "Content-Type: application/json" \
-  -d '{"rol":"nu-exista","link":"https://claude.ai/chat/x"}'
+  -d '{"rol":"nu-exista","link":"https://claude.ai/chat/x","password":"1234&1234"}'
 
 echo "=== Cerere ajutor tehnic (email neconfigurat inca - trebuie ok:true oricum) ==="
 curl -s -u "$CAPAC" -b "$COOKIES" -X POST https://my-pal.ai/api/family/clone-replacement-request \
