@@ -5,6 +5,8 @@ import { adminPool } from './db/adminPool';
 import { getSitePool } from './db/sitePool';
 import { allocateSite } from './db/allocate';
 import { sendMail } from './mail';
+import { config } from './config';
+import { ROL_LA_DOMENIU } from './db/consilieriLinkuriSeed';
 import {
   createSession,
   setSessionCookie,
@@ -186,6 +188,87 @@ app.post('/api/family/memorie/salveaza', requireFamilySession, async (req, res) 
     [eticheta ?? null, continut]
   );
   res.json({ ok: true, id: result.rows[0].id, creat_la: result.rows[0].creat_la });
+});
+
+// ===== Linkuri Consilieri: self-service, editabil doar de familie =====
+// Inlocuieste link-urile hardcodate din HTML — familia inlocuieste singura
+// o Clona (Advix/Adviz/Verix/Vivix), fara interventia Echipei Tehnice.
+// Decizie Mircea, 16 august 2026.
+
+const ROLURI_VALIDE = ['advix', 'adviz', 'verix', 'vivix'];
+
+app.get('/api/family/consilieri-linkuri', requireFamilySession, async (req, res) => {
+  const pool = await getSitePool(req.site!.siteNumber);
+  if (!pool) return res.status(404).json({ error: 'Site necunoscut sau inactiv' });
+  const result = await pool.query(`SELECT rol, link_curent, revizie FROM consilieri_linkuri`);
+  const linkuri: Record<string, { link: string; revizie: number }> = {};
+  for (const row of result.rows) {
+    linkuri[row.rol] = { link: row.link_curent, revizie: row.revizie };
+  }
+  res.json(linkuri);
+});
+
+app.post('/api/family/consilieri-link', requireFamilySession, async (req, res) => {
+  const pool = await getSitePool(req.site!.siteNumber);
+  if (!pool) return res.status(404).json({ error: 'Site necunoscut sau inactiv' });
+  const { rol, link } = req.body ?? {};
+  if (!ROLURI_VALIDE.includes(rol)) return res.status(400).json({ error: 'Rol necunoscut' });
+  if (typeof link !== 'string' || !link.startsWith('https://claude.ai/')) {
+    return res.status(400).json({ error: 'Link invalid — trebuie sa inceapa cu https://claude.ai/' });
+  }
+  const result = await pool.query(
+    `UPDATE consilieri_linkuri SET link_curent = $1, revizie = revizie + 1, actualizat_la = now()
+     WHERE rol = $2 RETURNING revizie`,
+    [link, rol]
+  );
+  if (result.rowCount === 0) return res.status(404).json({ error: 'Rol necunoscut' });
+  const revizie = result.rows[0].revizie;
+  await pool.query(
+    `INSERT INTO consilieri_linkuri_istoric (rol, link, revizie) VALUES ($1, $2, $3)`,
+    [rol, link, revizie]
+  );
+  res.json({ ok: true, revizie });
+});
+
+app.get('/api/family/consilieri-link/:rol/istoric', requireFamilySession, async (req, res) => {
+  const pool = await getSitePool(req.site!.siteNumber);
+  if (!pool) return res.status(404).json({ error: 'Site necunoscut sau inactiv' });
+  const rol = String(req.params.rol);
+  if (!ROLURI_VALIDE.includes(rol)) return res.status(400).json({ error: 'Rol necunoscut' });
+  const result = await pool.query(
+    `SELECT link, revizie, inregistrat_la FROM consilieri_linkuri_istoric
+     WHERE rol = $1 ORDER BY revizie DESC`,
+    [rol]
+  );
+  res.json(result.rows);
+});
+
+// Cerere de ajutor tehnic, cand familia nu poate efectua singura manevra
+// de inlocuire — porneste Fisa de Manevra existenta (core.access_windows),
+// neschimbata. Instiintarea catre Echipa Tehnica e opt-in: daca adresa
+// dedicata nu e inca alocata (pre-Pilot), cererea tot se inregistreaza,
+// doar emailul nu pleaca.
+app.post('/api/family/clone-replacement-request', requireFamilySession, async (req, res) => {
+  const pool = await getSitePool(req.site!.siteNumber);
+  if (!pool) return res.status(404).json({ error: 'Site necunoscut sau inactiv' });
+  const { rol, motiv } = req.body ?? {};
+  if (!ROLURI_VALIDE.includes(rol)) return res.status(400).json({ error: 'Rol necunoscut' });
+  await pool.query(
+    `INSERT INTO clone_replacement_requests (role_category, reason) VALUES ($1, $2)`,
+    [ROL_LA_DOMENIU[rol], motiv ?? null]
+  );
+  if (config.sesizariTehniceEmail) {
+    try {
+      await sendMail(
+        config.sesizariTehniceEmail,
+        `Cerere ajutor tehnic — înlocuire ${rol} (site ${req.site!.siteNumber})`,
+        `Familia de la site ${req.site!.siteNumber} solicită ajutor la înlocuirea Consilierului ${rol}.\n\nMotiv: ${motiv || '(neprecizat)'}`
+      );
+    } catch (err) {
+      console.error('Nu am putut trimite emailul de sesizare tehnica:', err);
+    }
+  }
+  res.json({ ok: true });
 });
 
 // ===== Comenzi si alocare (plata -> emitere site+parola) =====

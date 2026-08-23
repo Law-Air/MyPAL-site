@@ -135,7 +135,7 @@ footer{padding:1.5rem 2rem;text-align:center;border-top:0.5px solid var(--border
       <div class="rol-membri"><div class="rol-membro">💰 Advix <span class="rol-membro-tag">Consilier Financiar Contabil</span></div><div class="rol-membro">🔍 Verix <span class="rol-membro-tag">Auditor Contabil</span></div></div>
       <div class="rol-desc">Verificare și auditare date financiar-contabile. Advix analizează, Verix confirmă.</div>
       <div class="rol-footer" style="margin-top:auto">
-        <button class="btn-chat" onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_advix','width=480,height=860,left=0,top=0');setTimeout(function(){window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_verix','width=480,height=860,left=490,top=0');},1500);">Deschide două pagini de chat →</button>
+        <button class="btn-chat" onclick="deschideConferinta([{rol:'advix',left:0},{rol:'verix',left:490}])">Deschide două pagini de chat →</button>
       </div>
     </div>
     <div class="rol-card">
@@ -147,7 +147,7 @@ footer{padding:1.5rem 2rem;text-align:center;border-top:0.5px solid var(--border
       <div class="rol-membri"><div class="rol-membro">⚖️ Adviz <span class="rol-membro-tag">Consilier Juridic</span></div><div class="rol-membro">🔍 Verix <span class="rol-membro-tag">Verificator Juridic</span></div></div>
       <div class="rol-desc">Verificare documente juridice. Adviz explică, Verix validează riscurile.</div>
       <div class="rol-footer">
-        <button class="btn-chat" onclick="window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_adviz','width=480,height=860,left=0,top=0');setTimeout(function(){window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_verix','width=480,height=860,left=490,top=0');},1500);">Deschide două pagini de chat →</button>
+        <button class="btn-chat" onclick="deschideConferinta([{rol:'adviz',left:0},{rol:'verix',left:490}])">Deschide două pagini de chat →</button>
       </div>
     </div>
     <div class="rol-card" style="display:flex;flex-direction:column">
@@ -159,7 +159,7 @@ footer{padding:1.5rem 2rem;text-align:center;border-top:0.5px solid var(--border
       <div class="rol-membri"><div class="rol-membro">💰 Advix <span class="rol-membro-tag">Financiar Contabil</span></div><div class="rol-membro">⚖️ Adviz <span class="rol-membro-tag">Juridic</span></div><div class="rol-membro">🔍 Verix <span class="rol-membro-tag">Auditor</span></div></div>
       <div class="rol-desc">Analiză și verificare contracte juridice cu perspectivă financiară și juridică simultană.</div>
       <div class="rol-footer" style="margin-top:auto">
-        <button class="btn-chat" onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_advix','width=480,height=860,left=0,top=0');setTimeout(function(){window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_adviz','width=480,height=860,left=490,top=0');},1500);setTimeout(function(){window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_verix','width=480,height=860,left=980,top=0');},3000);">Deschide trei pagini de chat →</button>
+        <button class="btn-chat" onclick="deschideConferinta([{rol:'advix',left:0},{rol:'adviz',left:490},{rol:'verix',left:980}])">Deschide trei pagini de chat →</button>
       </div>
     </div>
     <div class="rol-card" style="display:flex;flex-direction:column">
@@ -171,7 +171,7 @@ footer{padding:1.5rem 2rem;text-align:center;border-top:0.5px solid var(--border
       <div class="rol-membri"><div class="rol-membro">💰 Advix <span class="rol-membro-tag">Financiar</span></div><div class="rol-membro">⚖️ Adviz <span class="rol-membro-tag">Juridic</span></div><div class="rol-membro">🔍 Verix <span class="rol-membro-tag">Auditor</span></div><div class="rol-membro">🎭 Vivix <span class="rol-membro-tag">Viitorul tău</span></div></div>
       <div class="rol-desc">Analiză și proiecții financiare/juridice cu toată echipa.</div>
       <div class="rol-footer" style="margin-top:auto">
-        <button class="btn-chat" onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_advix','width=480,height=860,left=0,top=0');setTimeout(function(){window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_adviz','width=480,height=860,left=490,top=0');},1500);setTimeout(function(){window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_verix','width=480,height=860,left=980,top=0');},3000);setTimeout(function(){window.open('https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f','mypal_vivix','width=480,height=860,left=1470,top=0');},4500);">Deschide patru pagini de chat →</button>
+        <button class="btn-chat" onclick="deschideConferinta([{rol:'advix',left:0},{rol:'adviz',left:490},{rol:'verix',left:980},{rol:'vivix',left:1470}])">Deschide patru pagini de chat →</button>
       </div>
     </div>
   </div>
@@ -223,6 +223,36 @@ function updateCeas(){
 }
 updateCeas();
 setInterval(updateCeas,1000);
+
+// LINKURI CONSILIERI - fetch o singura data la incarcare, cache in memorie
+// (nu la fiecare clic - un await inainte de window.open() e blocat de
+// browser ca popup nesolicitat, iar aici deschidem 2-4 ferestre deodata).
+var linkuriConsilieri = {
+  advix: 'https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c',
+  adviz: 'https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0',
+  verix: 'https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff',
+  vivix: 'https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f'
+};
+async function incarcaLinkuriConsilieri(){
+  try{
+    var r = await fetch('/api/family/consilieri-linkuri',{credentials:'same-origin'});
+    if(r.ok){
+      var d = await r.json();
+      Object.keys(d).forEach(function(rol){ linkuriConsilieri[rol] = d[rol].link; });
+    }
+  }catch(e){/* raman valorile implicite de mai sus */}
+}
+incarcaLinkuriConsilieri();
+
+// Deschide 2-4 ferestre esalonat (fiecare la 1.5s dupa precedenta, ca la
+// pozitionarea originala) - roluri = [{rol:'advix',left:0}, ...]
+function deschideConferinta(roluri){
+  roluri.forEach(function(r, i){
+    setTimeout(function(){
+      window.open(linkuriConsilieri[r.rol], 'mypal_'+r.rol, 'width=480,height=860,left='+r.left+',top=0');
+    }, i*1500);
+  });
+}
 
 function deschidePopup(){
   var p = document.getElementById('popup-instructiuni-sesiuni');

@@ -390,10 +390,24 @@ function trimiteAdvix(categorie){
   setTimeout(function(){deschideAdvix();},800);
 }
 
+// LINKURI CONSILIERI - fetch o singura data la incarcare, cache in memorie
+var linkuriConsilieri = { advix: 'https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c' };
+async function incarcaLinkuriConsilieri(){
+  try{
+    var r = await fetch('/api/family/consilieri-linkuri',{credentials:'same-origin'});
+    if(r.ok){
+      var d = await r.json();
+      Object.keys(d).forEach(function(rol){ linkuriConsilieri[rol] = d[rol].link; });
+    }
+  }catch(e){/* raman valorile implicite de mai sus */}
+}
+incarcaLinkuriConsilieri();
+
 function deschideAdvix(){
-  var w=window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_advix','width=480,height=860,left=0,top=0,resizable=yes');
+  var url = linkuriConsilieri.advix;
+  var w=window.open(url,'mypal_advix','width=480,height=860,left=0,top=0,resizable=yes');
   if(!w||w.closed||typeof w.closed=='undefined'){
-    window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','_blank');
+    window.open(url,'_blank');
   }
 }
 </script>

@@ -4,6 +4,7 @@ import { join } from 'path';
 import { adminPool } from './adminPool';
 import { config } from '../config';
 import { MYPAL_CATEGORY_SEED } from './categorySeed';
+import { DEFAULT_CONSILIERI_LINKURI } from './consilieriLinkuriSeed';
 
 const TEMPLATE_SQL = readFileSync(
   join(__dirname, '..', '..', 'db', 'migrations', '002_site_schema_template.sql'),
@@ -70,6 +71,15 @@ export async function provisionSite(familyName?: string): Promise<ProvisionResul
       await client.query(
         `INSERT INTO ${schemaName}.categories (code, domain, name, sort_order) VALUES ($1, $2, $3, $4)`,
         [cat.code, cat.domain, cat.name, i]
+      );
+    }
+
+    // Seed link-urile demo curente (aceleasi folosite azi in HTML) — familia
+    // le poate suprascrie oricand, din Memorie, fara interventia noastra.
+    for (const [rol, link] of Object.entries(DEFAULT_CONSILIERI_LINKURI)) {
+      await client.query(
+        `INSERT INTO ${schemaName}.consilieri_linkuri (rol, link_curent) VALUES ($1, $2)`,
+        [rol, link]
       );
     }
 

@@ -1,4 +1,5 @@
 import { adminPool } from '../db/adminPool';
+import { DEFAULT_CONSILIERI_LINKURI } from '../db/consilieriLinkuriSeed';
 
 // Aplică peste orice site deja provisionat (înainte de introducerea
 // coloanelor relation_label/member_code) exact structura pe care
@@ -34,6 +35,30 @@ async function main() {
            creat_la    TIMESTAMPTZ NOT NULL DEFAULT now()
          )`
       );
+      await client.query(
+        `CREATE TABLE IF NOT EXISTS ${schema_name}.consilieri_linkuri (
+           rol           TEXT        PRIMARY KEY CHECK (rol IN ('advix','adviz','verix','vivix')),
+           link_curent   TEXT        NOT NULL,
+           revizie       INT         NOT NULL DEFAULT 1,
+           actualizat_la TIMESTAMPTZ NOT NULL DEFAULT now()
+         )`
+      );
+      await client.query(
+        `CREATE TABLE IF NOT EXISTS ${schema_name}.consilieri_linkuri_istoric (
+           id              BIGSERIAL PRIMARY KEY,
+           rol             TEXT        NOT NULL,
+           link            TEXT        NOT NULL,
+           revizie         INT         NOT NULL,
+           inregistrat_la  TIMESTAMPTZ NOT NULL DEFAULT now()
+         )`
+      );
+      for (const [rol, link] of Object.entries(DEFAULT_CONSILIERI_LINKURI)) {
+        await client.query(
+          `INSERT INTO ${schema_name}.consilieri_linkuri (rol, link_curent)
+           VALUES ($1, $2) ON CONFLICT (rol) DO NOTHING`,
+          [rol, link]
+        );
+      }
       await client.query('RESET ROLE');
       await client.query(`REVOKE ${db_role_name} FROM mypal_admin`);
       await client.query('COMMIT');

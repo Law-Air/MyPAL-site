@@ -53,6 +53,7 @@ jobs:
           SMTP_USER='${{ secrets.SMTP_USER }}'
           SMTP_PASSWORD='${{ secrets.SMTP_PASSWORD }}'
           ADMIN_TOKEN='${{ secrets.ADMIN_TOKEN }}'
+          SESIZARI_TEHNICE_EMAIL='${{ secrets.SESIZARI_TEHNICE_EMAIL }}'
           EOF
 
       - name: Sync secrets config into /etc/mypal/db.env
@@ -62,7 +63,7 @@ jobs:
             /tmp/secrets.env \
             "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}:/etc/mypal/secrets.env.new"
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "${{ secrets.HETZNER_USER }}@${{ secrets.HETZNER_HOST }}" '
-            grep -vE "^(SMTP_|ADMIN_TOKEN=)" /etc/mypal/db.env > /etc/mypal/db.env.tmp || true
+            grep -vE "^(SMTP_|ADMIN_TOKEN=|SESIZARI_TEHNICE_EMAIL=)" /etc/mypal/db.env > /etc/mypal/db.env.tmp || true
             cat /etc/mypal/secrets.env.new >> /etc/mypal/db.env.tmp
             mv /etc/mypal/db.env.tmp /etc/mypal/db.env
             rm -f /etc/mypal/secrets.env.new

@@ -23,4 +23,8 @@ export const config = {
     password: required('SMTP_PASSWORD'),
   },
   port: Number(process.env.PORT ?? 3000),
+  // Optional — inca neconfigurata (pre-Pilot); cererile de ajutor tehnic
+  // se inregistreaza in Postgres oricum, doar emailul de instiintare
+  // lipseste pana se aloca adresa dedicata (decizie Mircea, 16 aug 2026).
+  sesizariTehniceEmail: process.env.SESIZARI_TEHNICE_EMAIL || null,
 };

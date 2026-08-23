@@ -58,3 +58,32 @@ CREATE TABLE :schema_name.memorie_backup (
     continut    TEXT NOT NULL,
     creat_la    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Link-ul curent al fiecarui Consilier (self-service, editabil doar de
+-- familie, prin Memorie parolata). Inlocuieste hardcodarea din HTML —
+-- decizie Mircea, 16 august 2026: familia inlocuieste singura o Clona,
+-- fara ca Echipa Tehnica sa mai aiba nevoie de acces temporar in Proiect.
+CREATE TABLE :schema_name.consilieri_linkuri (
+    rol           TEXT        PRIMARY KEY CHECK (rol IN ('advix','adviz','verix','vivix')),
+    link_curent   TEXT        NOT NULL,
+    revizie       INT         NOT NULL DEFAULT 1,
+    actualizat_la TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Istoric append-only al link-urilor anterioare — singurul rol e sa
+-- permita "Restaurează" daca familia aloca link-ul gresit unui Consilier
+-- (nu si trasabilitatea firelor arhivate — acelea raman in claude.ai,
+-- identificabile prin Titlu).
+CREATE TABLE :schema_name.consilieri_linkuri_istoric (
+    id              BIGSERIAL PRIMARY KEY,
+    rol             TEXT        NOT NULL,
+    link            TEXT        NOT NULL,
+    revizie         INT         NOT NULL,
+    inregistrat_la  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- NOTA: cererile de ajutor tehnic pentru inlocuire Clona folosesc tabelul
+-- clone_replacement_requests deja definit mai sus (role_category pe
+-- denumirile de domeniu: conta/juridic/audit/rezervari_simulari) —
+-- backend-ul mapeaza numele de brand (advix/adviz/verix/vivix) la domeniu
+-- inainte de INSERT, nu se creeaza alt tabel.

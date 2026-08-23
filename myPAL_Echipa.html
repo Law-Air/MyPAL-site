@@ -152,7 +152,7 @@ footer{padding:1.5rem;text-align:center;border-top:0.5px solid var(--border);fon
           <span class="comp-tag">Taxe personale</span>
         </div>
         <div class="rol-actions">
-          <a onclick="window.open('https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c','mypal_advix','width=480,height=860,left=0,top=0')" href="#" class="btn-chat">💬 Deschide chat</a>
+          <a onclick="deschideConsilier('advix',0)" href="#" class="btn-chat">💬 Deschide chat</a>
           <button class="btn-info" onclick="deschideInfo('advix')">ℹ️ Detalii</button>
         </div>
       </div>
@@ -178,7 +178,7 @@ footer{padding:1.5rem;text-align:center;border-top:0.5px solid var(--border);fon
           <span class="comp-tag">Autorități</span>
         </div>
         <div class="rol-actions">
-          <a onclick="window.open('https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0','mypal_adviz','width=480,height=860,left=490,top=0')" href="#" class="btn-chat">💬 Deschide chat</a>
+          <a onclick="deschideConsilier('adviz',490)" href="#" class="btn-chat">💬 Deschide chat</a>
           <button class="btn-info" onclick="deschideInfo('adviz')">ℹ️ Detalii</button>
         </div>
       </div>
@@ -203,7 +203,7 @@ footer{padding:1.5rem;text-align:center;border-top:0.5px solid var(--border);fon
           <span class="comp-tag">Specialist extern</span>
         </div>
         <div class="rol-actions">
-          <a onclick="window.open('https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff','mypal_verix','width=480,height=860,left=0,top=0')" href="#" class="btn-chat">💬 Deschide chat</a>
+          <a onclick="deschideConsilier('verix',0)" href="#" class="btn-chat">💬 Deschide chat</a>
           <button class="btn-info" onclick="deschideInfo('verix')">ℹ️ Detalii</button>
         </div>
       </div>
@@ -228,7 +228,7 @@ footer{padding:1.5rem;text-align:center;border-top:0.5px solid var(--border);fon
           
         </div>
         <div class="rol-actions">
-          <a onclick="window.open('https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f','mypal_vivix','width=480,height=860,left=490,top=0')" href="#" class="btn-chat">💬 Deschide chat</a>
+          <a onclick="deschideConsilier('vivix',490)" href="#" class="btn-chat">💬 Deschide chat</a>
           <button class="btn-info" onclick="deschideInfo('vivix')">ℹ️ Detalii</button>
         </div>
       </div>
@@ -356,6 +356,27 @@ function stergeNotite(){
   document.getElementById('notite-text').value='';
   localStorage.removeItem('echipa_notite');
   toast('🗑️ Notițe șterse!');
+}
+
+// LINKURI CONSILIERI - fetch o singura data la incarcare, cache in memorie
+var linkuriConsilieri = {
+  advix: 'https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c',
+  adviz: 'https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0',
+  verix: 'https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff',
+  vivix: 'https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f'
+};
+async function incarcaLinkuriConsilieri(){
+  try{
+    var r = await fetch('/api/family/consilieri-linkuri',{credentials:'same-origin'});
+    if(r.ok){
+      var d = await r.json();
+      Object.keys(d).forEach(function(rol){ linkuriConsilieri[rol] = d[rol].link; });
+    }
+  }catch(e){/* raman valorile implicite de mai sus */}
+}
+incarcaLinkuriConsilieri();
+function deschideConsilier(rol, left){
+  window.open(linkuriConsilieri[rol], 'mypal_'+rol, 'width=480,height=860,left='+left+',top=0');
 }
 
 function toast(msg){

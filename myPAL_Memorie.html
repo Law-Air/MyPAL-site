@@ -157,10 +157,10 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
 
   <div class="sect-label" style="margin-top:1rem;margin-bottom:8px">Pasul 1 — deschide firul sursă (Consilierul)</div>
   <div class="mini-open-row" style="margin-bottom:1.5rem">
-    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('2f6c6eca-73ac-431f-8828-016c80add51c')">💰 Advix</button>
-    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️ Adviz</button>
-    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍 Verix</button>
-    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭 Vivix</button>
+    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('advix')">💰 Advix</button>
+    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('adviz')">⚖️ Adviz</button>
+    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('verix')">🔍 Verix</button>
+    <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('vivix')">🎭 Vivix</button>
   </div>
 
   <div class="sect-label" style="margin-bottom:8px">Pasul 2 — deschide Memoria (destinație, un singur loc)</div>
@@ -232,6 +232,19 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     </div>
   </div>
 
+  <!-- LINKURI CONSILIERI -->
+  <div class="sect-label" style="margin-top:0.5rem">Secțiunea VI</div>
+  <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);margin-bottom:1rem">Gestionare linkuri Consilieri</h2>
+
+  <div class="doc-card">
+    <div class="doc-card-title">🔗 Link-urile Consilierilor tăi</div>
+    <p class="doc-card-sub">Când pornești o Clonă nouă pentru un Consilier, lipește aici link-ul ei din claude.ai și apasă „Suprascrie". Butonul de pe site va folosi automat noua conversație, fără nicio altă acțiune.</p>
+
+    <div id="cl-rows"></div>
+
+    <div class="doc-nota" style="margin-top:0.75rem">💡 Dacă greșești și aloci link-ul unui Consilier altuia, apasă „↩️ Restaurează" la rolul greșit — vezi versiunile anterioare și revino la cea corectă. Nimic nu se pierde.</div>
+  </div>
+
   <!-- RECALIBRARE -->
   <div class="sect-label" style="margin-top:0.5rem">Secțiunea V — Recalibrare</div>
   <h2 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--dark);margin-bottom:1rem">Recalibrează consilierii tăi</h2>
@@ -244,10 +257,10 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     <div class="doc-card-title">🔄 Cum recalibrezi</div>
     <p class="doc-card-sub">Deschide Instrucțiunile (Pasul 2, mai sus), copiază promptul inițial complet — cu toate addendumurile adăugate în timp — și postează-l direct în firul curent al Consilierului, ca mesaj obișnuit.</p>
     <div class="mini-open-row">
-      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('2f6c6eca-73ac-431f-8828-016c80add51c')">💰 Advix</button>
-      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️ Adviz</button>
-      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍 Verix</button>
-      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭 Vivix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('advix')">💰 Advix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('adviz')">⚖️ Adviz</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('verix')">🔍 Verix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('vivix')">🎭 Vivix</button>
       <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px;background:var(--gold);margin-left:auto" onclick="deschideMemorie()">📚 Deschide Memoria</button>
     </div>
   </div>
@@ -275,10 +288,10 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
     <div class="doc-card-title">🛠️ Cum actualizezi</div>
     <p class="doc-card-sub">Deschide firul Noului Consilier și postează direct acolo Raportul ADN sau addendumul solicitat, conform cazului de mai sus.</p>
     <div class="mini-open-row">
-      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('2f6c6eca-73ac-431f-8828-016c80add51c')">💰 Advix</button>
-      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('78837e6a-6141-4155-a468-8effa4b4edf0')">⚖️ Adviz</button>
-      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('f70cd809-e6d5-49d3-a339-873ba8207bff')">🔍 Verix</button>
-      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('9870482c-bbaa-481f-84de-35539b289f6f')">🎭 Vivix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('advix')">💰 Advix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('adviz')">⚖️ Adviz</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('verix')">🔍 Verix</button>
+      <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px" onclick="deschideAI('vivix')">🎭 Vivix</button>
       <button class="mini-open" style="flex:none;padding:8px 16px;border-radius:20px;background:var(--gold);margin-left:auto" onclick="deschideMemorie()">📚 Deschide Memoria</button>
     </div>
   </div>
@@ -357,6 +370,29 @@ function updateCeas(){
 }
 updateCeas();setInterval(updateCeas,1000);
 
+// LINKURI CONSILIERI - un singur fetch la incarcarea paginii, cache in
+// memorie (nu la fiecare clic - un await inainte de window.open() e
+// blocat de browser ca popup nesolicitat).
+var linkuriConsilieri = {
+  advix: 'https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c',
+  adviz: 'https://claude.ai/chat/78837e6a-6141-4155-a468-8effa4b4edf0',
+  verix: 'https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff',
+  vivix: 'https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f'
+};
+async function incarcaLinkuriConsilieri(){
+  try{
+    var r = await fetch('/api/family/consilieri-linkuri', {credentials:'same-origin'});
+    if(r.ok){
+      var d = await r.json();
+      Object.keys(d).forEach(function(rol){ linkuriConsilieri[rol] = d[rol].link; });
+      revizieConsilieri = d;
+      randeazaLinkuriConsilieri();
+    }
+  }catch(e){/* raman valorile implicite de mai sus */}
+}
+var revizieConsilieri = {};
+incarcaLinkuriConsilieri();
+
 function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 
 // SALVARE/RECUPERARE COPIE DE SIGURANTA (Postgres, a familiei, append-only)
@@ -415,6 +451,114 @@ function escBk(s){
   return d.innerHTML;
 }
 
+// GESTIONARE LINKURI CONSILIERI
+var INFO_ROL = {
+  advix: {emoji:'💰', nume:'Advix'},
+  adviz: {emoji:'⚖️', nume:'Adviz'},
+  verix: {emoji:'🔍', nume:'Verix'},
+  vivix: {emoji:'🎭', nume:'Vivix'}
+};
+var istoricLinkCache = {};
+
+function randeazaLinkuriConsilieri(){
+  var cont = document.getElementById('cl-rows');
+  if(!cont) return;
+  cont.innerHTML = Object.keys(INFO_ROL).map(function(rol){
+    var info = INFO_ROL[rol];
+    var rev = (revizieConsilieri[rol] && revizieConsilieri[rol].revizie) || 1;
+    var link = linkuriConsilieri[rol];
+    return '<div class="bk-item">'
+      + '<div class="bk-item-head"><span class="bk-item-eticheta">'+info.emoji+' '+info.nume+'</span><span class="bk-item-data">Rev. '+String(rev).padStart(2,'0')+'</span></div>'
+      + '<div class="bk-item-continut" style="word-break:break-all;font-size:12px;color:var(--muted)">'+escBk(link)+'</div>'
+      + '<div class="doc-link-row" style="margin-top:8px;margin-bottom:0">'
+      +   '<input type="text" class="doc-input" id="cl-nou-'+rol+'" placeholder="Link nou (https://claude.ai/...)">'
+      +   '<button class="btn-green" onclick="suprascrieLink(\''+rol+'\')">Suprascrie</button>'
+      + '</div>'
+      + '<div style="display:flex;gap:16px;margin-top:8px;font-size:12px">'
+      +   '<a onclick="toggleIstoricLink(\''+rol+'\')" style="color:var(--gold);cursor:pointer;text-decoration:underline">↩️ Restaurează</a>'
+      +   '<a onclick="toggleAjutorTehnic(\''+rol+'\')" style="color:var(--muted);cursor:pointer;text-decoration:underline">🆘 Nu pot singur — solicit ajutor tehnic</a>'
+      + '</div>'
+      + '<div id="cl-istoric-'+rol+'" style="display:none;margin-top:8px"></div>'
+      + '<div id="cl-ajutor-'+rol+'" style="display:none;margin-top:8px"></div>'
+      + '</div>';
+  }).join('');
+}
+
+async function suprascrieLink(rol){
+  var input = document.getElementById('cl-nou-'+rol);
+  var link = input.value.trim();
+  if(!link){toast('⚠️ Lipește link-ul nou!');return;}
+  if(link.indexOf('https://claude.ai/') !== 0){toast('⚠️ Link-ul trebuie să înceapă cu https://claude.ai/');return;}
+  try{
+    var r = await fetch('/api/family/consilieri-link', {
+      method:'POST', credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({rol: rol, link: link})
+    });
+    var d = await r.json();
+    if(!r.ok){toast('⚠️ '+(d.error||'Nu am putut salva.'));return;}
+    linkuriConsilieri[rol] = link;
+    revizieConsilieri[rol] = {link: link, revizie: d.revizie};
+    randeazaLinkuriConsilieri();
+    toast('✅ Link '+INFO_ROL[rol].nume+' actualizat — Rev. '+String(d.revizie).padStart(2,'0'));
+  }catch(e){toast('⚠️ Nu am putut contacta serverul.');}
+}
+
+async function toggleIstoricLink(rol){
+  var box = document.getElementById('cl-istoric-'+rol);
+  if(box.style.display==='block'){box.style.display='none';return;}
+  document.getElementById('cl-ajutor-'+rol).style.display='none';
+  box.innerHTML = '<p style="font-size:12px;color:var(--muted)">Se încarcă...</p>';
+  box.style.display='block';
+  try{
+    var r = await fetch('/api/family/consilieri-link/'+rol+'/istoric', {credentials:'same-origin'});
+    var d = await r.json();
+    istoricLinkCache[rol] = d;
+    if(!r.ok || !d.length){
+      box.innerHTML = '<p style="font-size:12px;color:var(--muted)">Nicio versiune anterioară încă.</p>';
+      return;
+    }
+    box.innerHTML = d.map(function(v, i){
+      return '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;background:var(--white);border:0.5px solid var(--border);border-radius:6px;margin-bottom:4px;font-size:12px">'
+        + '<span style="word-break:break-all;flex:1">Rev. '+String(v.revizie).padStart(2,'0')+' — '+escBk(v.link)+'</span>'
+        + '<button style="flex:none;padding:4px 10px;background:none;border:0.5px solid var(--gold);border-radius:14px;font-size:11px;color:var(--gold);cursor:pointer;font-family:\'DM Sans\',sans-serif" onclick="restaureazaLink(\''+rol+'\','+i+')">↩️ Restaurează</button>'
+        + '</div>';
+    }).join('');
+  }catch(e){
+    box.innerHTML = '<p style="font-size:12px;color:var(--muted)">Nu am putut încărca istoricul.</p>';
+  }
+}
+
+function restaureazaLink(rol, index){
+  var v = istoricLinkCache[rol][index];
+  document.getElementById('cl-nou-'+rol).value = v.link;
+  suprascrieLink(rol);
+}
+
+function toggleAjutorTehnic(rol){
+  var box = document.getElementById('cl-ajutor-'+rol);
+  if(box.style.display==='block'){box.style.display='none';return;}
+  document.getElementById('cl-istoric-'+rol).style.display='none';
+  box.innerHTML = '<textarea class="doc-input" id="cl-motiv-'+rol+'" placeholder="Ce s-a întâmplat / de ce ai nevoie de ajutor..." style="width:100%;min-height:60px;margin-bottom:6px;resize:vertical"></textarea>'
+    + '<button style="padding:8px 16px;background:none;border:0.5px solid var(--muted);border-radius:8px;font-size:12px;color:var(--muted);cursor:pointer;font-family:\'DM Sans\',sans-serif" onclick="trimiteAjutorTehnic(\''+rol+'\')">Trimite cererea</button>';
+  box.style.display='block';
+}
+
+async function trimiteAjutorTehnic(rol){
+  var motiv = document.getElementById('cl-motiv-'+rol).value.trim();
+  try{
+    var r = await fetch('/api/family/clone-replacement-request', {
+      method:'POST', credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({rol: rol, motiv: motiv || null})
+    });
+    if(!r.ok){toast('⚠️ Nu am putut trimite cererea.');return;}
+    document.getElementById('cl-ajutor-'+rol).style.display='none';
+    toast('✅ Cerere trimisă — Echipa Tehnică evaluează și, dacă e nevoie, deschide un acces temporar.');
+  }catch(e){toast('⚠️ Nu am putut contacta serverul.');}
+}
+randeazaLinkuriConsilieri();
+
 function copiazaBackup(id){
   var b = (window._bkData || []).find(function(x){return x.id == id;});
   if(!b)return;
@@ -429,9 +573,10 @@ function copiazaBackup(id){
 // Deschide firul sursa al unui Consilier - fereastra larga cat sa arate
 // intreg layout-ul Claude (la 480px se vedea doar coloana din stanga,
 // raportat de Mircea, 26 iulie 2026).
-function deschideAI(chatId){
-  var w=window.open('https://claude.ai/chat/'+chatId,'mypal_ai','width=1100,height=860,left=0,top=0');
-  if(!w||w.closed) window.open('https://claude.ai/chat/'+chatId,'_blank');
+function deschideAI(rol){
+  var url = linkuriConsilieri[rol];
+  var w=window.open(url,'mypal_ai','width=1100,height=860,left=0,top=0');
+  if(!w||w.closed) window.open(url,'_blank');
 }
 
 // LINK MAIN - Memorie/Instructiuni/Fisiere, un singur Proiect, 3 sectiuni
