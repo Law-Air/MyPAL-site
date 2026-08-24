@@ -514,12 +514,18 @@ document.getElementById('modal-abonament').addEventListener('click', function(e)
     <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;font-weight:400">Citește Raportul lui Searchix din chat și completează aici, pentru evenimentul respectiv.</p>
     <select class="field" id="ru-id"></select>
     <select class="field" id="ru-status">
-      <option value="Activ">🟡 Activ</option>
-      <option value="Rezolvat">🟢 Rezolvat</option>
-      <option value="Întârziat">🟠 Întârziat</option>
-      <option value="Anulat">⚪ Anulat</option>
+      <option value="">— (neevaluat)</option>
+      <option value="DEPĂȘIT">🔴 DEPĂȘIT</option>
+      <option value="ÎN TERMEN URGENT">🟠 ÎN TERMEN URGENT</option>
+      <option value="ÎN TERMEN LEJER">🟢 ÎN TERMEN LEJER</option>
     </select>
-    <textarea class="field" id="ru-actiuni" rows="2" placeholder="ex: revenire mâine, oprire, altă încercare..." style="resize:none;line-height:1.6;font-size:14px"></textarea>
+    <select class="field" id="ru-actiuni">
+      <option value="">— (nicio acțiune)</option>
+      <option value="REZOLVAT">✅ REZOLVAT</option>
+      <option value="REVENIRE">🔁 REVENIRE</option>
+      <option value="ANULAT">🚫 ANULAT</option>
+      <option value="FINALIZAT">🏁 FINALIZAT</option>
+    </select>
     <button onclick="salveazaActualizareRemind()" style="width:100%;padding:13px;background:var(--gold);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">💾 Salvează în Registru</button>
   </div>
 </div>
@@ -752,7 +758,7 @@ function seteazaRemind(){
   var id=urmatorulIdRemind();
 
   var rem=JSON.parse(localStorage.getItem('mypal_remind')||'[]');
-  rem.unshift({id:id, cine:cine, canal:canal, ce:text, cand_text:candText, status:'Activ'});
+  rem.unshift({id:id, cine:cine, canal:canal, ce:text, cand_text:candText, status:''});
   localStorage.setItem('mypal_remind', JSON.stringify(rem));
 
   var mesaj='['+id+'] Pentru: '+cine+' — '+text+(data?' — la: '+candText:'')+' — Canal: '+canal;
@@ -777,8 +783,8 @@ function openRegistru(){
   } else {
     html='<table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr style="background:var(--cream)"><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">ID</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Cine</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Canal</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Ce</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Când</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Status</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Acțiuni</th></tr></thead><tbody>';
     rem.forEach(function(r){
-      var sc=r.status==='Activ'?'var(--gold)':r.status==='Rezolvat'?'var(--green)':'var(--muted)';
-      html+='<tr><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:var(--gold);font-weight:600">'+r.id+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px">'+r.cine+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px">'+(r.canal||'—')+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);max-width:200px">'+r.ce+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;white-space:nowrap">'+r.cand_text+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:'+sc+';font-size:12px">'+r.status+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;max-width:160px">'+(r.actiuni||'—')+'</td></tr>';
+      var sc=r.status==='DEPĂȘIT'?'var(--red)':r.status==='ÎN TERMEN URGENT'?'var(--gold)':r.status==='ÎN TERMEN LEJER'?'var(--green)':'var(--muted)';
+      html+='<tr><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:var(--gold);font-weight:600">'+r.id+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px">'+r.cine+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px">'+(r.canal||'—')+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);max-width:200px">'+r.ce+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;white-space:nowrap">'+r.cand_text+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:'+sc+';font-size:12px">'+(r.status||'—')+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;max-width:160px">'+(r.actiuni||'—')+'</td></tr>';
     });
     html+='</tbody></table>';
   }
@@ -791,11 +797,11 @@ function deschideActualizareRemind(){
   if(!rem.length){toast('⚠️ Nu există remindere în Registru!');return;}
   var sel=document.getElementById('ru-id');
   sel.innerHTML=rem.map(function(r){return '<option value="'+r.id+'">'+r.id+' — '+r.cine+' — '+r.ce.slice(0,30)+'</option>';}).join('');
-  document.getElementById('ru-status').value=rem[0].status||'Activ';
+  document.getElementById('ru-status').value=rem[0].status||'';
   document.getElementById('ru-actiuni').value=rem[0].actiuni||'';
   sel.onchange=function(){
     var r=rem.find(function(x){return x.id===sel.value;});
-    document.getElementById('ru-status').value=r.status||'Activ';
+    document.getElementById('ru-status').value=r.status||'';
     document.getElementById('ru-actiuni').value=r.actiuni||'';
   };
   openOverlay('o-remind-update');
@@ -820,7 +826,7 @@ function copiazaRegistru(){
   var rem=JSON.parse(localStorage.getItem('mypal_remind')||'[]');
   if(!rem.length){toast('⚠️ Nu există remindere!');return;}
   var text='REGISTRU REAMINTEȘTE-MI — my-PAL\n================================\n';
-  rem.forEach(function(r){text+=r.id+' | '+r.cine+' | '+(r.canal||'—')+' | '+r.ce+' | '+r.cand_text+' | '+r.status+' | '+(r.actiuni||'—')+'\n';});
+  rem.forEach(function(r){text+=r.id+' | '+r.cine+' | '+(r.canal||'—')+' | '+r.ce+' | '+r.cand_text+' | '+(r.status||'—')+' | '+(r.actiuni||'—')+'\n';});
   text+='================================\nGenerat: '+new Date().toLocaleString('ro-RO');
   var tmp=document.createElement('textarea');
   tmp.value=text;tmp.style.cssText='position:fixed;top:0;left:0;opacity:0';
