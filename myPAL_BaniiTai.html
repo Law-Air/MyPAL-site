@@ -386,8 +386,8 @@ function trimiteAdvix(categorie){
   document.body.appendChild(tmp);tmp.focus();tmp.select();
   try{document.execCommand('copy');}catch(e){}
   document.body.removeChild(tmp);
-  toast('📨 Copiat! Deschide Advix și lipește cu Ctrl+V');
-  setTimeout(function(){deschideAdvix();},800);
+  deschideAdvix();
+  toast('📨 Copiat + fereastră deschisă — apasă Ctrl+V ca să lipești!');
 }
 
 // LINKURI CONSILIERI - fetch o singura data la incarcare, cache in memorie
