@@ -276,7 +276,7 @@ nav{padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-b
   <h2 class="sect-title">📅 Agenda mea</h2>
   <div class="btn-row">
     <button onclick="openOverlayBottom('o-remind-add')" style="display:inline-flex;align-items:center;gap:7px;padding:11px 22px;background:var(--gold);border:none;border-radius:8px;font-size:14px;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:all 0.2s">🔔 Adaugă în Agendă</button>
-    <button class="btn-outline" onclick="openOverlay('o-remind-reg')">📋 Registru</button>
+    <button class="btn-outline" onclick="openRegistru()">📋 Registru</button>
     <button class="btn-blue" onclick="window.open('https://chatgpt.com/g/g-p-6a291859d2388191826554297081d454-remind/project','mypal_searchix','width=400,height=700,left='+(screen.width-420)+',top=0')">📋 Deschide Agenda</button>
   </div>
 </div>
@@ -465,12 +465,19 @@ document.getElementById('modal-abonament').addEventListener('click', function(e)
       <button class="modal-close" onclick="closeOverlay('o-remind-add')">✕</button>
     </div>
     <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;font-weight:400">Spune natural ce trebuie amintit — SEARCHIX se ocupă de notificare.</p>
+    <select class="field" id="rp-cine">
+      <option value="Familie">👨‍👩‍👧‍👦 Familie</option>
+      <option value="Tată">👨 Tată</option>
+      <option value="Mamă">👩 Mamă</option>
+      <option value="Copil 1">👦 Copil 1</option>
+      <option value="Copil 2">👧 Copil 2</option>
+    </select>
     <textarea class="field" id="rp-text" rows="2" placeholder='ex: "Duminică la 10 — mergem la piață"' style="resize:none;line-height:1.6;font-size:14px"></textarea>
     <input type="datetime-local" class="field-dt" id="rp-data">
     <button onclick="seteazaRemind()" style="width:100%;padding:13px;background:var(--gold);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:10px">🔔 REAMINTEȘTE-MI</button>
     <div class="confirmare" id="rp-conf"></div>
     <div style="display:flex;gap:8px;margin-top:6px">
-      <button onclick="closeOverlay('o-remind-add');openOverlay('o-remind-reg')" style="flex:1;padding:12px;background:var(--cream);border:2px solid var(--gold);border-radius:8px;font-size:13px;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">📋 VEZI REGISTRU</button>
+      <button onclick="closeOverlay('o-remind-add');openRegistru()" style="flex:1;padding:12px;background:var(--cream);border:2px solid var(--gold);border-radius:8px;font-size:13px;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">📋 VEZI REGISTRU</button>
       <button onclick="window.open('https://chatgpt.com/g/g-p-6a291859d2388191826554297081d454-remind/project','mypal_searchix','width=400,height=700,left='+(screen.width-420)+',top=0')" style="flex:1;padding:12px;background:#EEF0FF;border:2px solid #4A5AB9;border-radius:8px;font-size:13px;color:#4A5AB9;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">💬 SEARCHIX</button>
     </div>
     <div class="nota-modal">⚠️ Nu include date confidențiale — procesate prin SEARCHIX extern.</div>
@@ -699,11 +706,29 @@ function acceptVerix(){
 // Mircea, 24 august 2026: peste tot unde exista date de trimis, Deschide
 // si Copiaza se unesc intr-un buton; ramane doar Ctrl+V, aferent
 // mediului destinatarului).
+// Registrul retine doar ce completeaza familia: ID (depozitar Remind) +
+// Cine + Ce + Cand. Canal/Status/Actiuni raman treaba lui Searchix, o data
+// ce primeste mesajul - nu se completeaza aici (decizie Mircea, 25 august
+// 2026).
+function urmatorulIdRemind(){
+  var n = parseInt(localStorage.getItem('mypal_remind_contor')||'0',10) + 1;
+  localStorage.setItem('mypal_remind_contor', String(n));
+  return 'R-'+String(n).padStart(3,'0');
+}
+
 function seteazaRemind(){
+  var cine=document.getElementById('rp-cine').value;
   var text=document.getElementById('rp-text').value.trim();
   if(!text){toast('⚠️ Scrie ce să-ți amintesc!');return;}
   var data=document.getElementById('rp-data').value;
-  var mesaj=text+(data?' — la: '+new Date(data).toLocaleString('ro-RO',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'');
+  var candText=data?new Date(data).toLocaleString('ro-RO',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
+  var id=urmatorulIdRemind();
+
+  var rem=JSON.parse(localStorage.getItem('mypal_remind')||'[]');
+  rem.unshift({id:id, cine:cine, ce:text, cand_text:candText, status:'Activ'});
+  localStorage.setItem('mypal_remind', JSON.stringify(rem));
+
+  var mesaj='['+id+'] Pentru: '+cine+' — '+text+(data?' — la: '+candText:'');
   var tmp=document.createElement('textarea');
   tmp.value=mesaj;tmp.style.cssText='position:fixed;top:0;left:0;opacity:0';
   document.body.appendChild(tmp);tmp.focus();tmp.select();
@@ -713,6 +738,8 @@ function seteazaRemind(){
   var conf=document.getElementById('rp-conf');
   conf.style.display='block';
   conf.textContent='✅ Copiat + SEARCHIX deschis — apasă Ctrl+V ca să lipești: '+mesaj;
+  document.getElementById('rp-text').value='';
+  document.getElementById('rp-data').value='';
 }
 
 function openRegistru(){
@@ -721,10 +748,10 @@ function openRegistru(){
   if(!rem.length){
     html='<div style="padding:2rem;text-align:center;color:var(--muted);font-weight:400">Niciun reminder setat încă.</div>';
   } else {
-    html='<table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr style="background:var(--cream)"><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">ID</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Ce</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Când</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Status</th></tr></thead><tbody>';
+    html='<table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr style="background:var(--cream)"><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">ID</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Cine</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Ce</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Când</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Status</th></tr></thead><tbody>';
     rem.forEach(function(r){
       var sc=r.status==='Activ'?'var(--gold)':r.status==='Rezolvat'?'var(--green)':'var(--muted)';
-      html+='<tr><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:var(--gold);font-weight:600">'+r.id+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);max-width:200px">'+r.ce+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;white-space:nowrap">'+r.cand_text+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:'+sc+';font-size:12px">'+r.status+'</td></tr>';
+      html+='<tr><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:var(--gold);font-weight:600">'+r.id+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px">'+r.cine+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);max-width:200px">'+r.ce+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;white-space:nowrap">'+r.cand_text+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:'+sc+';font-size:12px">'+r.status+'</td></tr>';
     });
     html+='</tbody></table>';
   }
@@ -736,7 +763,7 @@ function copiazaRegistru(){
   var rem=JSON.parse(localStorage.getItem('mypal_remind')||'[]');
   if(!rem.length){toast('⚠️ Nu există remindere!');return;}
   var text='REGISTRU REAMINTEȘTE-MI — my-PAL\n================================\n';
-  rem.forEach(function(r){text+=r.id+' | '+r.ce+' | '+r.cand_text+' | '+r.status+'\n';});
+  rem.forEach(function(r){text+=r.id+' | '+r.cine+' | '+r.ce+' | '+r.cand_text+' | '+r.status+'\n';});
   text+='================================\nGenerat: '+new Date().toLocaleString('ro-RO');
   var tmp=document.createElement('textarea');
   tmp.value=text;tmp.style.cssText='position:fixed;top:0;left:0;opacity:0';
