@@ -381,6 +381,10 @@ var linkuriConsilieri = {
   verix: 'https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff',
   vivix: 'https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f'
 };
+// 'pending'/'ok'/'failed' - fail-closed: daca preluarea legaturii
+// personale esueaza, NU ramanem tacut pe valorile demo de mai sus
+// (risc: familia ajunge fara sa stie in Consilierul comun, nu al ei).
+var linkuriConsilieriStatus = 'pending';
 async function incarcaLinkuriConsilieri(){
   try{
     var r = await fetch('/api/family/consilieri-linkuri', {credentials:'same-origin'});
@@ -389,8 +393,9 @@ async function incarcaLinkuriConsilieri(){
       Object.keys(d).forEach(function(rol){ linkuriConsilieri[rol] = d[rol].link; });
       revizieConsilieri = d;
       randeazaLinkuriConsilieri();
-    }
-  }catch(e){/* raman valorile implicite de mai sus */}
+      linkuriConsilieriStatus = 'ok';
+    } else { linkuriConsilieriStatus = 'failed'; }
+  }catch(e){ linkuriConsilieriStatus = 'failed'; }
 }
 var revizieConsilieri = {};
 incarcaLinkuriConsilieri();
@@ -588,6 +593,7 @@ function copiazaBackup(id){
 // intreg layout-ul Claude (la 480px se vedea doar coloana din stanga,
 // raportat de Mircea, 26 iulie 2026).
 function deschideAI(rol){
+  if(linkuriConsilieriStatus==='failed'){ toast('⚠️ Nu am putut încărca legătura ta către Consilieri. Reîncarcă pagina și încearcă din nou.'); return; }
   var url = linkuriConsilieri[rol];
   var w=window.open(url,'mypal_ai','width=1100,height=860,left=0,top=0');
   if(!w||w.closed) window.open(url,'_blank');

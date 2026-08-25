@@ -258,6 +258,9 @@ tr:last-child td{border-bottom:none}
 <div class="toast" id="toast"></div>
 
 <script>
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});
+}
 function updateCeas(){
   var d=new Date();
   var el=document.getElementById('h-ceas');
@@ -325,7 +328,7 @@ function randeazaErata(){
     return;
   }
   document.getElementById('erata-list').innerHTML = erata.map(function(e){
-    return '<div class="erata-item"><span><strong>'+e.data+'</strong> — '+e.text+'</span></div>';
+    return '<div class="erata-item"><span><strong>'+escapeHtml(e.data)+'</strong> — '+escapeHtml(e.text)+'</span></div>';
   }).join('');
 }
 

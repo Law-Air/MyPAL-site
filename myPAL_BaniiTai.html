@@ -311,6 +311,9 @@ footer{padding:1.5rem;text-align:center;border-top:0.5px solid var(--border);fon
 </div>
 
 <script>
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});
+}
 function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 
 // CEAS
@@ -364,7 +367,7 @@ function adaugaFisiere(input,atasId){
     div.className='atas-item';
     // Cream URL pentru download
     var url=URL.createObjectURL(f);
-    div.innerHTML='📄 '+f.name+' <div style="display:flex;gap:4px"><a href="'+url+'" download="'+f.name+'" style="font-size:11px;color:var(--green);text-decoration:none">📥 Descarcă</a> <button class="atas-del" onclick="this.parentElement.parentElement.remove()">✕</button></div>';
+    div.innerHTML='📄 '+escapeHtml(f.name)+' <div style="display:flex;gap:4px"><a href="'+url+'" download="'+escapeHtml(f.name)+'" style="font-size:11px;color:var(--green);text-decoration:none">📥 Descarcă</a> <button class="atas-del" onclick="this.parentElement.parentElement.remove()">✕</button></div>';
     lista.appendChild(div);
   });
   toast('📎 '+input.files.length+' fișier(e) adăugat(e) — descarcă pentru a trimite la Advix');
@@ -394,18 +397,24 @@ function trimiteAdvix(categorie){
 
 // LINKURI CONSILIERI - fetch o singura data la incarcare, cache in memorie
 var linkuriConsilieri = { advix: 'https://claude.ai/chat/2f6c6eca-73ac-431f-8828-016c80add51c' };
+// 'pending'/'ok'/'failed' - fail-closed: daca preluarea legaturii
+// personale esueaza, NU ramanem tacut pe valoarea demo de mai sus
+// (risc: familia ajunge fara sa stie in Consilierul comun, nu al ei).
+var linkuriConsilieriStatus = 'pending';
 async function incarcaLinkuriConsilieri(){
   try{
     var r = await fetch('/api/family/consilieri-linkuri',{credentials:'same-origin'});
     if(r.ok){
       var d = await r.json();
       Object.keys(d).forEach(function(rol){ linkuriConsilieri[rol] = d[rol].link; });
-    }
-  }catch(e){/* raman valorile implicite de mai sus */}
+      linkuriConsilieriStatus = 'ok';
+    } else { linkuriConsilieriStatus = 'failed'; }
+  }catch(e){ linkuriConsilieriStatus = 'failed'; }
 }
 incarcaLinkuriConsilieri();
 
 function deschideAdvix(){
+  if(linkuriConsilieriStatus==='failed'){ toast('⚠️ Nu am putut încărca legătura ta către Advix. Reîncarcă pagina și încearcă din nou.'); return; }
   var url = linkuriConsilieri.advix;
   var w=window.open(url,'mypal_advix','width=480,height=860,left=0,top=0,resizable=yes');
   if(!w||w.closed||typeof w.closed=='undefined'){

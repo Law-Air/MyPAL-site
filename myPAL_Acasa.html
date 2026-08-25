@@ -592,6 +592,9 @@ document.getElementById('modal-abonament').addEventListener('click', function(e)
 
 <script>
 // UTILS
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});
+}
 function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 function openOverlay(id){document.getElementById(id).classList.add('activ');document.body.style.overflow='hidden';}
 function openOverlayBottom(id){document.getElementById(id).classList.add('activ');document.body.style.overflow='hidden';}
@@ -635,17 +638,23 @@ var linkuriConsilieri = {
   verix: 'https://claude.ai/chat/f70cd809-e6d5-49d3-a339-873ba8207bff',
   vivix: 'https://claude.ai/chat/9870482c-bbaa-481f-84de-35539b289f6f'
 };
+// 'pending'/'ok'/'failed' - fail-closed: daca preluarea legaturii
+// personale esueaza, NU ramanem tacut pe valorile demo de mai sus
+// (risc: familia ajunge fara sa stie in Consilierul comun, nu al ei).
+var linkuriConsilieriStatus = 'pending';
 async function incarcaLinkuriConsilieri(){
   try{
     var r = await fetch('/api/family/consilieri-linkuri',{credentials:'same-origin'});
     if(r.ok){
       var d = await r.json();
       Object.keys(d).forEach(function(rol){ linkuriConsilieri[rol] = d[rol].link; });
-    }
-  }catch(e){/* raman valorile implicite de mai sus */}
+      linkuriConsilieriStatus = 'ok';
+    } else { linkuriConsilieriStatus = 'failed'; }
+  }catch(e){ linkuriConsilieriStatus = 'failed'; }
 }
 incarcaLinkuriConsilieri();
 function deschideConsilier(rol, left){
+  if(linkuriConsilieriStatus==='failed'){ toast('⚠️ Nu am putut încărca legătura ta către Consilieri. Reîncarcă pagina și încearcă din nou.'); return; }
   window.open(linkuriConsilieri[rol], 'mypal_'+rol, 'width=480,height=860,left='+left+',top=0');
 }
 
@@ -784,7 +793,7 @@ function openRegistru(){
     html='<table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr style="background:var(--cream)"><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">ID</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Cine</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Canal</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Ce</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Când</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Status</th><th style="padding:7px 9px;font-size:10px;color:var(--muted);text-transform:uppercase;border-bottom:0.5px solid var(--border);text-align:left">Acțiuni</th></tr></thead><tbody>';
     rem.forEach(function(r){
       var sc=r.status==='DEPĂȘIT'?'var(--red)':r.status==='ÎN TERMEN URGENT'?'var(--gold)':r.status==='ÎN TERMEN LEJER'?'var(--green)':'var(--muted)';
-      html+='<tr><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:var(--gold);font-weight:600">'+r.id+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px">'+r.cine+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px">'+(r.canal||'—')+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);max-width:200px">'+r.ce+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;white-space:nowrap">'+r.cand_text+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:'+sc+';font-size:12px">'+(r.status||'—')+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;max-width:160px">'+(r.actiuni||'—')+'</td></tr>';
+      html+='<tr><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:var(--gold);font-weight:600">'+escapeHtml(r.id)+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px">'+escapeHtml(r.cine)+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px">'+escapeHtml(r.canal||'—')+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);max-width:200px">'+escapeHtml(r.ce)+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;white-space:nowrap">'+escapeHtml(r.cand_text)+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);color:'+sc+';font-size:12px">'+escapeHtml(r.status||'—')+'</td><td style="padding:7px 9px;border-bottom:0.5px solid var(--border);font-size:12px;max-width:160px">'+escapeHtml(r.actiuni||'—')+'</td></tr>';
     });
     html+='</tbody></table>';
   }
@@ -796,7 +805,7 @@ function deschideActualizareRemind(){
   var rem=JSON.parse(localStorage.getItem('mypal_remind')||'[]');
   if(!rem.length){toast('⚠️ Nu există remindere în Registru!');return;}
   var sel=document.getElementById('ru-id');
-  sel.innerHTML=rem.map(function(r){return '<option value="'+r.id+'">'+r.id+' — '+r.cine+' — '+r.ce.slice(0,30)+'</option>';}).join('');
+  sel.innerHTML=rem.map(function(r){return '<option value="'+escapeHtml(r.id)+'">'+escapeHtml(r.id)+' — '+escapeHtml(r.cine)+' — '+escapeHtml(r.ce.slice(0,30))+'</option>';}).join('');
   document.getElementById('ru-status').value=rem[0].status||'';
   document.getElementById('ru-actiuni').value=rem[0].actiuni||'';
   sel.onchange=function(){
@@ -902,14 +911,14 @@ function cRand(){
   var tRow=document.getElementById('c-titular-row').outerHTML;
   var html=tRow;
   cMembri.forEach(function(m){
-    var parolaViz = m.p ? m.p : cPAuto(m.dn);
+    var parolaViz = escapeHtml(m.p ? m.p : cPAuto(m.dn));
     var pD=m.ed?'<input type="password" id="cp'+m.id+'" maxlength="4" value="'+parolaViz+'" style="border:0.5px solid var(--gold);border-radius:4px;padding:3px 6px;font-size:13px;width:58px">':'<span style="font-size:13px;color:var(--muted);letter-spacing:1px">'+parolaViz+'</span>';
     var bT=m.ed?'✅ Validează':'✏️ Modifică';
     var bF=m.ed?'cSalvP('+m.id+')':'cModP('+m.id+')';
     var s='padding:8px 10px;border-bottom:0.5px solid var(--border)';
     html+='<tr>';
-    html+='<td style="'+s+'"><input type="text" value="'+m.n+'" placeholder="Prenume..." onchange="cUpd('+m.id+',\'n\',this.value)" style="border:none;background:transparent;font-size:13px;font-family:DM Sans,sans-serif;width:100%;color:var(--dark)"></td>';
-    html+='<td style="'+s+'"><input type="text" value="'+m.dn+'" placeholder="zz/ll/aaaa" onchange="cUpd('+m.id+',\'dn\',this.value)" style="border:none;background:transparent;font-size:13px;font-family:DM Sans,sans-serif;width:100%;color:var(--dark)"></td>';
+    html+='<td style="'+s+'"><input type="text" value="'+escapeHtml(m.n)+'" placeholder="Prenume..." onchange="cUpd('+m.id+',\'n\',this.value)" style="border:none;background:transparent;font-size:13px;font-family:DM Sans,sans-serif;width:100%;color:var(--dark)"></td>';
+    html+='<td style="'+s+'"><input type="text" value="'+escapeHtml(m.dn)+'" placeholder="zz/ll/aaaa" onchange="cUpd('+m.id+',\'dn\',this.value)" style="border:none;background:transparent;font-size:13px;font-family:DM Sans,sans-serif;width:100%;color:var(--dark)"></td>';
     html+='<td style="'+s+'">'+pD+'</td>';
     html+='<td style="'+s+';text-align:right"><button onclick="'+bF+'" style="padding:4px 9px;font-size:11px;border:0.5px solid var(--gold);border-radius:4px;cursor:pointer;background:var(--white);color:var(--gold);font-family:DM Sans,sans-serif">'+bT+'</button></td>';
     html+='</tr>';

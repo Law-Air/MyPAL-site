@@ -328,13 +328,3 @@ app.post('/api/admin/orders/:id/confirm-payment', requireAdminToken, async (req,
 
   res.json({ ok: true, site_number: siteNumber, family_name: order.family_name, email: order.email });
 });
-
-// Minimal proof of isolation: list this site's own family members, using
-// ONLY that site's dedicated role — never the admin pool.
-app.get('/api/:siteNumber/family', async (req, res) => {
-  const pool = await getSitePool(decodeURIComponent(req.params.siteNumber));
-  if (!pool) return res.status(404).json({ error: 'Site necunoscut sau inactiv' });
-
-  const result = await pool.query('SELECT id, first_name, is_titular FROM family_members ORDER BY id');
-  res.json(result.rows);
-});
