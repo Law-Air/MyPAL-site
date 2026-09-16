@@ -43,6 +43,8 @@ Diferența structurală față de Claude:
 
 Motivul pentru care nu ai "săpat" la GPT până acum (lipsa confidențialității de tip TEAM între Proiecte) rămâne un punct real de atenție — dar pentru CAZUL DE UTILIZARE al Consilierilor (un vizitator = o instanță privată a lui, nu vizibilitate încrucișată între Proiectele tale interne), s-ar putea ca acest neajuns să nu fie relevant, dacă fiecare Client oricum are propriul link, propriul GPT, nu un Proiect comun vizibil altora.
 
+**Precizare importantă (16 septembrie 2026, după verificare cu Mircea):** Searchix are, pe lângă linkul public de chat, și un rol de "Agent CoWork" (patrulările de la 9:00/15:00) — confirmat că acesta ține de mecanismul VECHI, "Scheduled Task" (nu de "ChatGPT Work", produsul nou din 2026, cu restricții de tip workspace similare cu Claude Cowork). Verificat tehnic: la OpenAI, un Scheduled Task NU poate rula în interiorul unui Custom GPT — sunt două mecanisme separate. Deci Searchix e, de fapt, două piese distincte lipite: (a) patrularea programată, centrală, sub contul lui Mircea, și (b) linkul public de Custom GPT, prin care fiecare familie capătă propria conversație. **Advix/Adviz/Verix/Vivix au nevoie doar de piesa (b)** — nu de patrulare programată — deci riscul legat de "ChatGPT Work" nu se aplică deloc cazului lor.
+
 ---
 
 ## 4. Ce rămâne de testat concret, înainte de decizie — nu presupunem, verificăm
